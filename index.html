@@ -156,6 +156,35 @@
       <div class="panel-title">TYPOLOGY BY ZONING DISTRICT</div>
       <div class="chart-wrap"><canvas id="zoningChart" height="200"></canvas></div>
     </div>
+
+    <div class="panel">
+      <div class="panel-title">CANDIDATE DETECTOR — WHAT GIVES IT AWAY</div>
+      <div class="field-card" style="padding-top:0;">
+        <p style="font-size:0.78rem; margin:10px 0;">
+          A classifier trained <em>only</em> on structural features (never told a
+          parcel's EPCAD code) separates missing-middle from single-family with
+          <span class="stamp" id="aucStat"></span> test AUC. Scored against every
+          single-family-labeled parcel, it flags <span class="stamp" id="candStat"></span>
+          lower-confidence and <span class="stamp" id="candHighStat"></span> at
+          ≥80% confidence as candidates the county's own classification may have
+          missed — shown on the map as hollow markers.
+        </p>
+      </div>
+      <div class="chart-wrap"><canvas id="importanceChart" height="220"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">FINANCING — INVESTOR OWNERSHIP BY TYPOLOGY</div>
+      <div class="field-card" style="padding-top:0;">
+        <p style="font-size:0.78rem; margin:10px 0;">
+          Cross-referenced against <span id="faCoverageStat"></span> El Paso County
+          parcel records (First American, 2020) joined by location. Share of each
+          typology held by a non-owner-occupant (investor/landlord), vs. the
+          overall single-family rate of <span class="stamp" id="sfInvestorStat"></span>.
+        </p>
+      </div>
+      <div class="chart-wrap"><canvas id="investorChart" height="200"></canvas></div>
+    </div>
   </div>
 </div>
 
@@ -183,27 +212,42 @@ function colorFor(label) {
 Promise.all([
   fetch('data/dashboard_stats.json').then(r => { if (!r.ok) throw new Error('stats fetch failed'); return r.json(); }),
   fetch('data/parcels_missing_middle.geojson').then(r => { if (!r.ok) throw new Error('geojson fetch failed'); return r.json(); }),
+  fetch('data/candidates_high_confidence.geojson').then(r => r.ok ? r.json() : {features: []}),
+  fetch('data/model_metrics.json').then(r => r.ok ? r.json() : null),
+  fetch('data/feature_importance.csv').then(r => r.ok ? r.text() : ''),
+  fetch('data/mortgage_stats.json').then(r => r.ok ? r.json() : null),
 ])
-  .then(([stats, geojson]) => renderAll(stats, geojson))
+  .then(([stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats]) =>
+    renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats))
   .catch(err => {
     console.error(err);
     document.getElementById('loadError').style.display = 'block';
   });
 
-function renderAll(stats, geojson) {
-  renderMap(geojson.features);
+function renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats) {
+  renderMap(geojson.features, candidates.features || []);
   renderLegend();
   renderStatBlock(stats.stats);
   renderDistanceChart(stats.distance_gradient);
   renderDecadeChart(stats.decade_typology);
   renderZoningChart(stats.zoning_typology);
+  if (modelMetrics && importanceCsv) renderImportance(modelMetrics, importanceCsv, candidates.features ? candidates.features.length : 0);
+  if (mortgageStats) renderInvestorChart(mortgageStats);
+}
+
+function parseImportanceCsv(text) {
+  const lines = text.trim().split('\n').slice(1);
+  return lines.map(line => {
+    const [feature, mean] = line.split(',');
+    return { feature, importance: parseFloat(mean) };
+  }).sort((a, b) => b.importance - a.importance).slice(0, 10);
 }
 
 // ---------------------------------------------------------------------
 // MAP — missing-middle parcels only (single-family excluded from the
 // GeoJSON entirely at build time to keep the page a manageable size)
 // ---------------------------------------------------------------------
-function renderMap(feats) {
+function renderMap(feats, candidateFeats) {
   const map = L.map('map', { scrollWheelZoom: true }).setView([31.7598, -106.4887], 11);
 
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -233,6 +277,39 @@ function renderMap(feats) {
     )
     .addTo(cluster);
   });
+
+  // Candidate layer: single-family-labeled parcels the structural-feature
+  // classifier flagged as likely missing-middle (>=80% confidence), drawn
+  // as hollow rust markers so they read distinctly from confirmed parcels.
+  const candidateLayer = L.layerGroup();
+  candidateFeats.forEach(f => {
+    const [lon, lat] = f.geometry.coordinates;
+    const p = f.properties;
+    L.circleMarker([lat, lon], {
+      radius: 4,
+      color: "#A6531C",
+      weight: 1.4,
+      fillColor: "#EAE3D2",
+      fillOpacity: 0.25,
+      dashArray: "2,2",
+    })
+    .bindPopup(
+      `<strong>Candidate — likely missing-middle</strong><br>` +
+      `Model confidence: ${(p.mm_probability * 100).toFixed(0)}%<br>` +
+      (p.year_built ? `Year built: ${p.year_built}<br>` : '') +
+      (p.n_main_structures != null ? `Main structures on parcel: ${p.n_main_structures}<br>` : '') +
+      (p.dist_to_core_mi != null ? `Distance to core: ${p.dist_to_core_mi.toFixed(1)} mi<br>` : '') +
+      (p.zoning ? `Zoning: ${p.zoning}` : '') +
+      `<br><em>Labeled single-family by EPCAD — flagged by structural features alone.</em>`
+    )
+    .addTo(candidateLayer);
+  });
+  candidateLayer.addTo(map);
+
+  L.control.layers(null, {
+    "Confirmed missing-middle": cluster,
+    "Candidates (model-flagged, ≥80%)": candidateLayer,
+  }, { collapsed: false }).addTo(map);
 }
 
 // ---------------------------------------------------------------------
@@ -305,6 +382,69 @@ function renderDecadeChart(d) {
       scales: {
         x: { stacked: true },
         y: { stacked: true, title: { display: true, text: 'Parcels' } },
+      },
+    },
+  });
+}
+
+// ---------------------------------------------------------------------
+// FEATURE IMPORTANCE (candidate detector)
+// ---------------------------------------------------------------------
+function renderImportance(modelMetrics, importanceCsv, nHighConfidence) {
+  document.getElementById('aucStat').textContent = modelMetrics.test_auc.toFixed(3);
+  document.getElementById('candHighStat').textContent = nHighConfidence.toLocaleString();
+  document.getElementById('candStat').textContent =
+    Math.max(0, 7909 - nHighConfidence).toLocaleString() + ' more';
+
+  const rows = parseImportanceCsv(importanceCsv);
+  new Chart(document.getElementById('importanceChart'), {
+    type: 'bar',
+    data: {
+      labels: rows.map(r => r.feature),
+      datasets: [{
+        label: 'Permutation importance (AUC drop)',
+        data: rows.map(r => r.importance),
+        backgroundColor: '#A6531C',
+      }],
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { title: { display: true, text: 'AUC drop when shuffled' } },
+      },
+    },
+  });
+}
+
+// ---------------------------------------------------------------------
+// INVESTOR OWNERSHIP BY TYPOLOGY (First American join)
+// ---------------------------------------------------------------------
+function renderInvestorChart(mortgageStats) {
+  const rows = mortgageStats.by_typology
+    .filter(r => r.n >= 50)
+    .sort((a, b) => b.investor_pct - a.investor_pct);
+
+  const sf = mortgageStats.by_typology.find(r => r.typology === 'Single-Family Detached');
+  document.getElementById('sfInvestorStat').textContent = sf ? sf.investor_pct + '%' : '—';
+  document.getElementById('faCoverageStat').textContent =
+    mortgageStats.match_coverage.residential_parcels.toLocaleString();
+
+  new Chart(document.getElementById('investorChart'), {
+    type: 'bar',
+    data: {
+      labels: rows.map(r => r.typology),
+      datasets: [{
+        label: 'Investor-owned (%)',
+        data: rows.map(r => r.investor_pct),
+        backgroundColor: rows.map(r => colorFor(r.typology)),
+      }],
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { title: { display: true, text: '% non-owner-occupied' }, max: 100 },
       },
     },
   });

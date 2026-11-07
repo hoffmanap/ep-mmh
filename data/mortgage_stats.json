@@ -1,0 +1,195 @@
+{
+  "match_coverage": {
+    "residential_parcels": 209995,
+    "first_american_dataset": "Prop48141.txt (El Paso County, FIPS 48141, First American, snapshot 2020-04-09)"
+  },
+  "by_typology": [
+    {
+      "typology": "Apartment (100+ units)",
+      "n": 147,
+      "investor_pct": 97.3,
+      "open_lien_pct": 35.4,
+      "median_avm": 2490386.0
+    },
+    {
+      "typology": "Apartment (31-99 units)",
+      "n": 166,
+      "investor_pct": 98.2,
+      "open_lien_pct": 35.5,
+      "median_avm": 1021532.0
+    },
+    {
+      "typology": "Apartment (4-6 units)",
+      "n": 441,
+      "investor_pct": 92.7,
+      "open_lien_pct": 27.4,
+      "median_avm": 160222.0
+    },
+    {
+      "typology": "Apartment (7-30 units)",
+      "n": 796,
+      "investor_pct": 97.9,
+      "open_lien_pct": 34.8,
+      "median_avm": 297232.0
+    },
+    {
+      "typology": "Apartment/Multifamily",
+      "n": 9,
+      "investor_pct": 66.7,
+      "open_lien_pct": 66.7,
+      "median_avm": 163489.0
+    },
+    {
+      "typology": "Condominium",
+      "n": 71,
+      "investor_pct": 59.2,
+      "open_lien_pct": 60.6,
+      "median_avm": 124744.0
+    },
+    {
+      "typology": "Duplex",
+      "n": 4150,
+      "investor_pct": 73.9,
+      "open_lien_pct": 36.4,
+      "median_avm": 114919.0
+    },
+    {
+      "typology": "Mobile/Manufactured Home",
+      "n": 2406,
+      "investor_pct": 27.0,
+      "open_lien_pct": 20.6,
+      "median_avm": 61054.0
+    },
+    {
+      "typology": "Multi-Unit Residential (Other)",
+      "n": 1319,
+      "investor_pct": 79.3,
+      "open_lien_pct": 38.7,
+      "median_avm": 138377.0
+    },
+    {
+      "typology": "Single-Family Detached",
+      "n": 199512,
+      "investor_pct": 16.4,
+      "open_lien_pct": 57.2,
+      "median_avm": 134821.0
+    },
+    {
+      "typology": "Townhouse",
+      "n": 978,
+      "investor_pct": 33.5,
+      "open_lien_pct": 44.2,
+      "median_avm": 139614.0
+    }
+  ],
+  "investor_ownership_by_distance": [
+    {
+      "bin_start": "0",
+      "bin_end": "1",
+      "investor_pct": 90.9,
+      "n": 670
+    },
+    {
+      "bin_start": "1",
+      "bin_end": "2",
+      "investor_pct": 83.8,
+      "n": 328
+    },
+    {
+      "bin_start": "2",
+      "bin_end": "3",
+      "investor_pct": 82.6,
+      "n": 345
+    },
+    {
+      "bin_start": "3",
+      "bin_end": "4",
+      "investor_pct": 77.2,
+      "n": 679
+    },
+    {
+      "bin_start": "4",
+      "bin_end": "5",
+      "investor_pct": 83.1,
+      "n": 496
+    },
+    {
+      "bin_start": "5",
+      "bin_end": "6",
+      "investor_pct": 71.8,
+      "n": 354
+    },
+    {
+      "bin_start": "6",
+      "bin_end": "7",
+      "investor_pct": 50.2,
+      "n": 819
+    },
+    {
+      "bin_start": "7",
+      "bin_end": "8",
+      "investor_pct": 85.5,
+      "n": 753
+    },
+    {
+      "bin_start": "8",
+      "bin_end": "9",
+      "investor_pct": 65.8,
+      "n": 366
+    },
+    {
+      "bin_start": "9",
+      "bin_end": "10",
+      "investor_pct": 60.6,
+      "n": 869
+    },
+    {
+      "bin_start": "10",
+      "bin_end": "11",
+      "investor_pct": 74.3,
+      "n": 940
+    },
+    {
+      "bin_start": "11",
+      "bin_end": "12",
+      "investor_pct": 72.5,
+      "n": 571
+    },
+    {
+      "bin_start": "12",
+      "bin_end": "13",
+      "investor_pct": 74.2,
+      "n": 155
+    },
+    {
+      "bin_start": "13",
+      "bin_end": "14",
+      "investor_pct": 70.0,
+      "n": 80
+    },
+    {
+      "bin_start": "14",
+      "bin_end": "15",
+      "investor_pct": 79.5,
+      "n": 83
+    }
+  ],
+  "financing_mix": {
+    "Missing-middle": {
+      "ADJ": 64,
+      "FIX": 35,
+      "MUL": 2,
+      "OTH": 0,
+      "UNK": 16,
+      "VAR": 104
+    },
+    "Single-family": {
+      "ADJ": 3077,
+      "FIX": 2036,
+      "MUL": 15,
+      "OTH": 1,
+      "UNK": 247,
+      "VAR": 5400
+    }
+  }
+}

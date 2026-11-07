@@ -1,0 +1,7 @@
+{
+  "test_auc": 0.9863,
+  "n_train": 179493,
+  "n_test": 59831,
+  "n_positive_train": 6893,
+  "n_positive_test": 2297
+}

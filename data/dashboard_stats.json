@@ -1,110 +1,114 @@
 {
   "stats": {
-    "total_residential_parcels": 242388,
+    "total_residential_parcels": 242694,
     "missing_middle_parcels": 8883,
     "missing_middle_share_pct": 3.66,
     "typology_counts": {
-      "Single-Family Detached": 230135,
+      "Single-Family Detached": 230134,
       "Duplex": 4406,
       "Mobile/Manufactured Home": 2662,
-      "Apartment/Multifamily": 1515,
       "Multi-Unit Residential (Other)": 1423,
       "Townhouse": 1185,
+      "Apartment (7-30 units)": 856,
       "Farm/Ranch House": 679,
+      "Apartment (4-6 units)": 481,
       "Condominium": 354,
-      "Farm/Ranch Mobile Home": 29
+      "Apartment (31-99 units)": 236,
+      "Apartment (100+ units)": 235,
+      "Farm/Ranch Mobile Home": 29,
+      "Apartment/Multifamily": 14
     }
   },
   "distance_gradient": [
     {
       "bin_start": "0",
       "bin_end": "1",
-      "mm_share_pct": 30.58,
-      "n": 2194
+      "mm_share_pct": 29.46,
+      "n": 2278
     },
     {
       "bin_start": "1",
       "bin_end": "2",
-      "mm_share_pct": 12.5,
-      "n": 2639
+      "mm_share_pct": 12.39,
+      "n": 2663
     },
     {
       "bin_start": "2",
       "bin_end": "3",
-      "mm_share_pct": 8.41,
-      "n": 4374
+      "mm_share_pct": 8.36,
+      "n": 4401
     },
     {
       "bin_start": "3",
       "bin_end": "4",
-      "mm_share_pct": 11.07,
-      "n": 8210
+      "mm_share_pct": 11.05,
+      "n": 8229
     },
     {
       "bin_start": "4",
       "bin_end": "5",
-      "mm_share_pct": 7.8,
-      "n": 6747
+      "mm_share_pct": 7.77,
+      "n": 6768
     },
     {
       "bin_start": "5",
       "bin_end": "6",
-      "mm_share_pct": 5.83,
-      "n": 7244
+      "mm_share_pct": 5.82,
+      "n": 7249
     },
     {
       "bin_start": "6",
       "bin_end": "7",
-      "mm_share_pct": 9.8,
-      "n": 9848
+      "mm_share_pct": 9.79,
+      "n": 9860
     },
     {
       "bin_start": "7",
       "bin_end": "8",
       "mm_share_pct": 4.68,
-      "n": 16758
+      "n": 16778
     },
     {
       "bin_start": "8",
       "bin_end": "9",
-      "mm_share_pct": 2.06,
-      "n": 18539
+      "mm_share_pct": 2.05,
+      "n": 18564
     },
     {
       "bin_start": "9",
       "bin_end": "10",
       "mm_share_pct": 5.76,
-      "n": 16210
+      "n": 16229
     },
     {
       "bin_start": "10",
       "bin_end": "11",
       "mm_share_pct": 5.42,
-      "n": 17704
+      "n": 17715
     },
     {
       "bin_start": "11",
       "bin_end": "12",
       "mm_share_pct": 2.64,
-      "n": 22195
+      "n": 22209
     },
     {
       "bin_start": "12",
       "bin_end": "13",
       "mm_share_pct": 0.87,
-      "n": 22847
+      "n": 22851
     },
     {
       "bin_start": "13",
       "bin_end": "14",
       "mm_share_pct": 0.84,
-      "n": 16371
+      "n": 16375
     },
     {
       "bin_start": "14",
       "bin_end": "15",
       "mm_share_pct": 0.82,
-      "n": 13500
+      "n": 13505
     }
   ],
   "decade_typology": {
@@ -124,6 +128,10 @@
       2020
     ],
     "typologies": [
+      "Apartment (100+ units)",
+      "Apartment (31-99 units)",
+      "Apartment (4-6 units)",
+      "Apartment (7-30 units)",
       "Apartment/Multifamily",
       "Condominium",
       "Duplex",
@@ -136,7 +144,11 @@
     ],
     "matrix": [
       [
-        27,
+        0,
+        0,
+        14,
+        18,
+        0,
         0,
         35,
         5,
@@ -147,18 +159,26 @@
         0
       ],
       [
-        120,
+        0,
+        6,
+        42,
+        86,
+        0,
         0,
         91,
         6,
         0,
         1,
         57,
-        1802,
+        1801,
         0
       ],
       [
-        128,
+        0,
+        2,
+        58,
+        90,
+        0,
         0,
         125,
         16,
@@ -169,7 +189,11 @@
         0
       ],
       [
-        44,
+        0,
+        0,
+        30,
+        31,
+        0,
         0,
         121,
         17,
@@ -180,7 +204,11 @@
         0
       ],
       [
-        64,
+        1,
+        3,
+        31,
+        42,
+        0,
         0,
         227,
         34,
@@ -191,7 +219,11 @@
         0
       ],
       [
-        290,
+        8,
+        8,
+        96,
+        203,
+        1,
         0,
         393,
         48,
@@ -202,7 +234,11 @@
         0
       ],
       [
-        180,
+        16,
+        34,
+        34,
+        111,
+        0,
         69,
         153,
         33,
@@ -213,7 +249,11 @@
         8
       ],
       [
-        190,
+        83,
+        54,
+        38,
+        69,
+        0,
         260,
         713,
         88,
@@ -224,7 +264,11 @@
         693
       ],
       [
-        111,
+        39,
+        20,
+        36,
+        48,
+        0,
         6,
         1265,
         110,
@@ -235,7 +279,11 @@
         294
       ],
       [
-        50,
+        12,
+        20,
+        21,
+        31,
+        1,
         0,
         325,
         115,
@@ -246,7 +294,11 @@
         63
       ],
       [
-        94,
+        22,
+        34,
+        31,
+        39,
+        1,
         0,
         309,
         77,
@@ -257,7 +309,11 @@
         53
       ],
       [
-        147,
+        35,
+        37,
+        29,
+        65,
+        3,
         17,
         451,
         67,
@@ -268,7 +324,11 @@
         64
       ],
       [
-        61,
+        18,
+        18,
+        19,
+        21,
+        1,
         2,
         190,
         46,
@@ -296,6 +356,10 @@
       "R5"
     ],
     "typologies": [
+      "Apartment (100+ units)",
+      "Apartment (31-99 units)",
+      "Apartment (4-6 units)",
+      "Apartment (7-30 units)",
       "Apartment/Multifamily",
       "Condominium",
       "Duplex",
@@ -308,7 +372,11 @@
     ],
     "matrix": [
       [
-        99,
+        7,
+        17,
+        50,
+        37,
+        4,
         164,
         516,
         551,
@@ -319,7 +387,11 @@
         133
       ],
       [
-        379,
+        54,
+        53,
+        94,
+        208,
+        0,
         33,
         518,
         0,
@@ -332,6 +404,10 @@
       [
         0,
         0,
+        0,
+        0,
+        0,
+        0,
         18,
         14,
         1,
@@ -341,6 +417,10 @@
         0
       ],
       [
+        0,
+        0,
+        0,
+        1,
         0,
         55,
         6,
@@ -352,7 +432,11 @@
         253
       ],
       [
-        4,
+        0,
+        0,
+        1,
+        3,
+        0,
         0,
         10,
         1,
@@ -363,7 +447,11 @@
         0
       ],
       [
-        10,
+        0,
+        0,
+        2,
+        8,
+        0,
         0,
         321,
         3,
@@ -374,7 +462,11 @@
         0
       ],
       [
-        5,
+        0,
+        0,
+        1,
+        4,
+        0,
         0,
         143,
         0,
@@ -386,6 +478,10 @@
       ],
       [
         1,
+        1,
+        0,
+        1,
+        0,
         0,
         8,
         5,
@@ -396,7 +492,11 @@
         1
       ],
       [
-        8,
+        2,
+        1,
+        3,
+        3,
+        0,
         0,
         139,
         10,
@@ -409,6 +509,10 @@
       [
         0,
         0,
+        0,
+        0,
+        0,
+        0,
         6,
         0,
         0,
@@ -418,7 +522,11 @@
         1
       ],
       [
-        9,
+        2,
+        0,
+        2,
+        7,
+        0,
         0,
         1028,
         2,
@@ -429,7 +537,11 @@
         0
       ],
       [
-        20,
+        0,
+        0,
+        11,
+        12,
+        1,
         0,
         404,
         0,
