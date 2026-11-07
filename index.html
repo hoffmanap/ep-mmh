@@ -62,7 +62,25 @@
     background:repeating-linear-gradient(45deg, #fffdf7, #fffdf7 6px, #f2ead6 6px, #f2ead6 12px);
   }
 
-  #map{height:560px; width:100%;}
+  #map{height:560px; width:100%; background:var(--parchment);}
+  .field-tiles{
+    filter: sepia(22%) saturate(55%) brightness(1.04) contrast(0.96);
+  }
+  .leaflet-control-zoom a{
+    font-family:'IBM Plex Mono', monospace !important;
+    color:var(--ink) !important;
+    border-color:var(--ink) !important;
+  }
+  .leaflet-popup-content-wrapper{
+    background:#fffdf7;
+    border:1px solid var(--ink);
+    border-radius:0;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    box-shadow:2px 2px 0 var(--line);
+  }
+  .leaflet-popup-tip{background:#fffdf7; border:1px solid var(--ink); box-shadow:none;}
+  .leaflet-container{font-family:'IBM Plex Mono', monospace;}
 
   .field-card{padding:14px;}
   .stat-row{
@@ -188,9 +206,10 @@ function renderAll(stats, geojson) {
 function renderMap(feats) {
   const map = L.map('map', { scrollWheelZoom: true }).setView([31.7598, -106.4887], 11);
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; OpenStreetMap &copy; CARTO',
     maxZoom: 19,
+    className: 'field-tiles',
   }).addTo(map);
 
   const cluster = L.layerGroup().addTo(map);
@@ -200,11 +219,11 @@ function renderMap(feats) {
     const p = f.properties;
     const color = colorFor(p.typology);
     L.circleMarker([lat, lon], {
-      radius: 4,
+      radius: 3.5,
       color: "#2B2420",
-      weight: 0.6,
+      weight: 0.5,
       fillColor: color,
-      fillOpacity: 0.8,
+      fillOpacity: 0.85,
     })
     .bindPopup(
       `<strong>${p.typology}</strong><br>` +
