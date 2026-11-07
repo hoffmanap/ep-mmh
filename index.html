@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El Paso Missing Middle — Field Ledger</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --parchment:#EAE3D2;
+    --ink:#2B2420;
+    --rust:#A6531C;
+    --slate:#3D5A6C;
+    --line:#c9bfa4;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--parchment); color:var(--ink);
+    font-family:'IBM Plex Mono', monospace;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 28px 28px;
+    background-attachment: fixed;
+    background-color: var(--parchment);
+  }
+  header{
+    padding:20px 24px 10px;
+    border-bottom:2px solid var(--ink);
+  }
+  header h1{
+    font-family:'Special Elite', monospace;
+    font-size:1.5rem; margin:0 0 2px;
+    letter-spacing:0.5px;
+  }
+  header .sub{font-size:0.8rem; opacity:0.75;}
+
+  .layout{
+    display:grid;
+    grid-template-columns: 1fr 380px;
+    gap:16px;
+    padding:16px;
+  }
+  @media (max-width: 900px){
+    .layout{grid-template-columns:1fr;}
+  }
+
+  .panel{
+    background:#fffdf7;
+    border:1px solid var(--ink);
+    box-shadow: 3px 3px 0 var(--line);
+  }
+  .panel-title{
+    font-family:'Special Elite', monospace;
+    font-size:0.85rem;
+    padding:8px 12px;
+    border-bottom:1px solid var(--ink);
+    background:repeating-linear-gradient(45deg, #fffdf7, #fffdf7 6px, #f2ead6 6px, #f2ead6 12px);
+  }
+
+  #map{height:560px; width:100%;}
+
+  .field-card{padding:14px;}
+  .stat-row{
+    display:flex; justify-content:space-between;
+    padding:6px 0; border-bottom:1px dashed var(--line);
+    font-size:0.85rem;
+  }
+  .stat-row:last-child{border-bottom:none;}
+  .stamp{
+    color:var(--rust); font-weight:600;
+  }
+
+  .legend-item{
+    display:flex; align-items:center; gap:8px;
+    font-size:0.78rem; padding:3px 0;
+  }
+  .swatch{width:12px; height:12px; border:1px solid var(--ink); flex:none;}
+
+  .chart-wrap{padding:12px;}
+  canvas{max-width:100%;}
+
+  .load-error{
+    margin:16px; padding:12px 16px;
+    border:1px dashed var(--rust);
+    background:#fff7ee;
+    font-size:0.82rem;
+    color:var(--rust);
+    display:none;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>EL PASO — MISSING MIDDLE HOUSING SURVEY</h1>
+  <div class="sub">Field Ledger · Parcel-level typology from EPCAD STATE_CD / ClassCD, GIS parcel layer (2026) · methodology adapted from Salazar-Miranda &amp; Talen</div>
+</header>
+
+<div class="load-error" id="loadError">
+  ⚠ Could not load <code>data/dashboard_stats.json</code> / <code>data/parcels_missing_middle.geojson</code>.
+  Run <code>scripts/build_dataset.py</code> then <code>scripts/make_dashboard_data.py</code>, and serve this
+  page over HTTP (not file://) so the fetches succeed.
+</div>
+
+<div class="layout">
+  <div class="panel">
+    <div class="panel-title">MISSING-MIDDLE PARCEL MAP</div>
+    <div id="map"></div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="panel field-card">
+      <div class="panel-title" style="margin:-14px -14px 10px;">FIELD CARD — CITYWIDE</div>
+      <div id="statBlock"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">TYPOLOGY LEGEND</div>
+      <div id="legend" style="padding:10px 14px;"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">MISSING-MIDDLE SHARE BY DISTANCE FROM CORE</div>
+      <div class="chart-wrap"><canvas id="distChart" height="180"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">TYPOLOGY BY DECADE BUILT</div>
+      <div class="chart-wrap"><canvas id="decadeChart" height="180"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">TYPOLOGY BY ZONING DISTRICT</div>
+      <div class="chart-wrap"><canvas id="zoningChart" height="200"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const TYPOLOGY_COLORS = {
+  "Single-Family Detached": "#9e9b8f",
+  "Mobile/Manufactured Home": "#c2bfae",
+  "Duplex": "#3D5A6C",
+  "Townhouse": "#B06A6A",
+  "Condominium": "#9C7A96",
+  "Apartment/Multifamily": "#A6531C",
+  "Multi-Unit Residential (Other)": "#6B4A7A",
+  "Apartment (4-6 units)": "#4F8C85",
+  "Apartment (7-30 units)": "#8f8a7a",
+  "Apartment (31-99 units)": "#5C7A4A",
+  "Apartment (100+ units)": "#8C3B2E",
+  "Farm/Ranch House": "#c9bfa4",
+  "Farm/Ranch Mobile Home": "#d8d0b8",
+};
+
+function colorFor(label) {
+  return TYPOLOGY_COLORS[label] || "#999999";
+}
+
+Promise.all([
+  fetch('data/dashboard_stats.json').then(r => { if (!r.ok) throw new Error('stats fetch failed'); return r.json(); }),
+  fetch('data/parcels_missing_middle.geojson').then(r => { if (!r.ok) throw new Error('geojson fetch failed'); return r.json(); }),
+])
+  .then(([stats, geojson]) => renderAll(stats, geojson))
+  .catch(err => {
+    console.error(err);
+    document.getElementById('loadError').style.display = 'block';
+  });
+
+function renderAll(stats, geojson) {
+  renderMap(geojson.features);
+  renderLegend();
+  renderStatBlock(stats.stats);
+  renderDistanceChart(stats.distance_gradient);
+  renderDecadeChart(stats.decade_typology);
+  renderZoningChart(stats.zoning_typology);
+}
+
+// ---------------------------------------------------------------------
+// MAP — missing-middle parcels only (single-family excluded from the
+// GeoJSON entirely at build time to keep the page a manageable size)
+// ---------------------------------------------------------------------
+function renderMap(feats) {
+  const map = L.map('map', { scrollWheelZoom: true }).setView([31.7598, -106.4887], 11);
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CARTO',
+    maxZoom: 19,
+  }).addTo(map);
+
+  const cluster = L.layerGroup().addTo(map);
+
+  feats.forEach(f => {
+    const [lon, lat] = f.geometry.coordinates;
+    const p = f.properties;
+    const color = colorFor(p.typology);
+    L.circleMarker([lat, lon], {
+      radius: 4,
+      color: "#2B2420",
+      weight: 0.6,
+      fillColor: color,
+      fillOpacity: 0.8,
+    })
+    .bindPopup(
+      `<strong>${p.typology}</strong><br>` +
+      (p.year_built ? `Year built: ${p.year_built}<br>` : '') +
+      (p.dist_to_core_mi != null ? `Distance to core: ${p.dist_to_core_mi.toFixed(1)} mi<br>` : '') +
+      (p.zoning ? `Zoning: ${p.zoning}` : '')
+    )
+    .addTo(cluster);
+  });
+}
+
+// ---------------------------------------------------------------------
+// LEGEND
+// ---------------------------------------------------------------------
+function renderLegend() {
+  const el = document.getElementById('legend');
+  Object.entries(TYPOLOGY_COLORS).forEach(([label, color]) => {
+    const row = document.createElement('div');
+    row.className = 'legend-item';
+    row.innerHTML = `<span class="swatch" style="background:${color}"></span>${label}`;
+    el.appendChild(row);
+  });
+}
+
+// ---------------------------------------------------------------------
+// STAT BLOCK
+// ---------------------------------------------------------------------
+function renderStatBlock(s) {
+  const el = document.getElementById('statBlock');
+  el.innerHTML = `
+    <div class="stat-row"><span>Residential parcels surveyed</span><span class="stamp">${s.total_residential_parcels.toLocaleString()}</span></div>
+    <div class="stat-row"><span>Missing-middle parcels</span><span class="stamp">${s.missing_middle_parcels.toLocaleString()}</span></div>
+    <div class="stat-row"><span>Missing-middle share</span><span class="stamp">${s.missing_middle_share_pct}%</span></div>
+  `;
+}
+
+// ---------------------------------------------------------------------
+// DISTANCE GRADIENT CHART
+// ---------------------------------------------------------------------
+function renderDistanceChart(gradient) {
+  new Chart(document.getElementById('distChart'), {
+    type: 'line',
+    data: {
+      labels: gradient.map(b => `${b.bin_start}-${b.bin_end}mi`),
+      datasets: [{
+        label: 'Missing-middle share (%)',
+        data: gradient.map(b => b.mm_share_pct),
+        borderColor: '#A6531C',
+        backgroundColor: '#A6531C',
+        tension: 0.2,
+        pointRadius: 3,
+      }],
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { title: { display: true, text: '%', font: { family: "'IBM Plex Mono'" } } },
+      },
+    },
+  });
+}
+
+// ---------------------------------------------------------------------
+// TYPOLOGY BY DECADE CHART
+// ---------------------------------------------------------------------
+function renderDecadeChart(d) {
+  const datasets = d.typologies.map((t, i) => ({
+    label: t,
+    data: d.matrix.map(row => row[i]),
+    backgroundColor: colorFor(t),
+  }));
+
+  new Chart(document.getElementById('decadeChart'), {
+    type: 'bar',
+    data: { labels: d.decades.map(dec => `${dec}s`), datasets },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { stacked: true },
+        y: { stacked: true, title: { display: true, text: 'Parcels' } },
+      },
+    },
+  });
+}
+
+// ---------------------------------------------------------------------
+// TYPOLOGY BY ZONING CHART
+// ---------------------------------------------------------------------
+function renderZoningChart(z) {
+  const datasets = z.typologies.map((t, i) => ({
+    label: t,
+    data: z.matrix.map(row => row[i]),
+    backgroundColor: colorFor(t),
+  }));
+
+  new Chart(document.getElementById('zoningChart'), {
+    type: 'bar',
+    data: { labels: z.zones.map(zc => zc === '' ? '(unzoned)' : zc), datasets },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { stacked: true },
+        y: { stacked: true, type: 'logarithmic', title: { display: true, text: 'Parcels (log scale)' } },
+      },
+    },
+  });
+}
+</script>
+</body>
+</html>

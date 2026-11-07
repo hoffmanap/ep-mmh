@@ -1,0 +1,444 @@
+{
+  "stats": {
+    "total_residential_parcels": 242388,
+    "missing_middle_parcels": 8883,
+    "missing_middle_share_pct": 3.66,
+    "typology_counts": {
+      "Single-Family Detached": 230135,
+      "Duplex": 4406,
+      "Mobile/Manufactured Home": 2662,
+      "Apartment/Multifamily": 1515,
+      "Multi-Unit Residential (Other)": 1423,
+      "Townhouse": 1185,
+      "Farm/Ranch House": 679,
+      "Condominium": 354,
+      "Farm/Ranch Mobile Home": 29
+    }
+  },
+  "distance_gradient": [
+    {
+      "bin_start": "0",
+      "bin_end": "1",
+      "mm_share_pct": 30.58,
+      "n": 2194
+    },
+    {
+      "bin_start": "1",
+      "bin_end": "2",
+      "mm_share_pct": 12.5,
+      "n": 2639
+    },
+    {
+      "bin_start": "2",
+      "bin_end": "3",
+      "mm_share_pct": 8.41,
+      "n": 4374
+    },
+    {
+      "bin_start": "3",
+      "bin_end": "4",
+      "mm_share_pct": 11.07,
+      "n": 8210
+    },
+    {
+      "bin_start": "4",
+      "bin_end": "5",
+      "mm_share_pct": 7.8,
+      "n": 6747
+    },
+    {
+      "bin_start": "5",
+      "bin_end": "6",
+      "mm_share_pct": 5.83,
+      "n": 7244
+    },
+    {
+      "bin_start": "6",
+      "bin_end": "7",
+      "mm_share_pct": 9.8,
+      "n": 9848
+    },
+    {
+      "bin_start": "7",
+      "bin_end": "8",
+      "mm_share_pct": 4.68,
+      "n": 16758
+    },
+    {
+      "bin_start": "8",
+      "bin_end": "9",
+      "mm_share_pct": 2.06,
+      "n": 18539
+    },
+    {
+      "bin_start": "9",
+      "bin_end": "10",
+      "mm_share_pct": 5.76,
+      "n": 16210
+    },
+    {
+      "bin_start": "10",
+      "bin_end": "11",
+      "mm_share_pct": 5.42,
+      "n": 17704
+    },
+    {
+      "bin_start": "11",
+      "bin_end": "12",
+      "mm_share_pct": 2.64,
+      "n": 22195
+    },
+    {
+      "bin_start": "12",
+      "bin_end": "13",
+      "mm_share_pct": 0.87,
+      "n": 22847
+    },
+    {
+      "bin_start": "13",
+      "bin_end": "14",
+      "mm_share_pct": 0.84,
+      "n": 16371
+    },
+    {
+      "bin_start": "14",
+      "bin_end": "15",
+      "mm_share_pct": 0.82,
+      "n": 13500
+    }
+  ],
+  "decade_typology": {
+    "decades": [
+      1900,
+      1910,
+      1920,
+      1930,
+      1940,
+      1950,
+      1960,
+      1970,
+      1980,
+      1990,
+      2000,
+      2010,
+      2020
+    ],
+    "typologies": [
+      "Apartment/Multifamily",
+      "Condominium",
+      "Duplex",
+      "Farm/Ranch House",
+      "Farm/Ranch Mobile Home",
+      "Mobile/Manufactured Home",
+      "Multi-Unit Residential (Other)",
+      "Single-Family Detached",
+      "Townhouse"
+    ],
+    "matrix": [
+      [
+        27,
+        0,
+        35,
+        5,
+        0,
+        1,
+        27,
+        478,
+        0
+      ],
+      [
+        120,
+        0,
+        91,
+        6,
+        0,
+        1,
+        57,
+        1802,
+        0
+      ],
+      [
+        128,
+        0,
+        125,
+        16,
+        0,
+        0,
+        52,
+        2868,
+        0
+      ],
+      [
+        44,
+        0,
+        121,
+        17,
+        0,
+        1,
+        30,
+        2402,
+        0
+      ],
+      [
+        64,
+        0,
+        227,
+        34,
+        0,
+        2,
+        47,
+        6038,
+        0
+      ],
+      [
+        290,
+        0,
+        393,
+        48,
+        0,
+        21,
+        141,
+        27784,
+        0
+      ],
+      [
+        180,
+        69,
+        153,
+        33,
+        3,
+        130,
+        45,
+        17159,
+        8
+      ],
+      [
+        190,
+        260,
+        713,
+        88,
+        6,
+        731,
+        240,
+        25565,
+        693
+      ],
+      [
+        111,
+        6,
+        1265,
+        110,
+        6,
+        831,
+        466,
+        23368,
+        294
+      ],
+      [
+        50,
+        0,
+        325,
+        115,
+        3,
+        529,
+        70,
+        28053,
+        63
+      ],
+      [
+        94,
+        0,
+        309,
+        77,
+        6,
+        256,
+        45,
+        38745,
+        53
+      ],
+      [
+        147,
+        17,
+        451,
+        67,
+        1,
+        130,
+        140,
+        33672,
+        64
+      ],
+      [
+        61,
+        2,
+        190,
+        46,
+        0,
+        18,
+        62,
+        19421,
+        0
+      ]
+    ]
+  },
+  "zoning_typology": {
+    "zones": [
+      "",
+      "A2",
+      "ETJ",
+      "PR1",
+      "R-3",
+      "R-4",
+      "R-5",
+      "R2",
+      "R3",
+      "R3A",
+      "R4",
+      "R5"
+    ],
+    "typologies": [
+      "Apartment/Multifamily",
+      "Condominium",
+      "Duplex",
+      "Farm/Ranch House",
+      "Farm/Ranch Mobile Home",
+      "Mobile/Manufactured Home",
+      "Multi-Unit Residential (Other)",
+      "Single-Family Detached",
+      "Townhouse"
+    ],
+    "matrix": [
+      [
+        99,
+        164,
+        516,
+        551,
+        26,
+        1758,
+        179,
+        37043,
+        133
+      ],
+      [
+        379,
+        33,
+        518,
+        0,
+        0,
+        0,
+        489,
+        1446,
+        136
+      ],
+      [
+        0,
+        0,
+        18,
+        14,
+        1,
+        115,
+        7,
+        4222,
+        0
+      ],
+      [
+        0,
+        55,
+        6,
+        0,
+        0,
+        0,
+        0,
+        4960,
+        253
+      ],
+      [
+        4,
+        0,
+        10,
+        1,
+        0,
+        39,
+        4,
+        7100,
+        0
+      ],
+      [
+        10,
+        0,
+        321,
+        3,
+        0,
+        6,
+        41,
+        6067,
+        0
+      ],
+      [
+        5,
+        0,
+        143,
+        0,
+        0,
+        1,
+        16,
+        3814,
+        0
+      ],
+      [
+        1,
+        0,
+        8,
+        5,
+        0,
+        15,
+        2,
+        4004,
+        1
+      ],
+      [
+        8,
+        0,
+        139,
+        10,
+        0,
+        61,
+        72,
+        46275,
+        0
+      ],
+      [
+        0,
+        0,
+        6,
+        0,
+        0,
+        2,
+        0,
+        24620,
+        1
+      ],
+      [
+        9,
+        0,
+        1028,
+        2,
+        0,
+        6,
+        54,
+        30295,
+        0
+      ],
+      [
+        20,
+        0,
+        404,
+        0,
+        0,
+        7,
+        38,
+        25983,
+        0
+      ]
+    ]
+  }
+}
