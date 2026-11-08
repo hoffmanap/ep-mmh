@@ -4,7 +4,9 @@ Adapted from the methodology of Salazar-Miranda & Talen,
 *"Mapping the Missing Middle: AI-Based Detection of Mid-Density Housing"*
 (replication package: `github.com/ariannasm/missing-middle-housing`).
 
-Live dashboard: `index.html` (open directly, or via GitHub Pages).
+Live dashboard: `index.html` (open directly, or via GitHub Pages) at: 
+
+## https://hoffmanap.github.io/ep-mmh/
 
 ## Results (2026 EPCAD data)
 
