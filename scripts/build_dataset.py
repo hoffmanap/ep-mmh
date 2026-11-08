@@ -63,9 +63,16 @@ def haversine_miles(lat1, lon1, lat2, lon2):
 print("Loading GIS parcel layer...")
 gdf = pyogrio.read_dataframe(
     GIS, layer="Parcel_2026",
-    columns=["PROP_ID", "GEO_ID", "STATE_CD", "ZONING", "YR_BLT", "SITUS_CITY", "LAND_ACRES"],
+    columns=["PROP_ID", "GEO_ID", "STATE_CD", "ZONING", "YR_BLT", "SITUS_CITY", "LAND_ACRES",
+             "EXEMPTIONS", "ADDR_CITY", "ADDR_STATE", "LEGAL_DESC"],
 )
 print(f"  {len(gdf):,} parcels loaded, CRS={gdf.crs}")
+
+# Keep the real parcel polygons (not just the centroid) for the building-
+# footprint spatial join -- saved separately so this CSV-producing script
+# doesn't carry geometry downstream.
+print("Saving parcel polygons (for footprint join)...")
+gdf[["PROP_ID", "geometry"]].to_parquet(f"{OUT}/parcel_polygons.parquet")
 
 # reproject to WGS84 for lat/lon
 gdf = gdf.to_crs(epsg=4326)
@@ -74,6 +81,32 @@ gdf["lon"] = gdf["centroid"].x
 gdf["lat"] = gdf["centroid"].y
 
 gdf["STATE_CD_clean"] = gdf["STATE_CD"].astype(str).str.strip()
+
+# ---------------------------------------------------------------------
+# Ownership/exemption signals, straight from EPCAD's own 2026 parcel
+# layer (current, no First American join needed). Texas homestead
+# exemption legally requires owner-occupancy as primary residence, so
+# has_homestead is the cleanest owner-occupied signal available.
+# ---------------------------------------------------------------------
+gdf["has_homestead"] = gdf["EXEMPTIONS"].astype(str).str.contains("HS", na=False)
+gdf["has_disabled_vet_exemption"] = gdf["EXEMPTIONS"].astype(str).str.contains("DV", na=False)
+gdf["tax_exempt"] = gdf["EXEMPTIONS"].astype(str).str.contains("EX", na=False)
+addr_city = gdf["ADDR_CITY"].astype(str).str.strip().str.upper()
+situs_city = gdf["SITUS_CITY"].astype(str).str.strip().str.upper()
+addr_state = gdf["ADDR_STATE"].astype(str).str.strip().str.upper()
+gdf["mailing_mismatch"] = (addr_city != situs_city) | (addr_state != "TX")
+
+# ---------------------------------------------------------------------
+# Legal-description text flags: catches cases where EPCAD's free-text
+# legal description mentions a typology EPCAD's own STATE_CD doesn't
+# reflect (e.g. "CASITA" on a parcel coded A1 single-family) -- a
+# direct textual signal of shadow/unlabeled missing-middle housing,
+# independent of the structural-feature classifier.
+# ---------------------------------------------------------------------
+legal_upper = gdf["LEGAL_DESC"].astype(str).str.upper()
+gdf["legal_desc_mentions_casita"] = legal_upper.str.contains("CASITA", na=False)
+gdf["legal_desc_mentions_duplex"] = legal_upper.str.contains("DUPLEX", na=False)
+gdf["legal_desc_mentions_condo"] = legal_upper.str.contains("CONDO", na=False)
 
 def classify(code):
     if code in STATE_CD_TYPOLOGY:
@@ -144,7 +177,10 @@ gdf["dist_to_core_mi"] = haversine_miles(gdf["lat"], gdf["lon"], DOWNTOWN_LAT, D
 # ---------------------------------------------------------------------
 analysis_cols = ["PROP_ID", "GEO_ID", "STATE_CD_clean", "ZONING", "typology",
                   "approx_units", "is_missing_middle", "YR_BLT_num",
-                  "dist_to_core_mi", "lat", "lon", "LAND_ACRES", "SITUS_CITY"]
+                  "dist_to_core_mi", "lat", "lon", "LAND_ACRES", "SITUS_CITY",
+                  "has_homestead", "has_disabled_vet_exemption", "tax_exempt",
+                  "mailing_mismatch", "legal_desc_mentions_casita",
+                  "legal_desc_mentions_duplex", "legal_desc_mentions_condo"]
 analysis_df = gdf[analysis_cols].rename(columns={"STATE_CD_clean": "state_cd", "YR_BLT_num": "year_built"})
 analysis_df.to_csv(f"{OUT}/parcels_analysis.csv", index=False)
 print(f"Saved parcels_analysis.csv ({len(analysis_df):,} rows)")

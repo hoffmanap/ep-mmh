@@ -158,6 +158,70 @@
     </div>
 
     <div class="panel">
+      <div class="panel-title">MISSING-MIDDLE SHARE BY LOT SIZE</div>
+      <div class="field-card" style="padding-top:0;">
+        <p style="font-size:0.78rem; margin:10px 0;">
+          Not a straight line — a <strong>U-shape</strong>. Very small and
+          very large lots both over-index on missing-middle; the
+          "typical single-family" mid-range under-indexes.
+        </p>
+      </div>
+      <div class="chart-wrap"><canvas id="lotSweetSpotChart" height="180"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">MISSING-MIDDLE SHARE BY BUILDING SIZE</div>
+      <div class="chart-wrap"><canvas id="sqftSweetSpotChart" height="180"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">ZONING CODES MOST CONCENTRATED WITH MISSING-MIDDLE</div>
+      <div class="field-card" style="padding-top:0;">
+        <p style="font-size:0.78rem; margin:10px 0;">
+          Share of parcels <em>within</em> each zoning code that are
+          missing-middle (min. 100 parcels per code) — not raw counts.
+        </p>
+      </div>
+      <div class="chart-wrap"><canvas id="zoningConcentrationChart" height="200"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">OWNERSHIP SIGNAL — HOMESTEAD EXEMPTION BY TYPOLOGY</div>
+      <div class="field-card" style="padding-top:0;">
+        <p style="font-size:0.78rem; margin:10px 0;">
+          Texas's homestead exemption legally requires owner-occupancy
+          as a primary residence, straight from EPCAD's own current
+          parcel data — the strongest single correlate of
+          missing-middle status found this round (r = <span class="stamp">-0.27</span>).
+        </p>
+      </div>
+      <div class="chart-wrap"><canvas id="homesteadChart" height="200"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">SHAPE FEATURES — BUILDING FOOTPRINTS VS. RECORDED STRUCTURES</div>
+      <div class="field-card" style="padding-top:0;">
+        <p style="font-size:0.78rem; margin:10px 0;">
+          Microsoft building-footprint polygons spatially joined to
+          parcels, phase one of a footprint-first / imagery-later
+          shape-detection approach (adapting Salazar-Miranda & Talen's
+          CV methodology to available data). Of
+          <span class="stamp" id="shapeCoverageStat"></span>
+          single-family parcels with footprint coverage,
+          <span class="stamp" id="newDetachedStat"></span> show more
+          dwelling-sized footprints than EPCAD has recorded structures
+          (a candidate undocumented ADU/casita), and
+          <span class="stamp" id="additionStat"></span> show footprint
+          area exceeding recorded square footage by &gt;25% (a
+          candidate undocumented addition).
+          <strong>Caveat:</strong> footprint polygons are noisy (split
+          roofs, oversized garages) — read this as a screening signal
+          to prioritize review, not a confirmed count.
+        </p>
+      </div>
+    </div>
+
+    <div class="panel">
       <div class="panel-title">CANDIDATE DETECTOR — WHAT GIVES IT AWAY</div>
       <div class="field-card" style="padding-top:0;">
         <p style="font-size:0.78rem; margin:10px 0;">
@@ -216,15 +280,16 @@ Promise.all([
   fetch('data/model_metrics.json').then(r => r.ok ? r.json() : null),
   fetch('data/feature_importance.csv').then(r => r.ok ? r.text() : ''),
   fetch('data/mortgage_stats.json').then(r => r.ok ? r.json() : null),
+  fetch('data/shape_and_signal_stats.json').then(r => r.ok ? r.json() : null),
 ])
-  .then(([stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats]) =>
-    renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats))
+  .then(([stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats]) =>
+    renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats))
   .catch(err => {
     console.error(err);
     document.getElementById('loadError').style.display = 'block';
   });
 
-function renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats) {
+function renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats) {
   renderMap(geojson.features, candidates.features || []);
   renderLegend();
   renderStatBlock(stats.stats);
@@ -233,6 +298,87 @@ function renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mort
   renderZoningChart(stats.zoning_typology);
   if (modelMetrics && importanceCsv) renderImportance(modelMetrics, importanceCsv, candidates.features ? candidates.features.length : 0);
   if (mortgageStats) renderInvestorChart(mortgageStats);
+  if (shapeStats) renderShapeAndSignalCharts(shapeStats);
+}
+
+// ---------------------------------------------------------------------
+// SWEET-SPOT / ZONING CONCENTRATION / HOMESTEAD / SHAPE-FEATURE CHARTS
+// ---------------------------------------------------------------------
+function renderShapeAndSignalCharts(s) {
+  new Chart(document.getElementById('lotSweetSpotChart'), {
+    type: 'bar',
+    data: {
+      labels: s.lot_size_sweet_spot.map(b => b.bin),
+      datasets: [{
+        label: 'Missing-middle share (%)',
+        data: s.lot_size_sweet_spot.map(b => b.mm_share_pct),
+        backgroundColor: '#A6531C',
+      }],
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: { x: { ticks: { font: { size: 9 } } }, y: { title: { display: true, text: '% missing-middle' } } },
+    },
+  });
+
+  new Chart(document.getElementById('sqftSweetSpotChart'), {
+    type: 'bar',
+    data: {
+      labels: s.building_size_sweet_spot.map(b => b.bin),
+      datasets: [{
+        label: 'Missing-middle share (%)',
+        data: s.building_size_sweet_spot.map(b => b.mm_share_pct),
+        backgroundColor: '#3D5A6C',
+      }],
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: { x: { ticks: { font: { size: 9 } } }, y: { title: { display: true, text: '% missing-middle' } } },
+    },
+  });
+
+  const zoningSorted = s.zoning_concentration_top10.slice().sort((a, b) => b.mm_share_pct - a.mm_share_pct);
+  new Chart(document.getElementById('zoningConcentrationChart'), {
+    type: 'bar',
+    data: {
+      labels: zoningSorted.map(z => `${z.zoning} (n=${z.n})`),
+      datasets: [{
+        label: 'Missing-middle share (%)',
+        data: zoningSorted.map(z => z.mm_share_pct),
+        backgroundColor: '#6B4A7A',
+      }],
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: { x: { title: { display: true, text: '% missing-middle within code' } } },
+    },
+  });
+
+  const homesteadEntries = Object.entries(s.homestead_by_typology)
+    .filter(([, v]) => v !== null)
+    .sort((a, b) => b[1] - a[1]);
+  new Chart(document.getElementById('homesteadChart'), {
+    type: 'bar',
+    data: {
+      labels: homesteadEntries.map(([k]) => k),
+      datasets: [{
+        label: 'Homestead-exempt share (%)',
+        data: homesteadEntries.map(([, v]) => Math.round(v * 1000) / 10),
+        backgroundColor: homesteadEntries.map(([k]) => colorFor(k)),
+      }],
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: { x: { title: { display: true, text: '% claiming homestead exemption' } } },
+    },
+  });
+
+  const sf = s.shape_features;
+  document.getElementById('shapeCoverageStat').textContent = sf.single_family_parcels_with_footprint_data.toLocaleString();
+  document.getElementById('newDetachedStat').textContent = `${sf.new_detached_flag_count.toLocaleString()} parcels`;
+  document.getElementById('additionStat').textContent = `${sf.addition_flag_count.toLocaleString()} parcels`;
 }
 
 function parseImportanceCsv(text) {

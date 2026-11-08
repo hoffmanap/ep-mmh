@@ -41,6 +41,112 @@ that way."
 - These appear on the dashboard map as hollow rust-colored markers,
   distinct from confirmed missing-middle parcels
 
+## Ownership and textual signals already in EPCAD's own data
+
+Beyond `STATE_CD`, the EPCAD GIS parcel layer carries several fields
+this project wasn't using:
+
+- **Homestead exemption (`EXEMPTIONS` contains `HS`)** is Texas's
+  legal requirement that the exemption-holder occupy the property as
+  their primary residence — a current, authoritative owner-occupancy
+  signal, cleaner than either a stale 2020 First American flag or a
+  mailing-address mismatch. It shows a strong, clean gradient with
+  typology: **75.9%** of single-family parcels claim it, down to
+  **2.4-3.4%** for duplexes/multi-unit residential, and **0%** for
+  apartments — exactly the pattern expected if non-owner-occupied
+  rental housing is concentrated in missing-middle types.
+- **Legal description (`LEGAL_DESC`) free-text scan**: 148 parcels
+  classified `A1` (single-family) mention "CASITA" and 362 mention
+  "CONDO" in their legal description — a direct textual signal of
+  housing EPCAD's own structural code doesn't reflect, independent of
+  any model.
+- **Mailing-address mismatch** (owner's mailing city/state differs
+  from the parcel's situs city, or isn't in Texas) is a weaker,
+  secondary absentee-ownership signal (r = +0.028 with missing-middle
+  status — real but far weaker than homestead status).
+
+## Correlations, sweet spots, and zoning concentration
+
+Point-biserial/Pearson correlations between structural features and
+`is_missing_middle`, computed on 218,009 residential parcels
+(bedrooms/bathrooms/building sqft pulled from the First American join,
+0.02-mile nearest-neighbor match):
+
+| feature | r | direction |
+|---|---|---|
+| has_homestead | -0.274 | owner-occupied strongly predicts *not* missing-middle |
+| land_acres | +0.197 | larger lots lean missing-middle (see U-shape below) |
+| dist_to_core_mi | -0.151 | closer to downtown → more missing-middle |
+| bedrooms | -0.073 | fewer bedrooms → more missing-middle |
+| building_sqft | +0.068 | weak linear read — see U-shape below |
+| year_built | -0.069 | older stock → more missing-middle |
+| bathrooms | -0.039 | weak |
+| mailing_mismatch | +0.028 | weak |
+
+**The linear correlations understate the real pattern.** Binning lot
+size and building size reveals a **U-shape**, not a straight line —
+both very small *and* very large lots/buildings over-index on missing
+middle, while "typical single-family" mid-range values under-index:
+
+- Lot size: **29.3%** missing-middle share at 0-0.05 acres, falling to
+  **1.7%** at 0.15-0.2 acres (the single-family sweet spot), then
+  climbing back to **41.0%** at 2+ acres (large multi-family/apartment
+  sites).
+- Building size: **10.1%** share at 600-900 sqft (small/casita-sized),
+  dropping to **2.3%** at 1500-1800 sqft, then rising to **16.7%** at
+  3500+ sqft (large apartment buildings).
+
+**Zoning concentration** (missing-middle share *within* each zoning
+code, not raw counts, min n=100): `AO` (73.2%), `C3` (50.0%), `A3H`
+(46.3%), `A2` (44.0%), `A-2` (41.7%) lead — note these zoning-code
+labels (`A2`, `A3H`, etc.) are a *different* code space from EPCAD's
+`STATE_CD` structural codes (`A1`/`A2`/etc. used for typology above)
+and happen to share letters by coincidence, not meaning.
+
+Full numbers: `data/shape_and_signal_stats.json`. Reproduce with
+`scripts/correlations_analysis.py` (requires the First American
+extract — see Financing section below).
+
+## Building-footprint shape features (Salazar-Miranda & Talen adaptation)
+
+The original paper detects housing typology from a street-view CV
+model's read of building *shape*. El Paso has no imagery pipeline, but
+real building footprint polygons (Microsoft's
+[GlobalMLBuildingFootprints](https://github.com/microsoft/GlobalMLBuildingFootprints),
+~384K buildings across El Paso County) let us compute actual shape
+features and compare them against EPCAD's own structure counts —
+phase one of a footprint-first, imagery-later plan.
+
+`scripts/shape_features.py` spatially joins footprint centroids into
+parcels and derives, per parcel: footprint count, total/largest
+footprint area, compactness (4π·area/perimeter², lower = more
+elongated/attached), and two signals distinguishing **a brand-new
+undetected detached structure** from **an addition to an existing
+one**:
+
+- **`new_detached_flag`**: the parcel has more dwelling-sized
+  (≥300 sqft, to exclude sheds/carports) footprints than EPCAD has
+  recorded main structures — a candidate undocumented ADU/casita.
+- **`addition_flag`**: structure count matches the record, but total
+  footprint area exceeds recorded square footage by >25% — a
+  candidate undocumented expansion.
+
+Of 202,316 single-family (`A1`) parcels with footprint coverage,
+**12,941** trip `new_detached_flag` and **29,229** trip
+`addition_flag` (**42,170** total, ~21% of single-family stock).
+
+**Caveat, stated plainly because it matters**: Microsoft's footprint
+polygons are noisy — one roof is sometimes split into multiple
+polygons by the detection model, and a large garage or carport
+sometimes clears the 300 sqft dwelling-size threshold. A flag rate
+this high is not credible as "42,000 confirmed undocumented housing
+units." Read it as a **noisy screening signal** to prioritize manual
+or imagery-based review, not as a finding on its own. Tightening
+further (a higher size threshold, compactness filtering to exclude
+elongated garage shapes, or cross-referencing against the
+legal-description text flags above) would be the natural next step
+before trusting individual flagged parcels.
+
 ## Financing — First American property/mortgage data
 
 El Paso County's First American property/ownership/lien extract
@@ -145,12 +251,16 @@ ep-mmh/
 │   ├── make_dashboard_data.py       # aggregate into dashboard JSON/GeoJSON
 │   ├── train_mm_detector.py         # structural-feature-only classifier + candidate scoring
 │   ├── join_first_american.py       # spatial join: First American mortgage data <-> EPCAD parcels
-│   └── make_mortgage_dashboard_data.py  # aggregate financing stats for the dashboard
+│   ├── make_mortgage_dashboard_data.py  # aggregate financing stats for the dashboard
+│   ├── correlations_analysis.py     # correlations, size sweet-spots, zoning concentration
+│   ├── load_footprints.py           # load Microsoft building-footprint tiles for El Paso County
+│   └── shape_features.py            # spatial join footprints <-> parcels; shape + shadow-structure signals
 ├── data/
 │   ├── raw/                         # EPCAD flat-file exports (not checked in — see Setup)
-│   ├── gis/                         # EPCAD parcel geodatabase (not checked in — see Setup)
+│   ├── gis/                         # EPCAD parcel geodatabase + footprint tiles (not checked in — see Setup)
 │   ├── output/                      # generated intermediate CSVs (not checked in, large)
 │   ├── dashboard_stats.json         # generated: aggregated stats for the dashboard (checked in)
+│   ├── shape_and_signal_stats.json  # generated: correlations/sweet-spots/zoning/shape-feature stats (checked in)
 │   ├── parcels_missing_middle.geojson   # generated: confirmed missing-middle parcel points (checked in)
 │   ├── candidates_high_confidence.geojson  # generated: model-flagged candidate parcels (checked in)
 │   ├── missing_middle_candidates.csv    # generated: full candidate list w/ probabilities (checked in)
@@ -161,12 +271,21 @@ ep-mmh/
 
 ## Known caveats
 
-- `B3`-`B6` (lumped as "Multi-Unit Residential (Other)") are EPCAD's
-  own local extensions beyond the standard Texas Comptroller state
-  codes; their exact unit-count semantics aren't documented and are
-  inferred from context (they carry the same kind of improvement
-  descriptions — MAIN AREA, OPEN PORCH, GARAGE — as other residential
-  classes).
+- `B3`-`B6` (lumped as "Multi-Unit Residential (Other)"), along with
+  `A6`, `A51`, `A53`-`A55`, `A7`, `C10`, `D5`, `D6`, `O1`, `O2`, `J2`,
+  `X23`, are EPCAD's own local extensions beyond the standard Texas
+  Comptroller state codes. Checked against EPCAD's official
+  `2026_Codes for Export Tables_All.xlsx` data dictionary (its
+  `ptd_state_code` sheet is the real statewide Texas PTD/Comptroller
+  table) — none of these local extensions are defined there either.
+  Their typology assignments in `build_dataset.py` remain inference
+  from acreage/legal-description patterns, not documented fact, and
+  are commented as such in the code. (The dictionary did confirm two
+  other things used elsewhere in the pipeline: the exemption-code
+  meanings in `has_homestead`/`has_disabled_vet_exemption`/`tax_exempt`,
+  and that `imprv_detail_type_codes` flags `MA`/`MA1`/`MA2`/`M+`/`MU`/`ME`
+  all as `main_area=T`, validating `TypeCD=="MA"` as the right filter
+  for counting distinct structures.)
 - The apartment-size sub-split only covers `B2` parcels whose
   `Improvements.ClassCD` happens to carry a `QS`/`QL`/`QN`/`QR` code;
   some `B2` parcels have no matching Improvements record with that
