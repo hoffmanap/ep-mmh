@@ -1,0 +1,15 @@
+{
+  "definition": "EPCAD side: Duplex, Townhouse, Condo, Apartment/Multifamily, Multi-Unit Other, Apartment 4-6, Apartment 7-30 (EPCAD bands top out at 30, not 19 -- closest available cut; excludes Apartment 31-99 and 100+). ACS side: B25024 categories 2, 3-4, 5-9, 10-19 units (closest ACS bucket to Parolek/Salazar-Miranda-Talens stated 2-19 unit missing-middle range).",
+  "n_tracts_compared": 182,
+  "mean_abs_diff_epcad_pct_points": 10.36,
+  "mean_abs_diff_epcad_plus_model_pct_points": 10.31,
+  "tracts_improved_by_model": 96,
+  "countywide_epcad_mm_2_19_units": 29601,
+  "countywide_epcad_mm_2_19_total_units": 323575,
+  "countywide_epcad_mm_2_19_pct": 9.15,
+  "countywide_epcad_plus_model_mm_2_19_units": 32222,
+  "countywide_epcad_plus_model_mm_2_19_pct": 9.88,
+  "countywide_acs_mm_2_19_units": 54042,
+  "countywide_acs_mm_2_19_total_units": 318700,
+  "countywide_acs_mm_2_19_pct": 16.96
+}

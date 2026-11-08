@@ -24,6 +24,18 @@ ceiling, on how much missing-middle housing actually exists. This
 project tries to size that gap from several independent angles rather
 than taking any single source's count at face value.
 
+> **Bottom line, up front:** EPCAD's own records say 20.72% of El
+> Paso's housing units are missing-middle (duplex through small
+> apartment building). But most of that is actually large apartment
+> complexes — scoped to missing middle's real definition (2-19 units,
+> per Parolek and the paper this project adapts), EPCAD's figure drops
+> to **9.15%**, while the Census's own household survey (ACS) implies
+> **16.96%** exists. EPCAD's classification — a legal record of what's
+> been permitted and assessed — is capturing only about **half** of the
+> missing-middle housing that independently gathered survey data says
+> is actually there. See section 5 for the full comparison, and
+> section 6 for what ties all four pieces of evidence together.
+
 ## 2. Baseline data — how EPCAD classifies housing, and where it can't see
 
 El Paso Central Appraisal District (EPCAD) already publishes an
@@ -298,48 +310,122 @@ largest).
 
 Full tract-level numbers: `data/tract_comparison_epcad_acs.json`.
 
-**A scope caveat that matters: "missing middle" above is broader than
-the term usually means.** EPCAD's `is_missing_middle` flag — inherited
-from the STATE_CD classification (B1–B6) — marks *any* non-single-family
-residential structure, including large apartment complexes. Of the
-67,050 unit-weighted "missing middle" units above, 39,695 (59%) are from
-Apartment (31-99 units) and Apartment (100+ units) buildings — not
-missing middle in the planning-literature sense (duplex through small
-courtyard apartment, roughly 2-9 units), just large multifamily. That
-broad scope happens to match how the ACS comparison above was scoped
-(B25024 categories 004-009, i.e. any 2+-unit structure), so the
-20.72%-vs-23.05% comparison is still apples-to-apples — it's just
-answering "how much non-single-family housing is there," not "how much
-*missing middle*, specifically, is there."
+**A scope problem undermines that close countywide match, though.**
+EPCAD's `is_missing_middle` flag — inherited from the STATE_CD
+classification (B1–B6) — marks *any* non-single-family residential
+structure as "missing middle," including large apartment complexes. Of
+the 67,050 unit-weighted "missing middle" units above, 39,695 (59%) are
+from Apartment (31-99 units) and Apartment (100+ units) buildings —
+not missing middle by any definition in the planning literature, just
+large multifamily that happens to share a STATE_CD prefix. The ACS
+side of the original comparison was scoped the same broad way (B25024
+categories 004-009, any 2+-unit structure), which is why the two
+numbers lined up — they're both answering "how much non-single-family
+housing is there," not "how much missing middle, specifically, is
+there."
 
-Re-running the same comparison scoped to 2-9 unit structures only
-(`scripts/narrow_mm_comparison.py`, excluding the two apartment-tower
-typologies) changes the picture:
+**The actual definition — and the one the paper this project adapts
+uses for its own Chicago/ACS comparison — caps at 19 units, not any
+size.** Parolek (2020), the term's originator, puts missing middle at
+"duplexes to buildings with up to roughly 19 units." Salazar-Miranda &
+Talen compare their Chicago measure to "ACS estimates of housing units
+in 2- to 19-unit structures (44%)" directly — the same ACS bucket used
+here. Re-running the comparison with that correct ceiling
+(`scripts/mm_2_19_comparison.py`; EPCAD-side types: Duplex, Townhouse,
+Condo, Multi-Unit Other, Apartment 4-6, Apartment 7-30 — EPCAD's own
+bands top out at 30, not 19, so Apartment 7-30 is the closest available
+cut; ACS side: B25024 categories 004-007, units 2 through 19 exactly)
+changes the finding substantially:
 
-| source | narrow (2-9 unit) missing-middle units | total units | share |
+| source | missing-middle units (2-19) | total units | share |
 |---|---|---|---|
 | EPCAD, unit-weighted | 29,601 | 323,575 | **9.15%** |
 | EPCAD + model candidates | 32,222 | 326,196 | 9.88% |
-| ACS B25024 (2-9 units in structure) | 39,525 | 318,700 | **12.40%** |
+| ACS B25024 (2-19 units in structure) | 54,042 | 318,700 | **16.96%** |
 
-Under this narrower, more correct definition, EPCAD is further from
-ACS, not closer: a **3.25-point countywide gap**, with EPCAD capturing
-only about 75% of what ACS implies exists — a real undercount, not a
-unit-of-analysis artifact. The tract-level mean absolute difference is
-**8.77 points** (vs. 7.16 under the broad definition). And the same
-negative result holds here too: adding the model's high-confidence
-candidates barely moves the countywide share (9.15% → 9.88%, still well
-short of ACS's 12.40%) and the mean absolute difference per tract gets
-*slightly worse* (8.77 → 8.87), improving only 84 of 182 tracts (46%,
-still under half). The model's candidate count (2,621 parcels
-countywide) simply isn't large enough, relative to the ~10,000-unit gap
-implied by ACS, to move the needle — whatever is driving the
-EPCAD/ACS gap at the 2-9-unit scale, it isn't something a footprint-
-shape anomaly detector of this size can close.
+**This is the real headline number of the ACS validation: EPCAD
+captures only about 54% of the missing-middle housing ACS implies
+actually exists in El Paso County** — a **7.8-point countywide gap**,
+nearly a factor-of-two undercount, not the reassuring 2.3-point gap the
+broad (any-size) comparison suggested. The tract-level mean absolute
+difference is **10.36 points**. This is also the most direct possible
+confirmation of the problem statement in section 1: EPCAD's own
+classification, built from permitted and assessed improvements, really
+is a *floor*, and a materially low one, on how much missing-middle
+housing exists.
 
-Full tract-level numbers: `data/narrow_mm_comparison_summary.json`
+Here, unlike at the broader or narrower cuts, the structural model's
+high-confidence candidates help slightly more often than not: adding
+them as extra units moves the mean absolute difference from 10.36 to
+**10.31** (marginally better) and improves the match in **96 of 182
+tracts (53%)** — just over half, not a strong result, but the first
+time across any definition tested that the model's candidates net
+positive rather than negative. Read generously, this is weak evidence
+the structural detector is finding *some* real undocumented units; read
+skeptically, it's close enough to a coin flip to be noise. Either way,
+the 2,621 candidate units are far too few to meaningfully close a gap
+this size (ACS implies roughly 24,000 more missing-middle units exist
+than EPCAD has on record) — closing it would take a different kind of
+evidence than a footprint-shape anomaly detector of this scale can
+provide.
+
+Full tract-level numbers: `data/mm_2_19_comparison_summary.json`
 (checked in); per-tract detail CSV regenerates via
-`scripts/narrow_mm_comparison.py`.
+`scripts/mm_2_19_comparison.py`.
+
+## 6. What this means, put together
+
+Four independent pieces of evidence, each with its own blind spots, point
+the same direction:
+
+1. **The legal mechanism (section 1).** Single-family zoning makes most
+   missing-middle housing illegal to build in most of the city, so
+   there's a structural reason for it to go undocumented — property
+   owners don't permit what zoning forbids.
+2. **EPCAD's own data (section 2-3)** already shows missing-middle
+   housing concentrated exactly where that mechanism predicts: near
+   downtown, on oddly small or oddly large lots, in older housing stock,
+   strongly anti-correlated with owner-occupancy. The structural model
+   learns this pattern well enough to separate missing-middle from
+   single-family parcels with 0.986 AUC — using nothing but shape and
+   location, never the EPCAD code itself.
+3. **The footprint check (section 4)**, an entirely separate data
+   source (satellite-derived building outlines, not EPCAD's own
+   records), independently confirms that ~8.7% of single-family-labeled
+   parcels carry more or larger structures than EPCAD has on record —
+   and duplexes specifically show an elevated version of the same
+   signal, a structural fingerprint that doesn't depend on EPCAD's
+   classification being right in the first place.
+4. **The ACS check (section 5)**, a third, completely independent data
+   source (self-reported household survey, not administrative records
+   at all), puts a number on the size of the gap: at missing middle's
+   real definition, EPCAD accounts for only about **half** of what ACS
+   implies exists.
+
+**What this project does *not* show:** that the structural candidate
+detector has found the missing units. Across every definition tested —
+broad, 2-9-unit, and the correct 2-19-unit cut — the model's
+high-confidence candidates close little to none of the EPCAD/ACS gap
+(worse at the broad and 2-9 cuts, marginally better than a coin flip at
+the correct 2-19 cut). That's a deliberate, honest negative result: a
+~2,600-parcel structural-anomaly flag is simply too small relative to
+the ~24,000-unit gap ACS implies. Whatever's driving the
+undercount — unpermitted conversions invisible even from footprints
+(interior subdivisions, garage apartments with no exterior change),
+EPCAD assessment lag, or genuine ACS sampling noise at the tract level
+— isn't something a geometry-based screening tool of this scale can
+resolve on its own. It would take either field verification in the
+highest-gap tracts (listed in section 5) or a different detection
+approach entirely (the street-view imagery method this project adapts
+from, for instance) to close it further.
+
+**For policy purposes**, the practical takeaway is the one in the
+bottom line: El Paso almost certainly has substantially more
+missing-middle housing than its own records show, concentrated in
+specific, identifiable places (inner-ring, pre-war, non-owner-occupied
+tracts) — which is exactly the population a zoning reform, an
+amnesty/legalization program, or a targeted outreach effort would want
+to target first.
 
 ## Ownership and financing
 
@@ -407,7 +493,7 @@ python scripts/load_footprints.py            # building footprints (section 4)
 python scripts/shape_features.py
 python scripts/fetch_acs_units_in_structure.py  # ACS comparison (section 5)
 python scripts/join_tracts_and_compare.py       # official zoning + tract-level EPCAD/model/ACS comparison (broad definition)
-python scripts/narrow_mm_comparison.py          # same comparison re-scoped to 2-9 unit structures (section 5)
+python scripts/mm_2_19_comparison.py            # same comparison re-scoped to the literature's actual 2-19 unit definition (section 5)
 ```
 
 Then open `index.html` — it reads the generated JSON/GeoJSON files
@@ -438,9 +524,9 @@ ep-mmh/
 │   ├── shape_and_signal_stats.json  # generated: correlations/sweet-spots/zoning/shape-feature stats (checked in)
 │   ├── shape_by_typology.json       # generated: footprint-shape features (ratio, flags) broken out by typology (checked in)
 │   ├── acs_units_in_structure.json  # generated: ACS B25024 comparison (checked in)
-│   ├── tract_comparison_epcad_acs.json  # generated: tract-level EPCAD vs. model vs. ACS comparison, broad definition (checked in)
-│   ├── narrow_mm_comparison_summary.json  # generated: same comparison re-scoped to 2-9 unit structures (checked in)
-│   ├── tract_comparison_narrow_mm.csv   # generated: tract-level detail for the narrow-definition comparison (CSV, gitignored like other intermediates — regenerate via the script above)
+│   ├── tract_comparison_epcad_acs.json  # generated: tract-level EPCAD vs. model vs. ACS comparison, broad (any-size) definition (checked in)
+│   ├── mm_2_19_comparison_summary.json  # generated: same comparison re-scoped to the literature's 2-19 unit definition (checked in)
+│   ├── zoning_simplified.geojson    # generated: official City zoning polygons, dissolved/simplified for the map overlay (checked in)
 │   ├── parcels_missing_middle.geojson   # generated: confirmed missing-middle parcel points (checked in)
 │   ├── candidates_high_confidence.geojson  # generated: model-flagged candidate parcels (checked in)
 │   ├── missing_middle_candidates.csv    # generated: full candidate list w/ probabilities (checked in)
@@ -478,16 +564,17 @@ ep-mmh/
   mostly this join artifact, not real undocumented expansions.
 - Distance is measured from a single downtown point (San Jacinto
   Plaza), straight-line, not drive-time.
-- The headline "missing middle" figures (section 2-3, and the broad
-  cut of section 5) count *any* non-single-family residential
-  structure, including large (31-99 and 100+ unit) apartment
-  buildings — not "missing middle" in the 2-9-unit sense the term
-  usually carries in planning literature. Those large-building units
-  are 59% of the 67,050 unit-weighted total. Section 5's narrower,
-  2-9-unit-only recheck is the one to use if "missing middle"
-  specifically (not "non-single-family generally") is what matters
-  for your question — and it shows a real, larger undercount (9.15%
-  vs. ACS's 12.40%) that the structural model's candidates don't close
-  either.
+- The headline "missing middle" figures in sections 2-3, and the
+  broad (any-size) cut in section 5, count *any* non-single-family
+  residential structure, including large (31-99 and 100+ unit)
+  apartment buildings — not "missing middle" in the 2-19-unit sense
+  Parolek and Salazar-Miranda & Talen actually use. Those large-
+  building units are 59% of the 67,050 unit-weighted total. Section
+  5's corrected 2-19-unit recheck is the one to use if "missing
+  middle" specifically (not "non-single-family generally") is what
+  matters for your question — and it's the project's central finding:
+  EPCAD captures only about 54% of what ACS implies exists at that
+  definition (9.15% vs. 16.96%), an undercount the structural model's
+  candidates only marginally help close.
 - First American ownership/financing data (Ownership and financing
   section) is a single 2020 snapshot, not current.
