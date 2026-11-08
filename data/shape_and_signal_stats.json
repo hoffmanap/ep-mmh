@@ -36,50 +36,251 @@
     "Colonia Lot/Land Tract": 0.0
   },
   "correlations": {
-    "has_homestead": { "r": -0.2735, "n": 218009 },
-    "land_acres": { "r": 0.197, "n": 218009 },
-    "dist_to_core_mi": { "r": -0.1511, "n": 218009 },
-    "bedrooms": { "r": -0.073, "n": 218009 },
-    "year_built": { "r": -0.0694, "n": 210556 },
-    "building_sqft": { "r": 0.0682, "n": 212682 },
-    "mailing_mismatch": { "r": 0.0278, "n": 218009 },
-    "bathrooms": { "r": -0.0385, "n": 218009 }
+    "has_homestead": {
+      "r": -0.2735,
+      "n": 218009
+    },
+    "land_acres": {
+      "r": 0.197,
+      "n": 218009
+    },
+    "dist_to_core_mi": {
+      "r": -0.1511,
+      "n": 218009
+    },
+    "bedrooms": {
+      "r": -0.073,
+      "n": 218009
+    },
+    "year_built": {
+      "r": -0.0694,
+      "n": 210556
+    },
+    "building_sqft": {
+      "r": 0.0682,
+      "n": 212682
+    },
+    "mailing_mismatch": {
+      "r": 0.0278,
+      "n": 218009
+    },
+    "bathrooms": {
+      "r": -0.0385,
+      "n": 218009
+    }
   },
   "lot_size_sweet_spot": [
-    { "bin": "0-0.05 ac", "mm_share_pct": 29.3, "n": 888 },
-    { "bin": "0.05-0.1 ac", "mm_share_pct": 21.9, "n": 8799 },
-    { "bin": "0.1-0.15 ac", "mm_share_pct": 2.0, "n": 88100 },
-    { "bin": "0.15-0.2 ac", "mm_share_pct": 1.7, "n": 57283 },
-    { "bin": "0.2-0.25 ac", "mm_share_pct": 4.0, "n": 25315 },
-    { "bin": "0.25-0.3 ac", "mm_share_pct": 3.6, "n": 10120 },
-    { "bin": "0.3-0.4 ac", "mm_share_pct": 3.2, "n": 9916 },
-    { "bin": "0.4-0.5 ac", "mm_share_pct": 2.3, "n": 7284 },
-    { "bin": "0.5-0.75 ac", "mm_share_pct": 3.1, "n": 5205 },
-    { "bin": "0.75-1.0 ac", "mm_share_pct": 4.5, "n": 1935 },
-    { "bin": "1-2 ac", "mm_share_pct": 8.4, "n": 1626 },
-    { "bin": "2+ ac", "mm_share_pct": 41.0, "n": 1502 }
+    {
+      "bin": "0-0.05 ac",
+      "mm_share_pct": 29.3,
+      "n": 888
+    },
+    {
+      "bin": "0.05-0.1 ac",
+      "mm_share_pct": 21.9,
+      "n": 8799
+    },
+    {
+      "bin": "0.1-0.15 ac",
+      "mm_share_pct": 2.0,
+      "n": 88100
+    },
+    {
+      "bin": "0.15-0.2 ac",
+      "mm_share_pct": 1.7,
+      "n": 57283
+    },
+    {
+      "bin": "0.2-0.25 ac",
+      "mm_share_pct": 4.0,
+      "n": 25315
+    },
+    {
+      "bin": "0.25-0.3 ac",
+      "mm_share_pct": 3.6,
+      "n": 10120
+    },
+    {
+      "bin": "0.3-0.4 ac",
+      "mm_share_pct": 3.2,
+      "n": 9916
+    },
+    {
+      "bin": "0.4-0.5 ac",
+      "mm_share_pct": 2.3,
+      "n": 7284
+    },
+    {
+      "bin": "0.5-0.75 ac",
+      "mm_share_pct": 3.1,
+      "n": 5205
+    },
+    {
+      "bin": "0.75-1.0 ac",
+      "mm_share_pct": 4.5,
+      "n": 1935
+    },
+    {
+      "bin": "1-2 ac",
+      "mm_share_pct": 8.4,
+      "n": 1626
+    },
+    {
+      "bin": "2+ ac",
+      "mm_share_pct": 41.0,
+      "n": 1502
+    }
   ],
   "building_size_sweet_spot": [
-    { "bin": "<600 sqft", "mm_share_pct": 6.3, "n": 1602 },
-    { "bin": "600-900", "mm_share_pct": 10.1, "n": 8539 },
-    { "bin": "900-1200", "mm_share_pct": 3.9, "n": 41142 },
-    { "bin": "1200-1500", "mm_share_pct": 2.7, "n": 52051 },
-    { "bin": "1500-1800", "mm_share_pct": 2.3, "n": 39345 },
-    { "bin": "1800-2200", "mm_share_pct": 2.7, "n": 33264 },
-    { "bin": "2200-2800", "mm_share_pct": 3.0, "n": 23377 },
-    { "bin": "2800-3500", "mm_share_pct": 4.4, "n": 8220 },
-    { "bin": "3500+ sqft", "mm_share_pct": 16.7, "n": 5130 }
+    {
+      "bin": "<600 sqft",
+      "mm_share_pct": 6.3,
+      "n": 1602
+    },
+    {
+      "bin": "600-900",
+      "mm_share_pct": 10.1,
+      "n": 8539
+    },
+    {
+      "bin": "900-1200",
+      "mm_share_pct": 3.9,
+      "n": 41142
+    },
+    {
+      "bin": "1200-1500",
+      "mm_share_pct": 2.7,
+      "n": 52051
+    },
+    {
+      "bin": "1500-1800",
+      "mm_share_pct": 2.3,
+      "n": 39345
+    },
+    {
+      "bin": "1800-2200",
+      "mm_share_pct": 2.7,
+      "n": 33264
+    },
+    {
+      "bin": "2200-2800",
+      "mm_share_pct": 3.0,
+      "n": 23377
+    },
+    {
+      "bin": "2800-3500",
+      "mm_share_pct": 4.4,
+      "n": 8220
+    },
+    {
+      "bin": "3500+ sqft",
+      "mm_share_pct": 16.7,
+      "n": 5130
+    }
   ],
   "zoning_concentration_top10": [
-    { "zoning": "AO", "mm_share_pct": 73.2, "n": 269 },
-    { "zoning": "C3", "mm_share_pct": 50.0, "n": 272 },
-    { "zoning": "A3H", "mm_share_pct": 46.3, "n": 108 },
-    { "zoning": "A2", "mm_share_pct": 44.0, "n": 3534 },
-    { "zoning": "A-2", "mm_share_pct": 41.7, "n": 499 },
-    { "zoning": "C-4", "mm_share_pct": 36.0, "n": 125 },
-    { "zoning": "SCZ", "mm_share_pct": 33.1, "n": 172 },
-    { "zoning": "SD", "mm_share_pct": 32.0, "n": 906 },
-    { "zoning": "C1", "mm_share_pct": 30.5, "n": 282 },
-    { "zoning": "C4", "mm_share_pct": 29.9, "n": 732 }
-  ]
+    {
+      "zoning": "AO",
+      "mm_share_pct": 73.2,
+      "n": 269
+    },
+    {
+      "zoning": "C3",
+      "mm_share_pct": 50.0,
+      "n": 272
+    },
+    {
+      "zoning": "A3H",
+      "mm_share_pct": 46.3,
+      "n": 108
+    },
+    {
+      "zoning": "A2",
+      "mm_share_pct": 44.0,
+      "n": 3534
+    },
+    {
+      "zoning": "A-2",
+      "mm_share_pct": 41.7,
+      "n": 499
+    },
+    {
+      "zoning": "C-4",
+      "mm_share_pct": 36.0,
+      "n": 125
+    },
+    {
+      "zoning": "SCZ",
+      "mm_share_pct": 33.1,
+      "n": 172
+    },
+    {
+      "zoning": "SD",
+      "mm_share_pct": 32.0,
+      "n": 906
+    },
+    {
+      "zoning": "C1",
+      "mm_share_pct": 30.5,
+      "n": 282
+    },
+    {
+      "zoning": "C4",
+      "mm_share_pct": 29.9,
+      "n": 732
+    }
+  ],
+  "zoning_concentration_official_top10": [
+    {
+      "zoning": "C-1",
+      "mm_share_pct": 50.1,
+      "n": 413
+    },
+    {
+      "zoning": "C-3",
+      "mm_share_pct": 50.0,
+      "n": 214
+    },
+    {
+      "zoning": "A-2",
+      "mm_share_pct": 33.5,
+      "n": 6995
+    },
+    {
+      "zoning": "S-D",
+      "mm_share_pct": 33.5,
+      "n": 1157
+    },
+    {
+      "zoning": "SRR",
+      "mm_share_pct": 33.0,
+      "n": 100
+    },
+    {
+      "zoning": "A-O",
+      "mm_share_pct": 30.3,
+      "n": 1170
+    },
+    {
+      "zoning": "A-3",
+      "mm_share_pct": 29.6,
+      "n": 1690
+    },
+    {
+      "zoning": "C-4",
+      "mm_share_pct": 29.4,
+      "n": 983
+    },
+    {
+      "zoning": "C-2",
+      "mm_share_pct": 28.9,
+      "n": 211
+    },
+    {
+      "zoning": "SCZ",
+      "mm_share_pct": 19.9,
+      "n": 422
+    }
+  ],
+  "zoning_source_note": "Official City of El Paso zoning layer (gis.elpasotexas.gov Planning/Zoning FeatureServer, ZONELABEL field), spatially joined to parcel centroids -- 214,558/400,274 parcels matched (unmatched parcels are outside city limits / ETJ with no city zoning record). Replaces the earlier raw EPCAD GIS ZONING field, which had inconsistent/duplicate label spellings (e.g. R-3 vs R3A vs R 3A all meaning similar things)."
 }

@@ -1,0 +1,1328 @@
+{
+  "source": "Census Reporter API, ACS 2020-2024 5-year, table B25024",
+  "geography": "El Paso County, TX (FIPS 48141)",
+  "n_tracts": 188,
+  "total_housing_units": 323571.0,
+  "total_single_family_units": 231367.0,
+  "total_missing_middle_units_2plus": 74267.0,
+  "total_mobile_home_units": 17442.0,
+  "missing_middle_share_pct_of_units": 22.95,
+  "tracts": [
+    {
+      "tract_fips": "48141000106",
+      "total_units": 2144.0,
+      "single_family_units": 1957.0,
+      "missing_middle_units_2plus": 187.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141000107",
+      "total_units": 1877.0,
+      "single_family_units": 1827.0,
+      "missing_middle_units_2plus": 7.0,
+      "mobile_home_units": 43.0
+    },
+    {
+      "tract_fips": "48141000108",
+      "total_units": 1753.0,
+      "single_family_units": 624.0,
+      "missing_middle_units_2plus": 873.0,
+      "mobile_home_units": 256.0
+    },
+    {
+      "tract_fips": "48141000109",
+      "total_units": 1246.0,
+      "single_family_units": 1240.0,
+      "missing_middle_units_2plus": 6.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141000110",
+      "total_units": 1340.0,
+      "single_family_units": 788.0,
+      "missing_middle_units_2plus": 552.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141000111",
+      "total_units": 1314.0,
+      "single_family_units": 519.0,
+      "missing_middle_units_2plus": 795.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141000112",
+      "total_units": 1761.0,
+      "single_family_units": 1493.0,
+      "missing_middle_units_2plus": 268.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141000113",
+      "total_units": 1236.0,
+      "single_family_units": 1045.0,
+      "missing_middle_units_2plus": 69.0,
+      "mobile_home_units": 122.0
+    },
+    {
+      "tract_fips": "48141000114",
+      "total_units": 1401.0,
+      "single_family_units": 954.0,
+      "missing_middle_units_2plus": 447.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141000204",
+      "total_units": 1901.0,
+      "single_family_units": 1486.0,
+      "missing_middle_units_2plus": 415.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141000205",
+      "total_units": 2124.0,
+      "single_family_units": 882.0,
+      "missing_middle_units_2plus": 947.0,
+      "mobile_home_units": 231.0
+    },
+    {
+      "tract_fips": "48141000206",
+      "total_units": 1758.0,
+      "single_family_units": 1417.0,
+      "missing_middle_units_2plus": 269.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141000207",
+      "total_units": 1750.0,
+      "single_family_units": 1080.0,
+      "missing_middle_units_2plus": 327.0,
+      "mobile_home_units": 343.0
+    },
+    {
+      "tract_fips": "48141000208",
+      "total_units": 1563.0,
+      "single_family_units": 1267.0,
+      "missing_middle_units_2plus": 0,
+      "mobile_home_units": 296.0
+    },
+    {
+      "tract_fips": "48141000301",
+      "total_units": 2567.0,
+      "single_family_units": 1449.0,
+      "missing_middle_units_2plus": 758.0,
+      "mobile_home_units": 360.0
+    },
+    {
+      "tract_fips": "48141000302",
+      "total_units": 2048.0,
+      "single_family_units": 1649.0,
+      "missing_middle_units_2plus": 399.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141000401",
+      "total_units": 2554.0,
+      "single_family_units": 1886.0,
+      "missing_middle_units_2plus": 668.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141000403",
+      "total_units": 1514.0,
+      "single_family_units": 1248.0,
+      "missing_middle_units_2plus": 266.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141000404",
+      "total_units": 1688.0,
+      "single_family_units": 298.0,
+      "missing_middle_units_2plus": 1361.0,
+      "mobile_home_units": 29.0
+    },
+    {
+      "tract_fips": "48141000600",
+      "total_units": 1790.0,
+      "single_family_units": 1335.0,
+      "missing_middle_units_2plus": 444.0,
+      "mobile_home_units": 11.0
+    },
+    {
+      "tract_fips": "48141000800",
+      "total_units": 2386.0,
+      "single_family_units": 1007.0,
+      "missing_middle_units_2plus": 1290.0,
+      "mobile_home_units": 89.0
+    },
+    {
+      "tract_fips": "48141000901",
+      "total_units": 1801.0,
+      "single_family_units": 1636.0,
+      "missing_middle_units_2plus": 130.0,
+      "mobile_home_units": 35.0
+    },
+    {
+      "tract_fips": "48141000902",
+      "total_units": 1630.0,
+      "single_family_units": 529.0,
+      "missing_middle_units_2plus": 1101.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001001",
+      "total_units": 1279.0,
+      "single_family_units": 1085.0,
+      "missing_middle_units_2plus": 193.0,
+      "mobile_home_units": 1.0
+    },
+    {
+      "tract_fips": "48141001002",
+      "total_units": 1486.0,
+      "single_family_units": 1194.0,
+      "missing_middle_units_2plus": 283.0,
+      "mobile_home_units": 9.0
+    },
+    {
+      "tract_fips": "48141001107",
+      "total_units": 2477.0,
+      "single_family_units": 2205.0,
+      "missing_middle_units_2plus": 272.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001109",
+      "total_units": 2275.0,
+      "single_family_units": 2012.0,
+      "missing_middle_units_2plus": 263.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001110",
+      "total_units": 2263.0,
+      "single_family_units": 982.0,
+      "missing_middle_units_2plus": 1261.0,
+      "mobile_home_units": 20.0
+    },
+    {
+      "tract_fips": "48141001111",
+      "total_units": 3059.0,
+      "single_family_units": 603.0,
+      "missing_middle_units_2plus": 2400.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001112",
+      "total_units": 1749.0,
+      "single_family_units": 1421.0,
+      "missing_middle_units_2plus": 328.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001114",
+      "total_units": 2487.0,
+      "single_family_units": 732.0,
+      "missing_middle_units_2plus": 1755.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001115",
+      "total_units": 2123.0,
+      "single_family_units": 203.0,
+      "missing_middle_units_2plus": 1920.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001116",
+      "total_units": 1358.0,
+      "single_family_units": 321.0,
+      "missing_middle_units_2plus": 1037.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001117",
+      "total_units": 2581.0,
+      "single_family_units": 1544.0,
+      "missing_middle_units_2plus": 1027.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001118",
+      "total_units": 1411.0,
+      "single_family_units": 537.0,
+      "missing_middle_units_2plus": 874.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001119",
+      "total_units": 1798.0,
+      "single_family_units": 1073.0,
+      "missing_middle_units_2plus": 708.0,
+      "mobile_home_units": 17.0
+    },
+    {
+      "tract_fips": "48141001202",
+      "total_units": 2166.0,
+      "single_family_units": 1569.0,
+      "missing_middle_units_2plus": 597.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001204",
+      "total_units": 2216.0,
+      "single_family_units": 1263.0,
+      "missing_middle_units_2plus": 953.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001301",
+      "total_units": 1390.0,
+      "single_family_units": 1129.0,
+      "missing_middle_units_2plus": 242.0,
+      "mobile_home_units": 19.0
+    },
+    {
+      "tract_fips": "48141001302",
+      "total_units": 2605.0,
+      "single_family_units": 2605.0,
+      "missing_middle_units_2plus": 0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001400",
+      "total_units": 1160.0,
+      "single_family_units": 208.0,
+      "missing_middle_units_2plus": 938.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001501",
+      "total_units": 2335.0,
+      "single_family_units": 1513.0,
+      "missing_middle_units_2plus": 822.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001502",
+      "total_units": 1151.0,
+      "single_family_units": 889.0,
+      "missing_middle_units_2plus": 262.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001600",
+      "total_units": 2492.0,
+      "single_family_units": 509.0,
+      "missing_middle_units_2plus": 1983.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001700",
+      "total_units": 419.0,
+      "single_family_units": 24.0,
+      "missing_middle_units_2plus": 395.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001800",
+      "total_units": 446.0,
+      "single_family_units": 61.0,
+      "missing_middle_units_2plus": 385.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141001900",
+      "total_units": 1122.0,
+      "single_family_units": 244.0,
+      "missing_middle_units_2plus": 878.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141002000",
+      "total_units": 964.0,
+      "single_family_units": 249.0,
+      "missing_middle_units_2plus": 700.0,
+      "mobile_home_units": 15.0
+    },
+    {
+      "tract_fips": "48141002100",
+      "total_units": 1285.0,
+      "single_family_units": 194.0,
+      "missing_middle_units_2plus": 1091.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141002201",
+      "total_units": 1204.0,
+      "single_family_units": 612.0,
+      "missing_middle_units_2plus": 592.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141002202",
+      "total_units": 2208.0,
+      "single_family_units": 896.0,
+      "missing_middle_units_2plus": 1312.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141002300",
+      "total_units": 1845.0,
+      "single_family_units": 1426.0,
+      "missing_middle_units_2plus": 419.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141002400",
+      "total_units": 1398.0,
+      "single_family_units": 974.0,
+      "missing_middle_units_2plus": 424.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141002500",
+      "total_units": 2340.0,
+      "single_family_units": 2220.0,
+      "missing_middle_units_2plus": 120.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141002600",
+      "total_units": 1195.0,
+      "single_family_units": 959.0,
+      "missing_middle_units_2plus": 236.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141002800",
+      "total_units": 1905.0,
+      "single_family_units": 838.0,
+      "missing_middle_units_2plus": 916.0,
+      "mobile_home_units": 151.0
+    },
+    {
+      "tract_fips": "48141002900",
+      "total_units": 607.0,
+      "single_family_units": 216.0,
+      "missing_middle_units_2plus": 391.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141003000",
+      "total_units": 1477.0,
+      "single_family_units": 984.0,
+      "missing_middle_units_2plus": 474.0,
+      "mobile_home_units": 19.0
+    },
+    {
+      "tract_fips": "48141003100",
+      "total_units": 1020.0,
+      "single_family_units": 777.0,
+      "missing_middle_units_2plus": 204.0,
+      "mobile_home_units": 39.0
+    },
+    {
+      "tract_fips": "48141003200",
+      "total_units": 1104.0,
+      "single_family_units": 822.0,
+      "missing_middle_units_2plus": 253.0,
+      "mobile_home_units": 29.0
+    },
+    {
+      "tract_fips": "48141003300",
+      "total_units": 2249.0,
+      "single_family_units": 1901.0,
+      "missing_middle_units_2plus": 331.0,
+      "mobile_home_units": 17.0
+    },
+    {
+      "tract_fips": "48141003402",
+      "total_units": 2625.0,
+      "single_family_units": 1152.0,
+      "missing_middle_units_2plus": 1460.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141003403",
+      "total_units": 2371.0,
+      "single_family_units": 1170.0,
+      "missing_middle_units_2plus": 1201.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141003404",
+      "total_units": 2705.0,
+      "single_family_units": 1946.0,
+      "missing_middle_units_2plus": 742.0,
+      "mobile_home_units": 17.0
+    },
+    {
+      "tract_fips": "48141003501",
+      "total_units": 1310.0,
+      "single_family_units": 688.0,
+      "missing_middle_units_2plus": 463.0,
+      "mobile_home_units": 159.0
+    },
+    {
+      "tract_fips": "48141003502",
+      "total_units": 1659.0,
+      "single_family_units": 882.0,
+      "missing_middle_units_2plus": 724.0,
+      "mobile_home_units": 53.0
+    },
+    {
+      "tract_fips": "48141003601",
+      "total_units": 1381.0,
+      "single_family_units": 1117.0,
+      "missing_middle_units_2plus": 167.0,
+      "mobile_home_units": 97.0
+    },
+    {
+      "tract_fips": "48141003602",
+      "total_units": 1242.0,
+      "single_family_units": 553.0,
+      "missing_middle_units_2plus": 591.0,
+      "mobile_home_units": 98.0
+    },
+    {
+      "tract_fips": "48141003701",
+      "total_units": 1585.0,
+      "single_family_units": 1145.0,
+      "missing_middle_units_2plus": 288.0,
+      "mobile_home_units": 152.0
+    },
+    {
+      "tract_fips": "48141003702",
+      "total_units": 1815.0,
+      "single_family_units": 1284.0,
+      "missing_middle_units_2plus": 139.0,
+      "mobile_home_units": 392.0
+    },
+    {
+      "tract_fips": "48141003801",
+      "total_units": 1894.0,
+      "single_family_units": 1515.0,
+      "missing_middle_units_2plus": 379.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141003803",
+      "total_units": 1004.0,
+      "single_family_units": 849.0,
+      "missing_middle_units_2plus": 155.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141003804",
+      "total_units": 1134.0,
+      "single_family_units": 790.0,
+      "missing_middle_units_2plus": 313.0,
+      "mobile_home_units": 31.0
+    },
+    {
+      "tract_fips": "48141003901",
+      "total_units": 1241.0,
+      "single_family_units": 805.0,
+      "missing_middle_units_2plus": 215.0,
+      "mobile_home_units": 221.0
+    },
+    {
+      "tract_fips": "48141003902",
+      "total_units": 1051.0,
+      "single_family_units": 982.0,
+      "missing_middle_units_2plus": 65.0,
+      "mobile_home_units": 4.0
+    },
+    {
+      "tract_fips": "48141003904",
+      "total_units": 1124.0,
+      "single_family_units": 522.0,
+      "missing_middle_units_2plus": 415.0,
+      "mobile_home_units": 187.0
+    },
+    {
+      "tract_fips": "48141003905",
+      "total_units": 958.0,
+      "single_family_units": 674.0,
+      "missing_middle_units_2plus": 284.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141004004",
+      "total_units": 1858.0,
+      "single_family_units": 1355.0,
+      "missing_middle_units_2plus": 346.0,
+      "mobile_home_units": 157.0
+    },
+    {
+      "tract_fips": "48141004005",
+      "total_units": 1958.0,
+      "single_family_units": 1677.0,
+      "missing_middle_units_2plus": 200.0,
+      "mobile_home_units": 81.0
+    },
+    {
+      "tract_fips": "48141004006",
+      "total_units": 1193.0,
+      "single_family_units": 477.0,
+      "missing_middle_units_2plus": 50.0,
+      "mobile_home_units": 666.0
+    },
+    {
+      "tract_fips": "48141004007",
+      "total_units": 1049.0,
+      "single_family_units": 675.0,
+      "missing_middle_units_2plus": 374.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141004008",
+      "total_units": 1355.0,
+      "single_family_units": 729.0,
+      "missing_middle_units_2plus": 500.0,
+      "mobile_home_units": 126.0
+    },
+    {
+      "tract_fips": "48141004103",
+      "total_units": 2387.0,
+      "single_family_units": 1347.0,
+      "missing_middle_units_2plus": 944.0,
+      "mobile_home_units": 96.0
+    },
+    {
+      "tract_fips": "48141004104",
+      "total_units": 2303.0,
+      "single_family_units": 1508.0,
+      "missing_middle_units_2plus": 403.0,
+      "mobile_home_units": 392.0
+    },
+    {
+      "tract_fips": "48141004105",
+      "total_units": 1249.0,
+      "single_family_units": 657.0,
+      "missing_middle_units_2plus": 592.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141004106",
+      "total_units": 1772.0,
+      "single_family_units": 1203.0,
+      "missing_middle_units_2plus": 309.0,
+      "mobile_home_units": 260.0
+    },
+    {
+      "tract_fips": "48141004107",
+      "total_units": 443.0,
+      "single_family_units": 443.0,
+      "missing_middle_units_2plus": 0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141004201",
+      "total_units": 2101.0,
+      "single_family_units": 1874.0,
+      "missing_middle_units_2plus": 213.0,
+      "mobile_home_units": 14.0
+    },
+    {
+      "tract_fips": "48141004202",
+      "total_units": 2260.0,
+      "single_family_units": 1512.0,
+      "missing_middle_units_2plus": 735.0,
+      "mobile_home_units": 13.0
+    },
+    {
+      "tract_fips": "48141004303",
+      "total_units": 2029.0,
+      "single_family_units": 1831.0,
+      "missing_middle_units_2plus": 198.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141004307",
+      "total_units": 2234.0,
+      "single_family_units": 1650.0,
+      "missing_middle_units_2plus": 584.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141004309",
+      "total_units": 2204.0,
+      "single_family_units": 1180.0,
+      "missing_middle_units_2plus": 1024.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141004310",
+      "total_units": 1900.0,
+      "single_family_units": 1155.0,
+      "missing_middle_units_2plus": 745.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141004311",
+      "total_units": 1836.0,
+      "single_family_units": 1310.0,
+      "missing_middle_units_2plus": 526.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141004312",
+      "total_units": 2258.0,
+      "single_family_units": 1211.0,
+      "missing_middle_units_2plus": 1047.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141004313",
+      "total_units": 1480.0,
+      "single_family_units": 727.0,
+      "missing_middle_units_2plus": 730.0,
+      "mobile_home_units": 23.0
+    },
+    {
+      "tract_fips": "48141004314",
+      "total_units": 1827.0,
+      "single_family_units": 1384.0,
+      "missing_middle_units_2plus": 443.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141004316",
+      "total_units": 2025.0,
+      "single_family_units": 1418.0,
+      "missing_middle_units_2plus": 607.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141004317",
+      "total_units": 2106.0,
+      "single_family_units": 277.0,
+      "missing_middle_units_2plus": 1799.0,
+      "mobile_home_units": 30.0
+    },
+    {
+      "tract_fips": "48141004318",
+      "total_units": 1404.0,
+      "single_family_units": 1396.0,
+      "missing_middle_units_2plus": 8.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141004319",
+      "total_units": 1581.0,
+      "single_family_units": 1490.0,
+      "missing_middle_units_2plus": 32.0,
+      "mobile_home_units": 59.0
+    },
+    {
+      "tract_fips": "48141004320",
+      "total_units": 874.0,
+      "single_family_units": 868.0,
+      "missing_middle_units_2plus": 6.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141010101",
+      "total_units": 1176.0,
+      "single_family_units": 1059.0,
+      "missing_middle_units_2plus": 117.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141010102",
+      "total_units": 529.0,
+      "single_family_units": 441.0,
+      "missing_middle_units_2plus": 75.0,
+      "mobile_home_units": 13.0
+    },
+    {
+      "tract_fips": "48141010103",
+      "total_units": 1012.0,
+      "single_family_units": 807.0,
+      "missing_middle_units_2plus": 205.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141010203",
+      "total_units": 1213.0,
+      "single_family_units": 983.0,
+      "missing_middle_units_2plus": 203.0,
+      "mobile_home_units": 27.0
+    },
+    {
+      "tract_fips": "48141010210",
+      "total_units": 3093.0,
+      "single_family_units": 2725.0,
+      "missing_middle_units_2plus": 349.0,
+      "mobile_home_units": 19.0
+    },
+    {
+      "tract_fips": "48141010211",
+      "total_units": 1074.0,
+      "single_family_units": 966.0,
+      "missing_middle_units_2plus": 108.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141010212",
+      "total_units": 2886.0,
+      "single_family_units": 2420.0,
+      "missing_middle_units_2plus": 384.0,
+      "mobile_home_units": 82.0
+    },
+    {
+      "tract_fips": "48141010213",
+      "total_units": 2778.0,
+      "single_family_units": 2778.0,
+      "missing_middle_units_2plus": 0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141010214",
+      "total_units": 2113.0,
+      "single_family_units": 1797.0,
+      "missing_middle_units_2plus": 316.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141010217",
+      "total_units": 1711.0,
+      "single_family_units": 1696.0,
+      "missing_middle_units_2plus": 9.0,
+      "mobile_home_units": 6.0
+    },
+    {
+      "tract_fips": "48141010218",
+      "total_units": 1650.0,
+      "single_family_units": 1525.0,
+      "missing_middle_units_2plus": 62.0,
+      "mobile_home_units": 63.0
+    },
+    {
+      "tract_fips": "48141010220",
+      "total_units": 2793.0,
+      "single_family_units": 2153.0,
+      "missing_middle_units_2plus": 260.0,
+      "mobile_home_units": 380.0
+    },
+    {
+      "tract_fips": "48141010222",
+      "total_units": 655.0,
+      "single_family_units": 235.0,
+      "missing_middle_units_2plus": 0,
+      "mobile_home_units": 413.0
+    },
+    {
+      "tract_fips": "48141010223",
+      "total_units": 2057.0,
+      "single_family_units": 823.0,
+      "missing_middle_units_2plus": 1062.0,
+      "mobile_home_units": 172.0
+    },
+    {
+      "tract_fips": "48141010224",
+      "total_units": 1905.0,
+      "single_family_units": 1727.0,
+      "missing_middle_units_2plus": 0,
+      "mobile_home_units": 178.0
+    },
+    {
+      "tract_fips": "48141010225",
+      "total_units": 1810.0,
+      "single_family_units": 1485.0,
+      "missing_middle_units_2plus": 313.0,
+      "mobile_home_units": 12.0
+    },
+    {
+      "tract_fips": "48141010226",
+      "total_units": 2421.0,
+      "single_family_units": 1836.0,
+      "missing_middle_units_2plus": 585.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141010227",
+      "total_units": 1735.0,
+      "single_family_units": 1070.0,
+      "missing_middle_units_2plus": 422.0,
+      "mobile_home_units": 243.0
+    },
+    {
+      "tract_fips": "48141010228",
+      "total_units": 2147.0,
+      "single_family_units": 1276.0,
+      "missing_middle_units_2plus": 351.0,
+      "mobile_home_units": 510.0
+    },
+    {
+      "tract_fips": "48141010229",
+      "total_units": 2316.0,
+      "single_family_units": 2236.0,
+      "missing_middle_units_2plus": 28.0,
+      "mobile_home_units": 52.0
+    },
+    {
+      "tract_fips": "48141010230",
+      "total_units": 703.0,
+      "single_family_units": 561.0,
+      "missing_middle_units_2plus": 77.0,
+      "mobile_home_units": 65.0
+    },
+    {
+      "tract_fips": "48141010231",
+      "total_units": 1079.0,
+      "single_family_units": 430.0,
+      "missing_middle_units_2plus": 31.0,
+      "mobile_home_units": 618.0
+    },
+    {
+      "tract_fips": "48141010232",
+      "total_units": 1188.0,
+      "single_family_units": 845.0,
+      "missing_middle_units_2plus": 187.0,
+      "mobile_home_units": 156.0
+    },
+    {
+      "tract_fips": "48141010303",
+      "total_units": 1575.0,
+      "single_family_units": 942.0,
+      "missing_middle_units_2plus": 596.0,
+      "mobile_home_units": 37.0
+    },
+    {
+      "tract_fips": "48141010307",
+      "total_units": 2082.0,
+      "single_family_units": 1523.0,
+      "missing_middle_units_2plus": 559.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141010311",
+      "total_units": 2258.0,
+      "single_family_units": 2006.0,
+      "missing_middle_units_2plus": 54.0,
+      "mobile_home_units": 57.0
+    },
+    {
+      "tract_fips": "48141010312",
+      "total_units": 1321.0,
+      "single_family_units": 1208.0,
+      "missing_middle_units_2plus": 113.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141010316",
+      "total_units": 1444.0,
+      "single_family_units": 1032.0,
+      "missing_middle_units_2plus": 384.0,
+      "mobile_home_units": 28.0
+    },
+    {
+      "tract_fips": "48141010317",
+      "total_units": 1253.0,
+      "single_family_units": 1008.0,
+      "missing_middle_units_2plus": 212.0,
+      "mobile_home_units": 33.0
+    },
+    {
+      "tract_fips": "48141010322",
+      "total_units": 1839.0,
+      "single_family_units": 1528.0,
+      "missing_middle_units_2plus": 152.0,
+      "mobile_home_units": 159.0
+    },
+    {
+      "tract_fips": "48141010323",
+      "total_units": 1408.0,
+      "single_family_units": 1217.0,
+      "missing_middle_units_2plus": 191.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141010326",
+      "total_units": 1910.0,
+      "single_family_units": 1618.0,
+      "missing_middle_units_2plus": 285.0,
+      "mobile_home_units": 7.0
+    },
+    {
+      "tract_fips": "48141010327",
+      "total_units": 1132.0,
+      "single_family_units": 1073.0,
+      "missing_middle_units_2plus": 48.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141010328",
+      "total_units": 1550.0,
+      "single_family_units": 1065.0,
+      "missing_middle_units_2plus": 485.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141010329",
+      "total_units": 1679.0,
+      "single_family_units": 1455.0,
+      "missing_middle_units_2plus": 214.0,
+      "mobile_home_units": 10.0
+    },
+    {
+      "tract_fips": "48141010333",
+      "total_units": 1455.0,
+      "single_family_units": 594.0,
+      "missing_middle_units_2plus": 5.0,
+      "mobile_home_units": 856.0
+    },
+    {
+      "tract_fips": "48141010334",
+      "total_units": 1088.0,
+      "single_family_units": 876.0,
+      "missing_middle_units_2plus": 18.0,
+      "mobile_home_units": 194.0
+    },
+    {
+      "tract_fips": "48141010335",
+      "total_units": 908.0,
+      "single_family_units": 453.0,
+      "missing_middle_units_2plus": 71.0,
+      "mobile_home_units": 384.0
+    },
+    {
+      "tract_fips": "48141010336",
+      "total_units": 1865.0,
+      "single_family_units": 1479.0,
+      "missing_middle_units_2plus": 386.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141010337",
+      "total_units": 2499.0,
+      "single_family_units": 2079.0,
+      "missing_middle_units_2plus": 420.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141010338",
+      "total_units": 2336.0,
+      "single_family_units": 1962.0,
+      "missing_middle_units_2plus": 374.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141010344",
+      "total_units": 811.0,
+      "single_family_units": 558.0,
+      "missing_middle_units_2plus": 0,
+      "mobile_home_units": 253.0
+    },
+    {
+      "tract_fips": "48141010346",
+      "total_units": 2155.0,
+      "single_family_units": 1875.0,
+      "missing_middle_units_2plus": 11.0,
+      "mobile_home_units": 269.0
+    },
+    {
+      "tract_fips": "48141010347",
+      "total_units": 1391.0,
+      "single_family_units": 782.0,
+      "missing_middle_units_2plus": 35.0,
+      "mobile_home_units": 553.0
+    },
+    {
+      "tract_fips": "48141010348",
+      "total_units": 1359.0,
+      "single_family_units": 1345.0,
+      "missing_middle_units_2plus": 0,
+      "mobile_home_units": 14.0
+    },
+    {
+      "tract_fips": "48141010349",
+      "total_units": 889.0,
+      "single_family_units": 871.0,
+      "missing_middle_units_2plus": 6.0,
+      "mobile_home_units": 12.0
+    },
+    {
+      "tract_fips": "48141010350",
+      "total_units": 1646.0,
+      "single_family_units": 1632.0,
+      "missing_middle_units_2plus": 14.0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141010351",
+      "total_units": 908.0,
+      "single_family_units": 624.0,
+      "missing_middle_units_2plus": 18.0,
+      "mobile_home_units": 266.0
+    },
+    {
+      "tract_fips": "48141010352",
+      "total_units": 1728.0,
+      "single_family_units": 1728.0,
+      "missing_middle_units_2plus": 0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141010353",
+      "total_units": 1509.0,
+      "single_family_units": 1482.0,
+      "missing_middle_units_2plus": 0,
+      "mobile_home_units": 0
+    },
+    {
+      "tract_fips": "48141010354",
+      "total_units": 2280.0,
+      "single_family_units": 1606.0,
+      "missing_middle_units_2plus": 590.0,
+      "mobile_home_units": 64.0
+    },
+    {
+      "tract_fips": "48141010355",
+      "total_units": 1494.0,
+      "single_family_units": 1252.0,
+      "missing_middle_units_2plus": 199.0,
+      "mobile_home_units": 43.0
+    },
+    {
+      "tract_fips": "48141010356",
+      "total_units": 1499.0,
+      "single_family_units": 1460.0,
+      "missing_middle_units_2plus": 21.0,
+      "mobile_home_units": 18.0
+    },
+    {
+      "tract_fips": "48141010357",
+      "total_units": 2089.0,
+      "single_family_units": 2004.0,
+      "missing_middle_units_2plus": 68.0,
+      "mobile_home_units": 17.0
+    },
+    {
+      "tract_fips": "48141010358",
+      "total_units": 3661.0,
+      "single_family_units": 3141.0,
+      "missing_middle_units_2plus": 218.0,
+      "mobile_home_units": 302.0
+    },
+    {
+      "tract_fips": "48141010359",
+      "total_units": 811.0,
+      "single_family_units": 658.0,
+      "missing_middle_units_2plus": 0,
+      "mobile_home_units": 153.0
+    },
+    {
+      "tract_fips": "48141010360",
+      "total_units": 1375.0,
+      "single_family_units": 1334.0,
+      "missing_middle_units_2plus": 15.0,
+      "mobile_home_units": 26.0
+    },
+    {
+      "tract_fips": "48141010361",
+      "total_units": 1107.0,
+      "single_family_units": 908.0,
+      "missing_middle_units_2plus": 100.0,
+      "mobile_home_units": 99.0
+    },
+    {
+      "tract_fips": "48141010362",
+      "total_units": 2899.0,
+      "single_family_units": 2394.0,
+      "missing_middle_units_2plus": 153.0,
+      "mobile_home_units": 352.0
+    },
+    {
+      "tract_fips": "48141010363",
+      "total_units": 1693.0,
+      "single_family_units": 1653.0,
+      "missing_middle_units_2plus": 0,
+      "mobile_home_units": 40.0
+    },
+    {
+      "tract_fips": "48141010364",
+      "total_units": 962.0,
+      "single_family_units": 447.0,
+      "missing_middle_units_2plus": 61.0,
+      "mobile_home_units": 447.0
+    },
+    {
+      "tract_fips": "48141010365",
+      "total_units": 1090.0,
+      "single_family_units": 858.0,
+      "missing_middle_units_2plus": 108.0,
+      "mobile_home_units": 124.0
+    },
+    {
+      "tract_fips": "48141010366",
+      "total_units": 2626.0,
+      "single_family_units": 2409.0,
+      "missing_middle_units_2plus": 152.0,
+      "mobile_home_units": 65.0
+    },
+    {
+      "tract_fips": "48141010367",
+      "total_units": 3361.0,
+      "single_family_units": 2697.0,
+      "missing_middle_units_2plus": 646.0,
+      "mobile_home_units": 18.0
+    },
+    {
+      "tract_fips": "48141010368",
+      "total_units": 3728.0,
+      "single_family_units": 3712.0,
+      "missing_middle_units_2plus": 0,
+      "mobile_home_units": 16.0
+    },
+    {
+      "tract_fips": "48141010369",
+      "total_units": 5770.0,
+      "single_family_units": 5508.0,
+      "missing_middle_units_2plus": 193.0,
+      "mobile_home_units": 69.0
+    },
+    {
+      "tract_fips": "48141010370",
+      "total_units": 6994.0,
+      "single_family_units": 5952.0,
+      "missing_middle_units_2plus": 582.0,
+      "mobile_home_units": 460.0
+    },
+    {
+      "tract_fips": "48141010371",
+      "total_units": 1477.0,
+      "single_family_units": 1270.0,
+      "missing_middle_units_2plus": 138.0,
+      "mobile_home_units": 69.0
+    },
+    {
+      "tract_fips": "48141010372",
+      "total_units": 1881.0,
+      "single_family_units": 1874.0,
+      "missing_middle_units_2plus": 0,
+      "mobile_home_units": 7.0
+    },
+    {
+      "tract_fips": "48141010401",
+      "total_units": 2465.0,
+      "single_family_units": 1966.0,
+      "missing_middle_units_2plus": 363.0,
+      "mobile_home_units": 136.0
+    },
+    {
+      "tract_fips": "48141010404",
+      "total_units": 1875.0,
+      "single_family_units": 1260.0,
+      "missing_middle_units_2plus": 106.0,
+      "mobile_home_units": 509.0
+    },
+    {
+      "tract_fips": "48141010406",
+      "total_units": 1060.0,
+      "single_family_units": 746.0,
+      "missing_middle_units_2plus": 98.0,
+      "mobile_home_units": 194.0
+    },
+    {
+      "tract_fips": "48141010408",
+      "total_units": 1219.0,
+      "single_family_units": 757.0,
+      "missing_middle_units_2plus": 197.0,
+      "mobile_home_units": 265.0
+    },
+    {
+      "tract_fips": "48141010409",
+      "total_units": 1882.0,
+      "single_family_units": 1701.0,
+      "missing_middle_units_2plus": 70.0,
+      "mobile_home_units": 111.0
+    },
+    {
+      "tract_fips": "48141010410",
+      "total_units": 1560.0,
+      "single_family_units": 1374.0,
+      "missing_middle_units_2plus": 0,
+      "mobile_home_units": 186.0
+    },
+    {
+      "tract_fips": "48141010411",
+      "total_units": 1124.0,
+      "single_family_units": 916.0,
+      "missing_middle_units_2plus": 94.0,
+      "mobile_home_units": 114.0
+    },
+    {
+      "tract_fips": "48141010412",
+      "total_units": 1505.0,
+      "single_family_units": 759.0,
+      "missing_middle_units_2plus": 305.0,
+      "mobile_home_units": 441.0
+    },
+    {
+      "tract_fips": "48141010413",
+      "total_units": 621.0,
+      "single_family_units": 263.0,
+      "missing_middle_units_2plus": 295.0,
+      "mobile_home_units": 63.0
+    },
+    {
+      "tract_fips": "48141010501",
+      "total_units": 1786.0,
+      "single_family_units": 1009.0,
+      "missing_middle_units_2plus": 221.0,
+      "mobile_home_units": 556.0
+    },
+    {
+      "tract_fips": "48141010502",
+      "total_units": 696.0,
+      "single_family_units": 367.0,
+      "missing_middle_units_2plus": 25.0,
+      "mobile_home_units": 304.0
+    },
+    {
+      "tract_fips": "48141010504",
+      "total_units": 479.0,
+      "single_family_units": 285.0,
+      "missing_middle_units_2plus": 0,
+      "mobile_home_units": 194.0
+    },
+    {
+      "tract_fips": "48141010505",
+      "total_units": 926.0,
+      "single_family_units": 621.0,
+      "missing_middle_units_2plus": 196.0,
+      "mobile_home_units": 109.0
+    },
+    {
+      "tract_fips": "48141010506",
+      "total_units": 800.0,
+      "single_family_units": 563.0,
+      "missing_middle_units_2plus": 17.0,
+      "mobile_home_units": 220.0
+    },
+    {
+      "tract_fips": "48141010601",
+      "total_units": 296.0,
+      "single_family_units": 182.0,
+      "missing_middle_units_2plus": 103.0,
+      "mobile_home_units": 11.0
+    },
+    {
+      "tract_fips": "48141010602",
+      "total_units": 1858.0,
+      "single_family_units": 1534.0,
+      "missing_middle_units_2plus": 304.0,
+      "mobile_home_units": 20.0
+    },
+    {
+      "tract_fips": "48141980000",
+      "total_units": 0,
+      "single_family_units": 0,
+      "missing_middle_units_2plus": 0,
+      "mobile_home_units": 0
+    }
+  ]
+}

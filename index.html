@@ -225,6 +225,9 @@
         <p style="font-size:0.78rem; margin:10px 0;">
           Share of parcels <em>within</em> each zoning code that are
           missing-middle (min. 100 parcels per code) — not raw counts.
+          Uses the City of El Paso's official zoning layer (clean
+          labels), not EPCAD's raw GIS field, which had inconsistent
+          duplicate spellings for the same district.
         </p>
       </div>
       <div class="chart-wrap"><canvas id="zoningConcentrationChart" height="200"></canvas></div>
@@ -257,13 +260,35 @@
           dwelling-sized footprints than EPCAD has recorded structures
           (a candidate undocumented ADU/casita), and
           <span class="stamp" id="additionStat"></span> show footprint
-          area exceeding recorded square footage by &gt;25% (a
+          area exceeding recorded square footage by &gt;1.5x (a
           candidate undocumented addition).
           <strong>Caveat:</strong> footprint polygons are noisy (split
           roofs, oversized garages) — read this as a screening signal
           to prioritize review, not a confirmed count.
         </p>
       </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">VALIDATION — EPCAD VS. ACS UNITS-IN-STRUCTURE</div>
+      <div class="field-card" style="padding-top:0;">
+        <p style="font-size:0.78rem; margin:10px 0;">
+          Each dot is one of 182 census tracts: x-axis is EPCAD's
+          unit-weighted missing-middle share, y-axis is the Census
+          ACS's self-reported share (table B25024, 2020-2024 5-year).
+          Points on the diagonal line mean the two sources agree for
+          that tract. Countywide, EPCAD (<span class="stamp">20.72%</span>)
+          and ACS (<span class="stamp">23.05%</span>) are close — but
+          tract-level mean absolute difference is
+          <span class="stamp">7.16 points</span>, meaning real local
+          disagreement cancels out in the county average. Adding the
+          structural model's high-confidence candidates as extra units
+          does <strong>not</strong> close this gap (mean diff moves to
+          7.28, worse) — the discrepancy isn't primarily "undocumented
+          units the model can find."
+        </p>
+      </div>
+      <div class="chart-wrap"><canvas id="acsComparisonChart" height="280"></canvas></div>
     </div>
 
     <div class="panel">
@@ -326,15 +351,16 @@ Promise.all([
   fetch('data/feature_importance.csv').then(r => r.ok ? r.text() : ''),
   fetch('data/mortgage_stats.json').then(r => r.ok ? r.json() : null),
   fetch('data/shape_and_signal_stats.json').then(r => r.ok ? r.json() : null),
+  fetch('data/tract_comparison_epcad_acs.json').then(r => r.ok ? r.json() : null),
 ])
-  .then(([stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats]) =>
-    renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats))
+  .then(([stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats, tractComparison]) =>
+    renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats, tractComparison))
   .catch(err => {
     console.error(err);
     document.getElementById('loadError').style.display = 'block';
   });
 
-function renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats) {
+function renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats, tractComparison) {
   renderMap(geojson.features, candidates.features || []);
   renderLegend();
   renderStatBlock(stats.stats);
@@ -344,6 +370,43 @@ function renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mort
   if (modelMetrics && importanceCsv) renderImportance(modelMetrics, importanceCsv, candidates.features ? candidates.features.length : 0);
   if (mortgageStats) renderInvestorChart(mortgageStats);
   if (shapeStats) renderShapeAndSignalCharts(shapeStats);
+  if (tractComparison) renderAcsComparisonChart(tractComparison);
+}
+
+// ---------------------------------------------------------------------
+// ACS VALIDATION SCATTER — EPCAD vs ACS missing-middle share per tract
+// ---------------------------------------------------------------------
+function renderAcsComparisonChart(tc) {
+  const points = tc.tract_level.map(t => ({ x: t.mm_share_epcad_pct, y: t.mm_share_acs_pct }));
+  new Chart(document.getElementById('acsComparisonChart'), {
+    type: 'scatter',
+    data: {
+      datasets: [
+        {
+          label: 'Census tracts',
+          data: points,
+          backgroundColor: '#A6531C',
+          pointRadius: 3,
+        },
+        {
+          label: 'Perfect agreement',
+          data: [{ x: 0, y: 0 }, { x: 100, y: 100 }],
+          type: 'line',
+          borderColor: '#6B6558',
+          borderDash: [4, 4],
+          pointRadius: 0,
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { title: { display: true, text: 'EPCAD unit-weighted missing-middle share (%)' }, min: 0, max: 100 },
+        y: { title: { display: true, text: 'ACS self-reported missing-middle share (%)' }, min: 0, max: 100 },
+      },
+    },
+  });
 }
 
 // ---------------------------------------------------------------------
@@ -382,7 +445,8 @@ function renderShapeAndSignalCharts(s) {
     },
   });
 
-  const zoningSorted = s.zoning_concentration_top10.slice().sort((a, b) => b.mm_share_pct - a.mm_share_pct);
+  const zoningData = s.zoning_concentration_official_top10 || s.zoning_concentration_top10;
+  const zoningSorted = zoningData.slice().sort((a, b) => b.mm_share_pct - a.mm_share_pct);
   new Chart(document.getElementById('zoningConcentrationChart'), {
     type: 'bar',
     data: {
