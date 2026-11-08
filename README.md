@@ -181,6 +181,60 @@ undocumented housing on "single-family" parcels is a real and sizeable
 phenomenon, though **not** a confirmed count on its own (footprint
 polygons are noisy — see "Known caveats").
 
+**Does the shape signal hold up across typology, not just
+single-family?** Breaking the same footprint features out by typology
+(`data/shape_by_typology.json`) — using medians, not means, since a
+few parcels with implausibly large ratios skew the mean badly for the
+smaller attached-housing categories:
+
+| typology | n with footprint data | median footprint-to-recorded ratio | addition flag rate | new-detached flag rate |
+|---|---|---|---|---|
+| Single-Family Detached | 202,332 | 1.10 | 2.3% | 6.4% |
+| Duplex | 3,271 | 1.18 | **25.0%** | 4.0% |
+| Mobile/Manufactured Home | 2,472 | 1.01 | 5.9% | 20.5% |
+| Multi-Unit Residential (Other) | 1,079 | 1.08 | 13.3% | 1.9% |
+| Townhouse | 471 | 1.47 | 44.2% | 6.8% |
+| Condominium | 49 | 3.26 | 49.0% | 16.3% |
+| Apartment (7-30 units) | 735 | 0.47 | 1.4% | 6.3% |
+| Apartment (31-99 units) | 215 | 0.34 | 0.5% | 21.9% |
+| Apartment (100+ units) | 217 | 0.32 | 0.0% | **41.9%** |
+
+Two real findings and one data-quality catch:
+
+- **Duplexes show a genuinely elevated addition-flag rate (25% vs.
+  2.3% for single-family) without the extreme outliers that distort
+  the attached-housing rows below** — the 90th-percentile ratio for
+  duplexes is a modest 2.36, not the 8-25x seen for condos/townhouses.
+  That's a real structural signature: duplex parcels routinely carry
+  more footprint area than what's recorded, independent of the
+  structural classifier or the EPCAD typology code itself.
+- **Large apartment complexes (31-99 and 100+ units) show high
+  new-detached-flag rates (22%/42%)** — expected and not itself a
+  "shadow housing" finding: big complexes legitimately have many
+  separate buildings on one parcel, and EPCAD's "main structure" count
+  per parcel doesn't always keep pace with how many buildings a large
+  complex actually has.
+- **The footprint-ratio signal breaks down for townhouses and condos**
+  (median ratio 1.47/3.26, but 90th-percentile 4.4x/25.6x) — not
+  because these are riddled with real additions, but because the
+  footprint-centroid spatial join sometimes assigns a *shared*
+  building's full footprint to an individual unit's small parcel
+  (several attached units, one footprint polygon, each unit's own
+  recorded square footage is a fraction of the whole building). The
+  1.5x `addition_flag` threshold was calibrated against the
+  single-family population baseline (see above) and was never meant
+  to apply to attached/shared-structure typologies — their
+  addition-flag rates (44%/49%) should be read as spatial-join noise,
+  not confirmed undocumented expansions.
+
+**Bottom line:** the footprint-shape validation layer is reliable for
+single-family and mobile-home parcels (where it was calibrated) and
+surfaces one genuine cross-typology signal — duplexes running hot on
+footprint-vs-recorded ratio — but it is not a reliable check for
+attached/shared-structure typologies (townhouse, condo) without
+unit-splitting the shared footprints first, which this project doesn't
+currently do.
+
 ## 5. Validation, layer 2 — ACS units-in-structure (external, survey-based)
 
 The Census Bureau's American Community Survey asks households directly
@@ -382,6 +436,7 @@ ep-mmh/
 │   ├── output/                      # generated intermediate CSVs (not checked in, large)
 │   ├── dashboard_stats.json         # generated: aggregated stats for the dashboard (checked in)
 │   ├── shape_and_signal_stats.json  # generated: correlations/sweet-spots/zoning/shape-feature stats (checked in)
+│   ├── shape_by_typology.json       # generated: footprint-shape features (ratio, flags) broken out by typology (checked in)
 │   ├── acs_units_in_structure.json  # generated: ACS B25024 comparison (checked in)
 │   ├── tract_comparison_epcad_acs.json  # generated: tract-level EPCAD vs. model vs. ACS comparison, broad definition (checked in)
 │   ├── narrow_mm_comparison_summary.json  # generated: same comparison re-scoped to 2-9 unit structures (checked in)
@@ -414,6 +469,13 @@ ep-mmh/
   roof is sometimes split into multiple polygons by the detection
   model. Read footprint-based flags as a screening signal, not a
   confirmed count.
+- The footprint-to-recorded ratio (`addition_flag`) is only reliable
+  for single-family and mobile-home parcels. For townhouses and
+  condos, a shared building's footprint sometimes gets assigned to one
+  attached unit's small individually-recorded parcel, producing
+  implausible ratios (seen up to 25.6x at the 90th percentile) — their
+  44-49% addition-flag rates in the typology breakdown (section 4) are
+  mostly this join artifact, not real undocumented expansions.
 - Distance is measured from a single downtown point (San Jacinto
   Plaza), straight-line, not drive-time.
 - The headline "missing middle" figures (section 2-3, and the broad

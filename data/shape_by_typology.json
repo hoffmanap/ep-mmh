@@ -1,0 +1,125 @@
+{
+  "shape_features_by_typology": [
+    {
+      "typology": "Single-Family Detached",
+      "n": 202332,
+      "median_footprint_count": 1.0,
+      "median_compactness": 0.7,
+      "median_ratio": 1.1,
+      "p90_ratio": 1.318,
+      "pct_new_detached": 0.064,
+      "pct_addition": 0.023
+    },
+    {
+      "typology": "Single-Family Detached (Other Residential Subtype)",
+      "n": 6889,
+      "median_footprint_count": 1.0,
+      "median_compactness": 0.556,
+      "median_ratio": 2.134,
+      "p90_ratio": 8.026,
+      "pct_new_detached": 0.767,
+      "pct_addition": 0.127
+    },
+    {
+      "typology": "Duplex",
+      "n": 3271,
+      "median_footprint_count": 1.0,
+      "median_compactness": 0.694,
+      "median_ratio": 1.177,
+      "p90_ratio": 2.364,
+      "pct_new_detached": 0.04,
+      "pct_addition": 0.25
+    },
+    {
+      "typology": "Mobile/Manufactured Home",
+      "n": 2472,
+      "median_footprint_count": 1.0,
+      "median_compactness": 0.58,
+      "median_ratio": 1.014,
+      "p90_ratio": 1.625,
+      "pct_new_detached": 0.205,
+      "pct_addition": 0.059
+    },
+    {
+      "typology": "Multi-Unit Residential (Other)",
+      "n": 1079,
+      "median_footprint_count": 1.0,
+      "median_compactness": 0.684,
+      "median_ratio": 1.078,
+      "p90_ratio": 2.217,
+      "pct_new_detached": 0.019,
+      "pct_addition": 0.133
+    },
+    {
+      "typology": "Apartment (7-30 units)",
+      "n": 735,
+      "median_footprint_count": 1.0,
+      "median_compactness": 0.521,
+      "median_ratio": 0.468,
+      "p90_ratio": 0.971,
+      "pct_new_detached": 0.063,
+      "pct_addition": 0.014
+    },
+    {
+      "typology": "Townhouse",
+      "n": 471,
+      "median_footprint_count": 1.0,
+      "median_compactness": 0.632,
+      "median_ratio": 1.474,
+      "p90_ratio": 4.406,
+      "pct_new_detached": 0.068,
+      "pct_addition": 0.442
+    },
+    {
+      "typology": "Apartment (4-6 units)",
+      "n": 379,
+      "median_footprint_count": 1.0,
+      "median_compactness": 0.62,
+      "median_ratio": 0.546,
+      "p90_ratio": 1.026,
+      "pct_new_detached": 0.071,
+      "pct_addition": 0.013
+    },
+    {
+      "typology": "Apartment (100+ units)",
+      "n": 217,
+      "median_footprint_count": 20.0,
+      "median_compactness": 0.528,
+      "median_ratio": 0.319,
+      "p90_ratio": 0.515,
+      "pct_new_detached": 0.419,
+      "pct_addition": 0.0
+    },
+    {
+      "typology": "Apartment (31-99 units)",
+      "n": 215,
+      "median_footprint_count": 7.0,
+      "median_compactness": 0.552,
+      "median_ratio": 0.338,
+      "p90_ratio": 0.622,
+      "pct_new_detached": 0.219,
+      "pct_addition": 0.005
+    },
+    {
+      "typology": "Condominium",
+      "n": 49,
+      "median_footprint_count": 1.0,
+      "median_compactness": 0.545,
+      "median_ratio": 3.257,
+      "p90_ratio": 25.559,
+      "pct_new_detached": 0.163,
+      "pct_addition": 0.49
+    },
+    {
+      "typology": "Apartment/Multifamily",
+      "n": 8,
+      "median_footprint_count": 3.5,
+      "median_compactness": 0.514,
+      "median_ratio": 0.698,
+      "p90_ratio": 1.086,
+      "pct_new_detached": 0.5,
+      "pct_addition": 0.0
+    }
+  ],
+  "note": "median_ratio/p90_ratio use footprint_to_recorded_ratio; pct_new_detached and pct_addition are shares of parcels of that typology with footprint data flagged. Computed on parcels_with_shape_v3.csv (1.5x ratio threshold)."
+}
