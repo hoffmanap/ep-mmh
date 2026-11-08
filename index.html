@@ -64,7 +64,7 @@
 
   #map{height:560px; width:100%; background:var(--parchment);}
   .field-tiles{
-    filter: grayscale(100%) brightness(1.04) contrast(0.96);
+    filter: sepia(8%) saturate(85%);
   }
   .leaflet-control-zoom a{
     font-family:'IBM Plex Mono', monospace !important;
@@ -336,14 +336,22 @@
     <div class="narrative-body">
       <p>
         A classifier trained <strong>only</strong> on confirmed
-        missing-middle and confirmed single-family parcels — structural
-        features alone (lot size, structure count, square footage, year
-        built, distance downtown), with the EPCAD code that
-        <em>defines</em> the label explicitly excluded — learns what
-        missing-middle housing looks like structurally, then flags
-        single-family-labeled parcels that fit the same signature.
-        Test AUC: <strong>0.986</strong>. Below are the descriptive
-        statistics behind why it works, and what it flags.
+        missing-middle and confirmed single-family parcels — 36
+        features across three groups (structural: lot size, structure
+        count, square footage, year built, distance downtown;
+        building-shape/footprint; and ownership/financing, including
+        First American's independent unit/building counts), with the
+        EPCAD code that <em>defines</em> the label explicitly excluded
+        — learns what missing-middle housing looks like structurally,
+        then flags single-family-labeled parcels that fit the same
+        signature. Test AUC: <strong>0.996</strong>.
+        Adding the shape and ownership features (an earlier pass used
+        structural features alone) raised AUC from 0.986, but also
+        <em>shrank</em> the candidate set it flags — a more precise
+        classifier ends up more conservative, not more generous. See
+        the callout below the candidate panel for what that traded
+        off. Below are the descriptive statistics behind why it works,
+        and what it flags.
       </p>
     </div>
 
@@ -423,6 +431,28 @@
         </div>
         <div class="chart-wrap"><canvas id="importanceChart" height="220"></canvas></div>
       </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">BETTER CLASSIFIER, SMALLER CANDIDATE SET</div>
+      <p style="font-size:0.8rem; margin:6px 0 0;">
+        Adding footprint-shape and ownership/financing features (First
+        American's independent unit/building counts among them) raised
+        test AUC from 0.986 to <span class="big-stat">0.996</span> and
+        sharply improved precision — but also tightened the model's
+        probability estimates, so <strong>fewer</strong> parcels clear
+        each confidence threshold: candidates at p≥0.5 fell from 7,909
+        to 4,439, and high-confidence candidates (p≥0.8) fell from
+        2,622 to <span class="big-stat">1,573</span>. Downstream, that
+        smaller set closes slightly less of the section 5 EPCAD-vs-ACS
+        gap than the noisier prior model did (88 of 182 tracts
+        improved vs. 96 of 182). A classifier that's better at telling
+        confirmed missing-middle from confirmed single-family apart
+        isn't automatically better at guessing at the undercounted
+        kind EPCAD never labeled at all — those are different
+        questions, and this project reports both answers rather than
+        the more flattering one.
+      </p>
     </div>
   </section>
 
@@ -520,11 +550,13 @@
             difference is <span class="stamp">10.36 points</span>. Here,
             unlike at any other definition tested, the structural
             model's high-confidence candidates help slightly more often
-            than not — mean diff moves to 10.31 (marginally better),
-            improving 96 of 182 tracts (53%) — weak evidence, not
-            decisive, and nowhere near enough to close a gap this size
-            (ACS implies ~24,000 more missing-middle units exist than
-            EPCAD has on record). See
+            than not — with the current (shape+ownership-feature)
+            model, mean diff moves to 10.30, improving 88 of 182 tracts
+            (49%); the prior, structural-only model moved it to 10.31,
+            improving 96 of 182 (53%). Either way it's weak evidence,
+            not decisive, and nowhere near enough to close a gap this
+            size (ACS implies ~24,000 more missing-middle units exist
+            than EPCAD has on record). See
             <code>data/mm_2_19_comparison_summary.json</code>.
           </p>
         </div>
@@ -548,8 +580,9 @@
         mechanism predicts — near downtown, on oddly small or large
         lots, in older stock, strongly tied to non-owner-occupancy — a
         pattern clean enough that a structural model separates
-        missing-middle from single-family parcels at 0.986 AUC using
-        nothing but shape and location, never the EPCAD label itself.
+        missing-middle from single-family parcels at 0.996 AUC using
+        structure, shape, and ownership signal, never the EPCAD label
+        itself.
         <strong>The footprint check</strong> (section 4), an entirely
         separate data source, independently confirms ~8.7% of
         single-family-labeled parcels carry more or larger structures
@@ -812,8 +845,11 @@ function zoningFamilyColor(label) {
 function renderMap(feats, candidateFeats, zoningGeo) {
   const map = L.map('map', { scrollWheelZoom: true }).setView([31.7598, -106.4887], 11);
 
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors',
+  // CartoDB Positron: a basemap built to be quiet -- light, low-contrast,
+  // minimal labeling -- so the parcel markers and zoning overlay carry the
+  // visual weight instead of competing with street clutter and POI icons.
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
     maxZoom: 19,
     className: 'field-tiles',
   }).addTo(map);
