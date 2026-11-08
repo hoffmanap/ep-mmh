@@ -110,6 +110,59 @@
     color:var(--rust);
     display:none;
   }
+
+  /* ---- narrative section structure ---- */
+  main{max-width:1180px; margin:0 auto; padding:0 16px 40px;}
+
+  .narrative-section{
+    padding:36px 0 8px;
+    border-top:3px double var(--ink);
+  }
+  .narrative-section:first-of-type{border-top:none; padding-top:24px;}
+  .section-number{
+    font-family:'Special Elite', monospace;
+    font-size:0.78rem;
+    color:var(--rust);
+    letter-spacing:1px;
+    margin:0 0 4px;
+  }
+  .section-title{
+    font-family:'Special Elite', monospace;
+    font-size:1.25rem;
+    margin:0 0 14px;
+    letter-spacing:0.3px;
+  }
+  .narrative-body{
+    max-width:760px;
+    font-size:0.92rem;
+    line-height:1.55;
+    margin-bottom:22px;
+  }
+  .narrative-body p{margin:0 0 12px;}
+  .narrative-body strong{color:var(--rust);}
+
+  .panel-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:16px;
+    margin-bottom:16px;
+  }
+  .panel-grid.cols-3{grid-template-columns:repeat(3, 1fr);}
+  .panel-grid.single{grid-template-columns:1fr;}
+  @media (max-width: 900px){
+    .panel-grid, .panel-grid.cols-3{grid-template-columns:1fr;}
+  }
+
+  .map-layout{
+    display:grid;
+    grid-template-columns: 1fr 340px;
+    gap:16px;
+    margin-bottom:16px;
+  }
+  @media (max-width: 900px){
+    .map-layout{grid-template-columns:1fr;}
+  }
+  .sidebar-stack{display:flex; flex-direction:column; gap:16px;}
 </style>
 </head>
 <body>
@@ -125,228 +178,339 @@
   page over HTTP (not file://) so the fetches succeed.
 </div>
 
-<div class="layout">
-  <div class="panel">
-    <div class="panel-title">MISSING-MIDDLE PARCEL MAP</div>
-    <div id="map"></div>
-  </div>
+<main>
 
-  <div style="display:flex; flex-direction:column; gap:16px;">
-    <div class="panel field-card">
-      <div class="panel-title" style="margin:-14px -14px 10px;">FIELD CARD — CITYWIDE</div>
-      <div id="statBlock"></div>
+  <!-- ============ 1. THE PROBLEM ============ -->
+  <section class="narrative-section">
+    <div class="section-number">01</div>
+    <div class="section-title">THE PROBLEM</div>
+    <div class="narrative-body">
+      <p>
+        Missing-middle housing — duplexes, triplexes, courtyard
+        apartments, small multi-unit buildings mixed into single-family
+        blocks — almost certainly exists in <strong>greater quantity</strong>
+        than official county records show, because across most of El Paso
+        it is <strong>not legal to build</strong>. Single-family zoning
+        covers the overwhelming majority of residential land, so an
+        informal second unit, a converted garage, or a backyard casita
+        has every incentive to stay off the books. A property owner who
+        adds a unit doesn't file a permit for something zoning forbids.
+      </p>
+      <p>
+        That means the central appraisal district's own classification —
+        built from permitted, assessed improvements — is a
+        <strong>floor, not a ceiling</strong>, on how much missing-middle
+        housing actually exists. The rest of this page sizes that gap
+        from four independent angles: EPCAD's own baseline data, a
+        structural model trained to spot what EPCAD's own classification
+        might miss, an external geometric check against real building
+        footprints, and an external survey check against Census data.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 2. BASELINE DATA — EPCAD ============ -->
+  <section class="narrative-section">
+    <div class="section-number">02</div>
+    <div class="section-title">BASELINE DATA — HOW EPCAD CLASSIFIES HOUSING</div>
+    <div class="narrative-body">
+      <p>
+        El Paso Central Appraisal District (EPCAD) already publishes an
+        authoritative, deterministic typology per parcel from its
+        <code>STATE_CD</code>/<code>ClassCD</code> fields — no model
+        needed to read it. Mapped and broken down below: what EPCAD
+        itself already says is missing-middle, where it concentrates,
+        and how that composition shifts by era and zoning district.
+      </p>
     </div>
 
-    <div class="panel">
-      <div class="panel-title">TYPOLOGY LEGEND</div>
-      <div id="legend" style="padding:10px 14px;"></div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title">MISSING-MIDDLE SHARE BY DISTANCE FROM CORE</div>
-      <div class="field-card" style="padding-top:0;">
-        <p style="font-size:0.78rem; margin:10px 0;">
-          A clear proximity gradient: missing-middle share runs highest
-          within a mile or two of downtown and falls off with distance
-          (r = <span class="stamp">-0.151</span> between distance-to-core
-          and missing-middle status, n=218,009) — consistent with
-          mid-density housing concentrating near the historic urban
-          core rather than being spread evenly across the county.
-        </p>
+    <div class="map-layout">
+      <div class="panel">
+        <div class="panel-title">MISSING-MIDDLE PARCEL MAP</div>
+        <div id="map"></div>
       </div>
-      <div class="chart-wrap"><canvas id="distChart" height="180"></canvas></div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title">TYPOLOGY BY DECADE BUILT</div>
-      <div class="field-card" style="padding-top:0;">
-        <p style="font-size:0.78rem; margin:10px 0;">
-          Composition of residential stock built each decade, by
-          typology. Missing-middle share correlates weakly negative
-          with year built (r = <span class="stamp">-0.069</span>) — a
-          mild tilt toward older housing stock, not a strong era
-          effect on its own.
-        </p>
-      </div>
-      <div class="chart-wrap"><canvas id="decadeChart" height="180"></canvas></div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title">TYPOLOGY BY ZONING DISTRICT</div>
-      <div class="field-card" style="padding-top:0;">
-        <p style="font-size:0.78rem; margin:10px 0;">
-          Raw typology counts within each zoning district — shows
-          where volume sits, not concentration. See "Zoning codes most
-          concentrated with missing-middle" below for the
-          share-within-code view, which tells a sharper story than
-          raw counts alone.
-        </p>
-      </div>
-      <div class="chart-wrap"><canvas id="zoningChart" height="200"></canvas></div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title">MISSING-MIDDLE SHARE BY LOT SIZE</div>
-      <div class="field-card" style="padding-top:0;">
-        <p style="font-size:0.78rem; margin:10px 0;">
-          Not a straight line — a <strong>U-shape</strong>. Share runs
-          <span class="stamp">29.3%</span> on the smallest lots
-          (0-0.05 ac), bottoms out around <span class="stamp">1.7%</span>
-          at the typical single-family size (0.15-0.2 ac), then climbs
-          back to <span class="stamp">41.0%</span> on 2+ acre parcels
-          (large multi-family/apartment sites). The linear correlation
-          alone (r = <span class="stamp">+0.197</span>) would miss this
-          shape entirely — both tails drive it, not a steady trend.
-        </p>
-      </div>
-      <div class="chart-wrap"><canvas id="lotSweetSpotChart" height="180"></canvas></div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title">MISSING-MIDDLE SHARE BY BUILDING SIZE</div>
-      <div class="field-card" style="padding-top:0;">
-        <p style="font-size:0.78rem; margin:10px 0;">
-          Same U-shape as lot size: <span class="stamp">10.1%</span>
-          share at 600-900 sqft (casita/small-unit range), down to
-          <span class="stamp">2.3%</span> at 1500-1800 sqft (the
-          typical single-family range), back up to
-          <span class="stamp">16.7%</span> at 3500+ sqft (large
-          apartment buildings). The linear read (r = +0.068) is weak
-          and misleading on its own — size predicts missing-middle
-          status at both extremes, not in one direction.
-        </p>
-      </div>
-      <div class="chart-wrap"><canvas id="sqftSweetSpotChart" height="180"></canvas></div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title">ZONING CODES MOST CONCENTRATED WITH MISSING-MIDDLE</div>
-      <div class="field-card" style="padding-top:0;">
-        <p style="font-size:0.78rem; margin:10px 0;">
-          Share of parcels <em>within</em> each zoning code that are
-          missing-middle (min. 100 parcels per code) — not raw counts.
-          Uses the City of El Paso's official zoning layer (clean
-          labels), not EPCAD's raw GIS field, which had inconsistent
-          duplicate spellings for the same district.
-        </p>
-      </div>
-      <div class="chart-wrap"><canvas id="zoningConcentrationChart" height="200"></canvas></div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title">OWNERSHIP SIGNAL — HOMESTEAD EXEMPTION BY TYPOLOGY</div>
-      <div class="field-card" style="padding-top:0;">
-        <p style="font-size:0.78rem; margin:10px 0;">
-          Texas's homestead exemption legally requires owner-occupancy
-          as a primary residence, straight from EPCAD's own current
-          parcel data — the strongest single correlate of
-          missing-middle status found this round (r = <span class="stamp">-0.27</span>).
-        </p>
-      </div>
-      <div class="chart-wrap"><canvas id="homesteadChart" height="200"></canvas></div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title">SHAPE FEATURES — BUILDING FOOTPRINTS VS. RECORDED STRUCTURES</div>
-      <div class="field-card" style="padding-top:0;">
-        <p style="font-size:0.78rem; margin:10px 0;">
-          Microsoft building-footprint polygons spatially joined to
-          parcels, phase one of a footprint-first / imagery-later
-          shape-detection approach (adapting Salazar-Miranda & Talen's
-          CV methodology to available data). Of
-          <span class="stamp" id="shapeCoverageStat"></span>
-          single-family parcels with footprint coverage,
-          <span class="stamp" id="newDetachedStat"></span> show more
-          dwelling-sized footprints than EPCAD has recorded structures
-          (a candidate undocumented ADU/casita), and
-          <span class="stamp" id="additionStat"></span> show footprint
-          area exceeding recorded square footage by &gt;1.5x (a
-          candidate undocumented addition).
-          <strong>Caveat:</strong> footprint polygons are noisy (split
-          roofs, oversized garages) — read this as a screening signal
-          to prioritize review, not a confirmed count.
-        </p>
-        <p style="font-size:0.78rem; margin:10px 0;">
-          Broken out by typology (medians, since a few shared-building
-          parcels skew the mean): <strong>duplexes run hot on the
-          footprint-ratio signal (25.0% addition-flag rate vs. 2.3% for
-          single-family)</strong> without the extreme outliers seen
-          below — a real structural signature, not noise. Large
-          apartment complexes (31-99 / 100+ units) show high
-          new-detached rates (22% / 42%), expected since big complexes
-          legitimately have many buildings per parcel. Townhouse/condo
-          addition-flag rates (44% / 49%) are mostly a spatial-join
-          artifact — a shared building's footprint sometimes attaches
-          to one unit's small individually-recorded parcel — not real
-          undocumented expansions; see <code>data/shape_by_typology.json</code>.
-        </p>
+      <div class="sidebar-stack">
+        <div class="panel field-card">
+          <div class="panel-title" style="margin:-14px -14px 10px;">FIELD CARD — CITYWIDE</div>
+          <div id="statBlock"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">TYPOLOGY LEGEND</div>
+          <div id="legend" style="padding:10px 14px;"></div>
+        </div>
       </div>
     </div>
 
-    <div class="panel">
-      <div class="panel-title">VALIDATION — EPCAD VS. ACS UNITS-IN-STRUCTURE</div>
-      <div class="field-card" style="padding-top:0;">
-        <p style="font-size:0.78rem; margin:10px 0;">
-          Each dot is one of 182 census tracts: x-axis is EPCAD's
-          unit-weighted missing-middle share, y-axis is the Census
-          ACS's self-reported share (table B25024, 2020-2024 5-year).
-          Points on the diagonal line mean the two sources agree for
-          that tract. Countywide, EPCAD (<span class="stamp">20.72%</span>)
-          and ACS (<span class="stamp">23.05%</span>) are close — but
-          tract-level mean absolute difference is
-          <span class="stamp">7.16 points</span>, meaning real local
-          disagreement cancels out in the county average. Adding the
-          structural model's high-confidence candidates as extra units
-          does <strong>not</strong> close this gap (mean diff moves to
-          7.28, worse) — the discrepancy isn't primarily "undocumented
-          units the model can find."
-        </p>
-        <p style="font-size:0.78rem; margin:10px 0;">
-          <strong>Scope caveat:</strong> the figures above count
-          <em>any</em> non-single-family structure, including large
-          (31-99 and 100+ unit) apartment buildings — not "missing
-          middle" in the usual 2-9-unit sense. Re-scoped to 2-9 unit
-          structures only, EPCAD (<span class="stamp">9.15%</span>)
-          undercounts ACS (<span class="stamp">12.40%</span>) by more,
-          not less — a real ~3-point gap, with model candidates again
-          failing to close it (9.15% → 9.88% vs. ACS's 12.40%; mean
-          tract-level difference moves from 8.77 to 8.87, slightly
-          worse). See <code>data/narrow_mm_comparison_summary.json</code>.
-        </p>
+    <div class="panel-grid cols-3">
+      <div class="panel">
+        <div class="panel-title">SHARE BY DISTANCE FROM CORE</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            A clear proximity gradient: share runs highest within a
+            mile or two of downtown and falls off with distance
+            (r = <span class="stamp">-0.151</span>, n=218,009).
+          </p>
+        </div>
+        <div class="chart-wrap"><canvas id="distChart" height="180"></canvas></div>
       </div>
-      <div class="chart-wrap"><canvas id="acsComparisonChart" height="280"></canvas></div>
+
+      <div class="panel">
+        <div class="panel-title">TYPOLOGY BY DECADE BUILT</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            Composition built each decade. Weak negative correlation
+            with year built (r = <span class="stamp">-0.069</span>) —
+            a mild tilt toward older stock, not a strong era effect.
+          </p>
+        </div>
+        <div class="chart-wrap"><canvas id="decadeChart" height="180"></canvas></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">TYPOLOGY BY ZONING DISTRICT</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            Raw counts by district — volume, not concentration. See
+            the zoning-concentration chart in section 3 for the
+            share-within-code view.
+          </p>
+        </div>
+        <div class="chart-wrap"><canvas id="zoningChart" height="200"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. THE MODEL ============ -->
+  <section class="narrative-section">
+    <div class="section-number">03</div>
+    <div class="section-title">THE MODEL — LEARNING WHAT MISSING MIDDLE LOOKS LIKE STRUCTURALLY</div>
+    <div class="narrative-body">
+      <p>
+        A classifier trained <strong>only</strong> on confirmed
+        missing-middle and confirmed single-family parcels — structural
+        features alone (lot size, structure count, square footage, year
+        built, distance downtown), with the EPCAD code that
+        <em>defines</em> the label explicitly excluded — learns what
+        missing-middle housing looks like structurally, then flags
+        single-family-labeled parcels that fit the same signature.
+        Test AUC: <strong>0.986</strong>. Below are the descriptive
+        statistics behind why it works, and what it flags.
+      </p>
     </div>
 
-    <div class="panel">
-      <div class="panel-title">CANDIDATE DETECTOR — WHAT GIVES IT AWAY</div>
-      <div class="field-card" style="padding-top:0;">
-        <p style="font-size:0.78rem; margin:10px 0;">
-          A classifier trained <em>only</em> on structural features (never told a
-          parcel's EPCAD code) separates missing-middle from single-family with
-          <span class="stamp" id="aucStat"></span> test AUC. Scored against every
-          single-family-labeled parcel, it flags <span class="stamp" id="candStat"></span>
-          lower-confidence and <span class="stamp" id="candHighStat"></span> at
-          ≥80% confidence as candidates the county's own classification may have
-          missed — shown on the map as hollow markers.
-        </p>
+    <div class="panel-grid">
+      <div class="panel">
+        <div class="panel-title">SHARE BY LOT SIZE</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            Not a straight line — a <strong>U-shape</strong>. Share runs
+            <span class="stamp">29.3%</span> on the smallest lots
+            (0-0.05 ac), bottoms out at <span class="stamp">1.7%</span>
+            at the typical single-family size, then climbs to
+            <span class="stamp">41.0%</span> on 2+ acre parcels (large
+            multi-family sites). The linear correlation alone
+            (r = <span class="stamp">+0.197</span>) would miss this
+            shape entirely.
+          </p>
+        </div>
+        <div class="chart-wrap"><canvas id="lotSweetSpotChart" height="180"></canvas></div>
       </div>
-      <div class="chart-wrap"><canvas id="importanceChart" height="220"></canvas></div>
+
+      <div class="panel">
+        <div class="panel-title">SHARE BY BUILDING SIZE</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            Same U-shape: <span class="stamp">10.1%</span> share at
+            600-900 sqft (casita-sized), down to
+            <span class="stamp">2.3%</span> at 1500-1800 sqft, back up
+            to <span class="stamp">16.7%</span> at 3500+ sqft (large
+            apartment buildings). The linear read (r = +0.068) is weak
+            and misleading on its own.
+          </p>
+        </div>
+        <div class="chart-wrap"><canvas id="sqftSweetSpotChart" height="180"></canvas></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">ZONING CODES MOST CONCENTRATED</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            Share of parcels <em>within</em> each code that are
+            missing-middle (min. 100 parcels), using the City of El
+            Paso's official zoning layer (clean <code>ZONELABEL</code>),
+            not EPCAD's raw GIS field, which had inconsistent duplicate
+            spellings for the same district.
+          </p>
+        </div>
+        <div class="chart-wrap"><canvas id="zoningConcentrationChart" height="200"></canvas></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">OWNERSHIP SIGNAL — HOMESTEAD EXEMPTION</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            Texas's homestead exemption legally requires owner-occupancy
+            — the strongest single correlate of missing-middle status
+            found this round (r = <span class="stamp">-0.27</span>).
+          </p>
+        </div>
+        <div class="chart-wrap"><canvas id="homesteadChart" height="200"></canvas></div>
+      </div>
     </div>
 
-    <div class="panel">
-      <div class="panel-title">FINANCING — INVESTOR OWNERSHIP BY TYPOLOGY</div>
-      <div class="field-card" style="padding-top:0;">
-        <p style="font-size:0.78rem; margin:10px 0;">
-          Cross-referenced against <span id="faCoverageStat"></span> El Paso County
-          parcel records (First American, 2020) joined by location. Share of each
-          typology held by a non-owner-occupant (investor/landlord), vs. the
-          overall single-family rate of <span class="stamp" id="sfInvestorStat"></span>.
-        </p>
+    <div class="panel-grid single">
+      <div class="panel">
+        <div class="panel-title">CANDIDATE DETECTOR — WHAT GIVES IT AWAY</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            Scored against every single-family-labeled parcel, the
+            model flags <span class="stamp" id="candStat"></span>
+            lower-confidence and <span class="stamp" id="candHighStat"></span>
+            at ≥80% confidence as candidates the county's own
+            classification may have missed (test AUC
+            <span class="stamp" id="aucStat"></span>) — shown on the
+            map above as hollow markers.
+          </p>
+        </div>
+        <div class="chart-wrap"><canvas id="importanceChart" height="220"></canvas></div>
       </div>
-      <div class="chart-wrap"><canvas id="investorChart" height="200"></canvas></div>
     </div>
-  </div>
-</div>
+  </section>
+
+  <!-- ============ 4. VALIDATION, LAYER 1 — FOOTPRINTS ============ -->
+  <section class="narrative-section">
+    <div class="section-number">04</div>
+    <div class="section-title">VALIDATION, LAYER 1 — BUILDING FOOTPRINTS (EXTERNAL, GEOMETRIC)</div>
+    <div class="narrative-body">
+      <p>
+        The original Salazar-Miranda &amp; Talen paper detects housing
+        typology from a street-view CV model's read of building
+        <em>shape</em>. El Paso has no imagery pipeline, but real
+        building-footprint polygons (Microsoft GlobalMLBuildingFootprints)
+        let us compute actual shape features and cross-check EPCAD's own
+        structure counts against physical reality — independent of the
+        classifier above.
+      </p>
+    </div>
+
+    <div class="panel-grid single">
+      <div class="panel">
+        <div class="panel-title">FOOTPRINTS VS. RECORDED STRUCTURES</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            Of <span class="stamp" id="shapeCoverageStat"></span>
+            single-family parcels with footprint coverage,
+            <span class="stamp" id="newDetachedStat"></span> show more
+            dwelling-sized footprints than EPCAD has recorded structures
+            (a candidate undocumented ADU/casita), and
+            <span class="stamp" id="additionStat"></span> show footprint
+            area exceeding recorded square footage by &gt;1.5x (a
+            candidate undocumented addition).
+            <strong>Caveat:</strong> footprint polygons are noisy (split
+            roofs, oversized garages) — read this as a screening signal,
+            not a confirmed count.
+          </p>
+          <p style="font-size:0.78rem; margin:10px 0;">
+            Broken out by typology (medians, since a few shared-building
+            parcels skew the mean): <strong>duplexes run hot on the
+            footprint-ratio signal (25.0% addition-flag rate vs. 2.3%
+            for single-family)</strong> without the extreme outliers
+            seen elsewhere — a real structural signature, not noise.
+            Large apartment complexes (31-99 / 100+ units) show high
+            new-detached rates (22% / 42%), expected since big complexes
+            legitimately have many buildings per parcel. Townhouse/condo
+            addition-flag rates (44% / 49%) are mostly a spatial-join
+            artifact — a shared building's footprint sometimes attaches
+            to one unit's small individually-recorded parcel — not real
+            undocumented expansions; see
+            <code>data/shape_by_typology.json</code>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5. VALIDATION, LAYER 2 — ACS ============ -->
+  <section class="narrative-section">
+    <div class="section-number">05</div>
+    <div class="section-title">VALIDATION, LAYER 2 — ACS UNITS-IN-STRUCTURE (EXTERNAL, SURVEY-BASED)</div>
+    <div class="narrative-body">
+      <p>
+        The Census Bureau's ACS asks households directly how many units
+        are in their building (table B25024), independent of any local
+        permitting or assessment process — a third benchmark alongside
+        EPCAD's parcel records and the footprint cross-check above.
+        <strong>Whose count is closer to reality?</strong>
+      </p>
+    </div>
+
+    <div class="panel-grid single">
+      <div class="panel">
+        <div class="panel-title">EPCAD VS. ACS UNITS-IN-STRUCTURE, BY CENSUS TRACT</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            Each dot is one of 182 census tracts: x-axis is EPCAD's
+            unit-weighted missing-middle share, y-axis is ACS's
+            self-reported share (2020-2024 5-year). Points on the
+            diagonal mean the two sources agree. Countywide, EPCAD
+            (<span class="stamp">20.72%</span>) and ACS
+            (<span class="stamp">23.05%</span>) are close — but
+            tract-level mean absolute difference is
+            <span class="stamp">7.16 points</span>, meaning real local
+            disagreement cancels out in the county average. Adding the
+            structural model's high-confidence candidates as extra
+            units does <strong>not</strong> close this gap (mean diff
+            moves to 7.28, worse) — the discrepancy isn't primarily
+            "undocumented units the model can find."
+          </p>
+          <p style="font-size:0.78rem; margin:10px 0;">
+            <strong>Scope caveat:</strong> the figures above count
+            <em>any</em> non-single-family structure, including large
+            (31-99 and 100+ unit) apartment buildings — not "missing
+            middle" in the usual 2-9-unit sense. Re-scoped to 2-9 unit
+            structures only, EPCAD (<span class="stamp">9.15%</span>)
+            undercounts ACS (<span class="stamp">12.40%</span>) by
+            more, not less — a real ~3-point gap, with model candidates
+            again failing to close it (9.15% → 9.88% vs. ACS's 12.40%;
+            mean tract-level difference moves from 8.77 to 8.87,
+            slightly worse). See
+            <code>data/narrow_mm_comparison_summary.json</code>.
+          </p>
+        </div>
+        <div class="chart-wrap"><canvas id="acsComparisonChart" height="280"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ APPENDIX — OWNERSHIP & FINANCING ============ -->
+  <section class="narrative-section">
+    <div class="section-number">APPENDIX</div>
+    <div class="section-title">OWNERSHIP AND FINANCING</div>
+    <div class="narrative-body">
+      <p>
+        Supporting context, not part of the core validation argument
+        above: who owns missing-middle housing, and how it's financed.
+      </p>
+    </div>
+    <div class="panel-grid single">
+      <div class="panel">
+        <div class="panel-title">INVESTOR OWNERSHIP BY TYPOLOGY</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            Cross-referenced against <span id="faCoverageStat"></span>
+            El Paso County parcel records (First American, 2020) joined
+            by location. Share of each typology held by a
+            non-owner-occupant (investor/landlord), vs. the overall
+            single-family rate of
+            <span class="stamp" id="sfInvestorStat"></span>.
+          </p>
+        </div>
+        <div class="chart-wrap"><canvas id="investorChart" height="200"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+</main>
 
 <script>
 const TYPOLOGY_COLORS = {
