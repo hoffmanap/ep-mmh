@@ -128,24 +128,35 @@ one**:
   (≥300 sqft, to exclude sheds/carports) footprints than EPCAD has
   recorded main structures — a candidate undocumented ADU/casita.
 - **`addition_flag`**: structure count matches the record, but total
-  footprint area exceeds recorded square footage by >25% — a
-  candidate undocumented expansion.
+  footprint area exceeds recorded square footage by more than the
+  **1.5x** ratio threshold — a candidate undocumented expansion.
 
-Of 202,316 single-family (`A1`) parcels with footprint coverage,
-**12,941** trip `new_detached_flag` and **29,229** trip
-`addition_flag` (**42,170** total, ~21% of single-family stock).
+The 1.5x threshold was calibrated empirically, not picked round:
+across **all** single-family parcels (not just flagged ones), the
+footprint-to-recorded ratio has a median of **1.10** and a 75th
+percentile of **1.21** — most ordinary houses' footprint area already
+runs 10-20% larger than EPCAD's recorded sqft, likely because the
+footprint captures the full exterior outline (attached garage,
+covered patio) while the recorded figure is closer to
+conditioned/living area. An earlier 1.25x cutoff sat right on that
+baseline and mostly caught ordinary garage/patio coverage rather than
+real additions — raising it to 1.5x (only 3.7% of all single-family
+parcels exceed that) cut `addition_flag` from 29,229 to **4,564**
+(6.4x reduction) with no change to `new_detached_flag`, which was
+already well-calibrated by its 300 sqft dwelling-size floor.
 
-**Caveat, stated plainly because it matters**: Microsoft's footprint
-polygons are noisy — one roof is sometimes split into multiple
-polygons by the detection model, and a large garage or carport
-sometimes clears the 300 sqft dwelling-size threshold. A flag rate
-this high is not credible as "42,000 confirmed undocumented housing
-units." Read it as a **noisy screening signal** to prioritize manual
-or imagery-based review, not as a finding on its own. Tightening
-further (a higher size threshold, compactness filtering to exclude
-elongated garage shapes, or cross-referencing against the
-legal-description text flags above) would be the natural next step
-before trusting individual flagged parcels.
+Of 202,333 single-family (`A1`) parcels with footprint coverage,
+**12,955** trip `new_detached_flag` and **4,564** trip
+`addition_flag` (**17,519** total, ~8.7% of single-family stock).
+
+**Caveat, still worth stating plainly**: Microsoft's footprint
+polygons remain noisy — one roof is sometimes split into multiple
+polygons by the detection model. Read this as a **noisy screening
+signal** to prioritize manual or imagery-based review, not as a
+finding on its own. Further tightening (compactness filtering to
+exclude elongated garage/carport shapes, or cross-referencing against
+the legal-description text flags above) would be the natural next
+step before trusting individual flagged parcels.
 
 ## Financing — First American property/mortgage data
 

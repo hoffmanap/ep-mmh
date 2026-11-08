@@ -38,6 +38,20 @@ RAW = os.environ.get("EP_MMH_RAW", "data/raw")
 
 DWELLING_MIN_SQFT = 300  # excludes sheds/carports/small garages
 
+# A footprint-to-recorded ratio threshold must clear the population's own
+# baseline, not an arbitrary round number. Checked empirically: across ALL
+# single-family parcels (not just flagged ones), the median ratio is 1.10
+# and the 75th percentile is 1.21 -- footprint area runs ~10-20% larger
+# than EPCAD's recorded sqft for most ordinary houses, likely because the
+# footprint captures the full exterior outline (attached garage, covered
+# patio) while EPCAD's recorded figure is closer to conditioned/living
+# area. A 1.25 cutoff sits right on that baseline and flagged ~17% of all
+# single-family parcels -- mostly ordinary garage/patio coverage, not
+# additions. Only 3.7% of all single-family parcels exceed ratio > 1.5,
+# which is the threshold used here; it cut the addition_flag count from
+# 29,229 to 4,564 (6.4x) with no change to new_detached_flag.
+RATIO_THRESHOLD = 1.5
+
 print("Loading parcel polygons...")
 parcels = gpd.read_parquet(f"{OUT}/parcel_polygons.parquet")
 print(f"  {len(parcels):,} parcels")
@@ -91,7 +105,7 @@ agg["total_sqft_recorded"] = agg["total_sqft_recorded"].fillna(0)
 agg["footprint_to_recorded_ratio"] = agg["total_footprint_area_sqft"] / agg["total_sqft_recorded"].replace(0, np.nan)
 
 agg["new_detached_flag"] = agg["footprint_count_dwelling_sized"] > agg["n_main_recorded"]
-agg["addition_flag"] = (~agg["new_detached_flag"]) & (agg["footprint_to_recorded_ratio"] > 1.25)
+agg["addition_flag"] = (~agg["new_detached_flag"]) & (agg["footprint_to_recorded_ratio"] > RATIO_THRESHOLD)
 
 agg.drop(columns=["PROP_ID_num"]).to_csv(f"{OUT}/parcel_shape_features.csv", index=False)
 print(f"Saved parcel_shape_features.csv ({len(agg):,} parcels with footprint data)")

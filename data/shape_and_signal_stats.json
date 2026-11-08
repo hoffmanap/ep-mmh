@@ -1,10 +1,10 @@
 {
-  "shape_features_caveat": "Microsoft building-footprint polygons are noisy (one roof sometimes split into multiple polygons; garages/casitas sometimes merged with the main house). Flag rates below should be read as a noisy screening signal, not confirmed undocumented structures.",
+  "shape_features_caveat": "Microsoft building-footprint polygons are noisy (one roof sometimes split into multiple polygons; garages/casitas sometimes merged with the main house). Flag rates below should be read as a noisy screening signal, not confirmed undocumented structures. The addition_flag ratio threshold (1.5x) was calibrated against the population baseline: across ALL single-family parcels, footprint area typically runs 10-20% larger than EPCAD's recorded sqft (likely because the footprint captures the full exterior outline -- attached garage, covered patio -- while the recorded figure is closer to conditioned/living area), so a lower cutoff mostly flagged ordinary garage/patio coverage rather than real additions.",
   "shape_features": {
-    "single_family_parcels_with_footprint_data": 202316,
-    "new_detached_flag_count": 12941,
-    "addition_flag_count": 29229,
-    "total_flagged": 42170
+    "single_family_parcels_with_footprint_data": 202333,
+    "new_detached_flag_count": 12955,
+    "addition_flag_count": 4564,
+    "total_flagged": 17519
   },
   "legal_desc_signals": {
     "casita_mentions_on_sf_parcels": 148,
