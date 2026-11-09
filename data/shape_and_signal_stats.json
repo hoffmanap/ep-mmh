@@ -71,64 +71,69 @@
   },
   "lot_size_sweet_spot": [
     {
-      "bin": "0-0.05 ac",
-      "mm_share_pct": 29.3,
-      "n": 888
+      "bin": "0-1,500 sqft",
+      "mm_share_pct": 47.8,
+      "n": 343
     },
     {
-      "bin": "0.05-0.1 ac",
-      "mm_share_pct": 21.9,
-      "n": 8799
+      "bin": "1,500-2,200 sqft",
+      "mm_share_pct": 33.1,
+      "n": 759
     },
     {
-      "bin": "0.1-0.15 ac",
-      "mm_share_pct": 2.0,
-      "n": 88100
+      "bin": "2,200-4,500 sqft",
+      "mm_share_pct": 18.2,
+      "n": 12408
     },
     {
-      "bin": "0.15-0.2 ac",
-      "mm_share_pct": 1.7,
-      "n": 57283
+      "bin": "4,500-6,500 sqft",
+      "mm_share_pct": 1.6,
+      "n": 103347
     },
     {
-      "bin": "0.2-0.25 ac",
-      "mm_share_pct": 4.0,
-      "n": 25315
+      "bin": "6,500-8,700 sqft",
+      "mm_share_pct": 1.6,
+      "n": 64341
     },
     {
-      "bin": "0.25-0.3 ac",
+      "bin": "8,700-10,900 sqft",
+      "mm_share_pct": 3.8,
+      "n": 27670
+    },
+    {
+      "bin": "10,900-13,000 sqft",
       "mm_share_pct": 3.6,
-      "n": 10120
+      "n": 10852
     },
     {
-      "bin": "0.3-0.4 ac",
-      "mm_share_pct": 3.2,
-      "n": 9916
-    },
-    {
-      "bin": "0.4-0.5 ac",
-      "mm_share_pct": 2.3,
-      "n": 7284
-    },
-    {
-      "bin": "0.5-0.75 ac",
+      "bin": "13,000-17,400 sqft",
       "mm_share_pct": 3.1,
-      "n": 5205
+      "n": 11036
     },
     {
-      "bin": "0.75-1.0 ac",
-      "mm_share_pct": 4.5,
-      "n": 1935
+      "bin": "17,400-21,800 sqft",
+      "mm_share_pct": 2.2,
+      "n": 8465
     },
     {
-      "bin": "1-2 ac",
-      "mm_share_pct": 8.4,
-      "n": 1626
+      "bin": "21,800-32,600 sqft",
+      "mm_share_pct": 3.0,
+      "n": 6044
     },
     {
-      "bin": "2+ ac",
-      "mm_share_pct": 41.0,
-      "n": 1502
+      "bin": "32,600-43,600 sqft",
+      "mm_share_pct": 5.0,
+      "n": 2579
+    },
+    {
+      "bin": "43,600-87,100 sqft",
+      "mm_share_pct": 8.2,
+      "n": 2182
+    },
+    {
+      "bin": "87,100+ sqft",
+      "mm_share_pct": 41.2,
+      "n": 2600
     }
   ],
   "building_size_sweet_spot": [
@@ -282,5 +287,6 @@
       "n": 422
     }
   ],
-  "zoning_source_note": "Official City of El Paso zoning layer (gis.elpasotexas.gov Planning/Zoning FeatureServer, ZONELABEL field), spatially joined to parcel centroids -- 214,558/400,274 parcels matched (unmatched parcels are outside city limits / ETJ with no city zoning record). Replaces the earlier raw EPCAD GIS ZONING field, which had inconsistent/duplicate label spellings (e.g. R-3 vs R3A vs R 3A all meaning similar things)."
+  "zoning_source_note": "Official City of El Paso zoning layer (gis.elpasotexas.gov Planning/Zoning FeatureServer, ZONELABEL field), spatially joined to parcel centroids -- 214,558/400,274 parcels matched (unmatched parcels are outside city limits / ETJ with no city zoning record). Replaces the earlier raw EPCAD GIS ZONING field, which had inconsistent/duplicate label spellings (e.g. R-3 vs R3A vs R 3A all meaning similar things).",
+  "lot_size_unit_note": "Lot size bins are in square feet (previously acres) for readability."
 }

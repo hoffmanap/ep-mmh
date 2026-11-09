@@ -83,12 +83,18 @@ for name, x in corr_features.items():
 # ---------------------------------------------------------------------
 # Sweet-spot binning: lot acreage and building sqft vs missing-middle share
 # ---------------------------------------------------------------------
-res_m["acres_num"] = pd.to_numeric(res_m["LAND_ACRES"], errors="coerce")
-acre_bins = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.75, 1.0, 2.0, 999]
-res_m["acre_bin"] = pd.cut(res_m["acres_num"], acre_bins)
-lot_sweet_spot = res_m.groupby("acre_bin", observed=True)["is_missing_middle"].agg(["mean", "count"])
+# Lot size in square feet, not acres -- sub-acre lots (where nearly all
+# of this variation actually happens) are unreadable as acre fractions.
+res_m["sqft_lot"] = pd.to_numeric(res_m["LAND_ACRES"], errors="coerce") * 43560
+sqft_lot_bins = [0, 1500, 2200, 4500, 6500, 8700, 10900, 13000, 17400, 21800, 32600, 43600, 87100, 10**9]
+sqft_lot_labels = []
+for i in range(len(sqft_lot_bins) - 1):
+    lo, hi = sqft_lot_bins[i], sqft_lot_bins[i + 1]
+    sqft_lot_labels.append(f"{lo:,.0f}+ sqft" if hi >= 10**8 else f"{lo:,.0f}-{hi:,.0f} sqft")
+res_m["sqft_lot_bin"] = pd.cut(res_m["sqft_lot"], bins=sqft_lot_bins, labels=sqft_lot_labels, right=False)
+lot_sweet_spot = res_m.groupby("sqft_lot_bin", observed=True)["is_missing_middle"].agg(["mean", "count"])
 lot_sweet_spot["mm_share_pct"] = (lot_sweet_spot["mean"] * 100).round(1)
-print("\n=== Missing-middle share by lot size (acres) ===")
+print("\n=== Missing-middle share by lot size (sqft) ===")
 print(lot_sweet_spot[["mm_share_pct", "count"]])
 
 sqft_bins = [0, 600, 900, 1200, 1500, 1800, 2200, 2800, 3500, 99999]
@@ -113,6 +119,7 @@ out = {
         {"bin": str(i), "mm_share_pct": float(r["mm_share_pct"]), "n": int(r["count"])}
         for i, r in lot_sweet_spot.iterrows() if r["count"] >= 20
     ],
+    "lot_size_unit_note": "Lot size bins are in square feet (previously acres) for readability.",
     "building_size_sweet_spot": [
         {"bin": str(i), "mm_share_pct": float(r["mm_share_pct"]), "n": int(r["count"])}
         for i, r in sqft_sweet_spot.iterrows() if r["count"] >= 20

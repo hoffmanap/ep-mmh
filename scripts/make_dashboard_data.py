@@ -77,9 +77,12 @@ decade_data = {
 }
 
 # ---- typology by zoning (top 12 zoning codes) ----
+# Excludes ETJ (extraterritorial jurisdiction) and blank/NULL codes --
+# both mean "outside city zoning jurisdiction," not a real zoning
+# district, so they don't belong in a chart about zoning districts.
 res_z = res.dropna(subset=["ZONING"]).copy()
 res_z["ZONING"] = res_z["ZONING"].astype(str).str.strip()
-res_z = res_z[res_z["ZONING"] != "NULL"]
+res_z = res_z[~res_z["ZONING"].isin(["NULL", "ETJ", ""])]
 top_zones = res_z["ZONING"].value_counts().head(12).index.tolist()
 res_z = res_z[res_z["ZONING"].isin(top_zones)]
 zoning_typology = res_z.groupby(["ZONING", "typology"]).size().unstack(fill_value=0)

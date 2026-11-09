@@ -132,7 +132,7 @@ project needs to be honest that they diverged:
 | Precision on missing-middle class (p≥0.5) | lower | **0.66** |
 | Recall on missing-middle class (p≥0.5) | — | 0.95 |
 | Candidates flagged, p≥0.5 | 7,909 | **4,439** |
-| Candidates at ≥80% confidence | 2,622 | **1,573** |
+| Candidates at ≥80% confidence | 2,622 | **1,569** |
 
 The strongest tells in the new model, in order: **number of main
 structures on the parcel**, **year built**, **distance to downtown
@@ -141,6 +141,40 @@ structures**; `fa_SumResidentialUnits` and `primary_footprint_area_sqft`
 rank 6th and 7th — the new feature groups do contribute, just behind
 the original structural signal. Full ranking:
 `data/output/feature_importance.csv`.
+
+**What "test AUC" actually measures, and whether 0.996 is good.**
+AUC (area under the ROC curve) answers one specific question: pick one
+random confirmed missing-middle parcel and one random confirmed
+single-family parcel from the held-out test set (59,831 parcels the
+model never trained on) — how often does the model rank the
+missing-middle one as more likely to be missing-middle? 0.5 is a coin
+flip, 1.0 is perfect separation. At **0.996**, it gets that ordering
+right 99.6% of the time, which is a strong score — well above what
+most real-world classification tasks achieve — and means the
+structural/shape/ownership signature of missing-middle housing really
+is distinct from single-family housing in this data, not something
+the model is guessing at.
+
+AUC alone doesn't say how many candidates to flag, though — that's
+**precision** (of parcels flagged missing-middle, how many actually
+are) and **recall** (of parcels that actually are missing-middle, how
+many got flagged). At the 0.5 threshold used to generate candidates,
+the model scores **0.66 precision / 0.95 recall** on the missing-
+middle class: it catches 95% of true missing-middle parcels in the
+test set, at the cost of roughly one false positive for every two true
+ones. That's a reasonable trade-off for a *screening* tool meant to
+flag parcels worth a closer look, not a tool meant to make a final
+determination on its own.
+
+**Crucially, none of this — AUC, precision, recall — answers "did the
+model find real undercounted missing-middle housing."** All three are
+computed against EPCAD's own labels, i.e. parcels the county has
+already classified one way or the other. The candidates below are
+single-family-*labeled* parcels the model thinks share the missing-
+middle signature; EPCAD has made no determination on them, so there's
+no ground truth to score the candidates against directly — only the
+downstream ACS tract comparison in section 5, which is a much more
+modest, much more honest answer than the AUC alone would suggest.
 
 **Why better accuracy means fewer, not more, candidates.** The new
 features let the model separate confirmed missing-middle from
@@ -187,10 +221,10 @@ size and building size reveals a **U-shape**, not a straight line —
 both very small *and* very large lots/buildings over-index on missing
 middle, while "typical single-family" mid-range values under-index:
 
-- Lot size: **29.3%** missing-middle share at 0-0.05 acres, falling to
-  **1.7%** at 0.15-0.2 acres (the single-family sweet spot), then
-  climbing back to **41.0%** at 2+ acres (large multi-family/apartment
-  sites).
+- Lot size: **47.8%** missing-middle share on lots under 1,500 sqft,
+  falling to around **1.6%** at 4,500-8,700 sqft (the single-family
+  sweet spot), then climbing back to **41.2%** at 87,100+ sqft / 2+
+  acres (large multi-family/apartment sites).
 - Building size: **10.1%** share at 600-900 sqft (small/casita-sized),
   dropping to **2.3%** at 1500-1800 sqft, then rising to **16.7%** at
   3500+ sqft (large apartment buildings).
@@ -416,7 +450,7 @@ the model's candidates net positive rather than negative.
 The **current (v2) model** — retrained with footprint/shape and
 ownership/financing features added (section 3) — is a better
 classifier (AUC 0.996 vs. 0.986) but produces a *smaller* high-
-confidence candidate set (1,573 vs. 2,622), and that smaller set helps
+confidence candidate set (1,569 vs. 2,622), and that smaller set helps
 slightly less on this specific test: mean absolute difference moves
 from 10.36 to **10.30** (still an improvement, just a smaller one) and
 the match improves in **88 of 182 tracts (49%)** — just under half,
@@ -474,30 +508,113 @@ the same direction:
    real definition, EPCAD accounts for only about **half** of what ACS
    implies exists.
 
+**The key finding, reasoned through.** Put these four pieces together
+and a specific explanation for *where* the undercount lives falls out
+— not a new measurement, but the most parsimonious reading of what the
+measurements above do and don't find:
+
+- A model trained purely on structure, footprint shape, and ownership
+  signal — never on EPCAD's own classification — can tell confirmed
+  missing-middle parcels from confirmed single-family parcels apart
+  with 0.996 AUC (section 3). That's strong evidence that **converted
+  missing-middle housing leaves a detectable structural fingerprint
+  even with no building permit on file** — the fingerprint is real and
+  learnable, independent of whether the county ever classified or
+  permitted the conversion.
+- But that same model, extended with footprint-shape features
+  specifically built to catch *exterior* evidence of conversion
+  (extra structures, oversized footprints relative to recorded square
+  footage), still only turns up 1,569-2,622 high-confidence candidates
+  against an ACS-implied gap of roughly 24,000 missing-middle units
+  (section 5) — and the independent footprint check alone finds
+  exterior anomalies on only ~8.7% of single-family-labeled parcels
+  (section 4). Two separate exterior-evidence methods, same result:
+  neither comes close to the size of the gap.
+- The straightforward reading of "the exterior-evidence methods
+  consistently undershoot, by an order of magnitude, while a model
+  that *can* tell converted from unconverted housing apart doesn't
+  find enough convertible-looking candidates to explain the gap" is
+  that **most of the undercounted missing-middle housing was converted
+  without any exterior change** — internal subdivisions, a kitchen and
+  a second entrance added to an existing floor plan, a garage or
+  basement converted to a separate unit without changing the building's
+  footprint or roofline. That's a conversion no satellite footprint
+  comparison and no permit record would ever catch, and it's
+  consistent with every piece of evidence above without requiring any
+  of it to be wrong. It is an inference from the pattern of what the
+  detection methods did and didn't find, not a direct measurement —
+  this project has no interior inspection or permit-matching data that
+  could confirm it directly — but it's the explanation that requires
+  the fewest assumptions.
+
+**That has three specific implications, each one corroborated by
+something already in this analysis rather than asserted on its own:**
+
+1. **Single-family homes can reasonably be converted to missing-middle
+   housing, but for zoning and building codes.** Section 1 establishes
+   the legal mechanism directly: the housing types this project finds
+   evidence of already exist in El Paso's housing stock (section 2-3)
+   and are structurally learnable from existing homes (section 3) —
+   the conversions are evidently physically and economically feasible,
+   since the pattern above implies they are already happening. What
+   stands between "feasible and happening informally" and "legal and
+   on the record" is the zoning and permitting framework from section
+   1, not a technical or market barrier.
+2. **These renovations don't require changes that would alter a
+   neighborhood's exterior character.** This follows directly from
+   the gap between the two exterior-evidence methods (sections 3-4:
+   8.7% footprint-anomaly rate, 1,569-2,622 model candidates) and the
+   size of the ACS-implied undercount (section 5: ~24,000 units) — if
+   most of the missing units required visible exterior changes, the
+   footprint check and the shape-aware model would have found far more
+   of them than they did. A policy concerned with preserving
+   streetscape character is, on this evidence, largely already
+   getting that outcome from this kind of conversion, whether or not
+   it's legal.
+3. **This data can help target where zoning and building-code reform
+   would matter most, because the evidence suggests informal
+   conversion is already happening there.** Section 2-3's concentration
+   pattern (near downtown, on older housing stock, strongly
+   anti-correlated with owner-occupancy) identifies specific,
+   mappable tracts where this is occurring organically, ahead of and
+   outside of any policy change — which is exactly the population a
+   legalization, amnesty, or targeted code-reform effort would want to
+   prioritize, both because the demand is evidently already there and
+   because formalizing existing conditions is a smaller lift than
+   inducing new ones.
+
 **What this project does *not* show:** that the structural candidate
-detector has found the missing units. Across every definition tested —
-broad, 2-9-unit, and the correct 2-19-unit cut — the model's
-high-confidence candidates close little to none of the EPCAD/ACS gap
-(worse at the broad and 2-9 cuts, marginally better than a coin flip at
-the correct 2-19 cut). That's a deliberate, honest negative result: a
-~2,600-parcel structural-anomaly flag is simply too small relative to
-the ~24,000-unit gap ACS implies. Whatever's driving the
-undercount — unpermitted conversions invisible even from footprints
-(interior subdivisions, garage apartments with no exterior change),
-EPCAD assessment lag, or genuine ACS sampling noise at the tract level
-— isn't something a geometry-based screening tool of this scale can
-resolve on its own. It would take either field verification in the
-highest-gap tracts (listed in section 5) or a different detection
-approach entirely (the street-view imagery method this project adapts
-from, for instance) to close it further.
+detector has found the missing units, or that internal conversion is
+the *only* driver of the gap. Across every definition tested — broad,
+2-9-unit, and the correct 2-19-unit cut — the model's high-confidence
+candidates close little to none of the EPCAD/ACS gap (worse at the
+broad and 2-9 cuts, marginally better than a coin flip at the correct
+2-19 cut). Some of the remaining gap is almost certainly EPCAD
+assessment lag or genuine ACS sampling noise at the tract level
+(several of the biggest-gap tracts have small total unit counts,
+where ACS's margin of error is largest) rather than undocumented
+housing of any kind — this project can't cleanly separate how much of
+the ~24,000-unit gap is "real but invisible conversions" versus
+"measurement noise between two different data sources." Confirming the
+internal-conversion explanation specifically would take either field
+verification in the highest-gap tracts (listed in section 5) or a
+different kind of evidence entirely — permit-vs-utility-hookup
+cross-referencing, interior inspection, or resident surveys — that
+this project's geometry- and classification-based methods can't
+provide on their own.
 
 **For policy purposes**, the practical takeaway is the one in the
 bottom line: El Paso almost certainly has substantially more
 missing-middle housing than its own records show, concentrated in
 specific, identifiable places (inner-ring, pre-war, non-owner-occupied
-tracts) — which is exactly the population a zoning reform, an
-amnesty/legalization program, or a targeted outreach effort would want
-to target first.
+tracts), and the best-supported explanation for why it's invisible to
+both administrative records and satellite-based detection is that it's
+happening inside existing buildings, not through additions or new
+construction that would already have been visible. That combination —
+already happening, already low-impact on neighborhood character,
+already concentrated in identifiable places — is exactly the case for
+treating this as a legalization and code-reform question rather than
+a detection problem to keep refining.
 
 ## Ownership and financing
 
@@ -660,7 +777,7 @@ ep-mmh/
 - The candidate-detector model (section 3) was retrained with
   footprint-shape and ownership/financing features added, which
   improved its AUC (0.986 → 0.996) but *shrank* the candidate set
-  (7,909 → 4,439 at p≥0.5; 2,622 → 1,573 at p≥0.8) and slightly
+  (7,909 → 4,439 at p≥0.5; 2,622 → 1,569 at p≥0.8) and slightly
   reduced how much those candidates help close the section-5 gap
   (96/182 tracts improved → 88/182). Better discrimination on the
   labeled training task and better performance on the unlabeled

@@ -361,12 +361,13 @@
         <div class="field-card" style="padding-top:0;">
           <p style="font-size:0.78rem; margin:10px 0;">
             Not a straight line — a <strong>U-shape</strong>. Share runs
-            <span class="stamp">29.3%</span> on the smallest lots
-            (0-0.05 ac), bottoms out at <span class="stamp">1.7%</span>
-            at the typical single-family size, then climbs to
-            <span class="stamp">41.0%</span> on 2+ acre parcels (large
-            multi-family sites). The linear correlation alone
-            (r = <span class="stamp">+0.197</span>) would miss this
+            <span class="stamp">47.8%</span> on the smallest lots
+            (under 1,500 sqft), bottoms out around
+            <span class="stamp">1.6%</span> at the typical single-family
+            lot size (4,500-8,700 sqft), then climbs to
+            <span class="stamp">41.2%</span> on 87,100+ sqft parcels (2+
+            acres — large multi-family sites). The linear correlation
+            alone (r = <span class="stamp">+0.197</span>) would miss this
             shape entirely.
           </p>
         </div>
@@ -412,6 +413,59 @@
           </p>
         </div>
         <div class="chart-wrap"><canvas id="homesteadChart" height="200"></canvas></div>
+        <p id="homesteadOmittedNote" style="font-size:0.7rem; color:var(--ink-faint, #7a7468); margin:8px 0 0; font-style:italic;"></p>
+      </div>
+    </div>
+
+    <div class="panel-grid single">
+      <div class="panel">
+        <div class="panel-title">WHAT "TEST AUC" ACTUALLY MEASURES — AND WHY 0.996 IS GOOD BUT NOT THE WHOLE STORY</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            <strong>AUC (area under the ROC curve)</strong> answers one
+            specific question: if you picked one random confirmed
+            missing-middle parcel and one random confirmed single-family
+            parcel from the <em>held-out test set</em> (59,831 parcels
+            the model never trained on), how often would the model rank
+            the missing-middle one as more likely to be missing-middle?
+            An AUC of 0.5 is a coin flip; 1.0 is perfect separation. At
+            <strong>0.996</strong>, the model gets that ordering right
+            99.6% of the time — yes, that's a strong score, well above
+            what most real-world classification tasks reach, and it
+            means the structural/shape/ownership signature of
+            missing-middle housing really is distinct from single-family
+            housing in this data.
+          </p>
+          <p style="font-size:0.78rem; margin:10px 0;">
+            But AUC alone doesn't tell you how many candidates to flag —
+            that depends on <strong>precision</strong> (of the parcels
+            flagged missing-middle, how many actually are) and
+            <strong>recall</strong> (of the parcels that actually are
+            missing-middle, how many got flagged). At the 0.5 threshold
+            used to generate candidates, this model scores
+            <strong>0.66 precision / 0.95 recall</strong> on the class
+            that matters — it catches 95% of true missing-middle
+            parcels in the test set, at the cost of one false positive
+            for roughly every two true ones. That's a deliberate,
+            reasonable trade-off for a <em>screening</em> tool meant to
+            flag parcels worth a closer look, not a tool meant to make
+            a final determination on its own.
+          </p>
+          <p style="font-size:0.78rem; margin:10px 0;">
+            <strong>None of this is the same question as "did the model
+            find real undercounted missing-middle housing."</strong>
+            AUC, precision, and recall are all computed against EPCAD's
+            own labels — parcels the county has already classified.
+            The candidates below are single-family-<em>labeled</em>
+            parcels the model thinks share the missing-middle
+            signature; EPCAD has made no determination on them one way
+            or the other, so there's no ground truth to score the
+            candidates against directly. The callout below, and section
+            5's ACS comparison, are the closest this project gets to an
+            answer on that separate question — and the answer there is
+            much more modest than the AUC alone would suggest.
+          </p>
+        </div>
       </div>
     </div>
 
@@ -443,7 +497,7 @@
         probability estimates, so <strong>fewer</strong> parcels clear
         each confidence threshold: candidates at p≥0.5 fell from 7,909
         to 4,439, and high-confidence candidates (p≥0.8) fell from
-        2,622 to <span class="big-stat">1,573</span>. Downstream, that
+        2,622 to <span class="big-stat">1,569</span>. Downstream, that
         smaller set closes slightly less of the section 5 EPCAD-vs-ACS
         gap than the noisier prior model did (88 of 182 tracts
         improved vs. 96 of 182). A classifier that's better at telling
@@ -593,27 +647,78 @@
         household survey data implies exists.
       </p>
       <p>
+        <strong>The key finding, reasoned through.</strong> Put those
+        four pieces together and a specific explanation for
+        <em>where</em> the undercount lives falls out — an inference
+        from the pattern of results, not a new measurement on its own.
+        A model trained purely on structure, footprint shape, and
+        ownership signal — never on EPCAD's own classification — can
+        tell confirmed missing-middle parcels from confirmed
+        single-family parcels apart at 0.996 AUC (section 3): converted
+        missing-middle housing leaves a detectable structural
+        fingerprint even with no permit on file. But two separate
+        <em>exterior</em>-evidence methods built to catch that
+        fingerprint — the footprint-shape check (section 4, ~8.7% of
+        single-family parcels flagged) and the model's high-confidence
+        candidates (section 3, 1,569-2,622 parcels) — both undershoot
+        the ACS-implied ~24,000-unit gap (section 5) by roughly an
+        order of magnitude. The straightforward reading: <strong>most
+        of the undercounted missing-middle housing was converted
+        without any exterior change</strong> — internal subdivisions, a
+        garage or basement turned into a separate unit, no new
+        footprint or roofline — which is exactly the kind of conversion
+        no satellite comparison or permit record would ever catch.
+        This project has no interior-inspection or permit-matching data
+        to confirm it directly, but it's the explanation consistent
+        with every method here without requiring any of them to be
+        wrong.
+      </p>
+      <p>
+        That has three specific implications. <strong>First</strong>,
+        single-family homes can reasonably be converted to
+        missing-middle housing, but for zoning and building codes — the
+        conversions are evidently feasible, since the pattern above
+        implies they're already happening; what's missing is the legal
+        framework from section 1, not a technical or market barrier.
+        <strong>Second</strong>, these renovations don't require changes
+        that would alter a neighborhood's exterior character — if they
+        did, the two exterior-evidence methods would have found far
+        more of them than they did. <strong>Third</strong>, this data
+        can help target where zoning and code reform would matter
+        most, because the concentration pattern in sections 2-3 (near
+        downtown, older housing stock, non-owner-occupied) identifies
+        specific tracts where informal conversion is evidently already
+        happening, ahead of any policy change.
+      </p>
+      <p>
         <strong>What this project does <em>not</em> show:</strong> that
-        the structural candidate detector has found the missing units.
-        Across every definition tested — broad, 2-9-unit, and the
-        correct 2-19-unit cut — its high-confidence candidates close
-        little to none of the EPCAD/ACS gap. That's a deliberate,
-        honest negative result: a ~2,600-parcel structural-anomaly flag
-        is simply too small next to the ~24,000-unit gap ACS implies.
-        Whatever's driving the undercount — unpermitted conversions
-        invisible even from footprints, EPCAD assessment lag, or
-        genuine ACS sampling noise at the tract level — isn't something
-        a geometry-based screening tool of this scale can resolve on
-        its own.
+        the structural candidate detector has found the missing units,
+        or that internal conversion is the <em>only</em> driver of the
+        gap. Some of it is almost certainly EPCAD assessment lag or
+        genuine ACS sampling noise at the tract level — this project
+        can't cleanly separate how much of the ~24,000-unit gap is real
+        but invisible conversion versus measurement noise between two
+        different data sources. Confirming the internal-conversion
+        explanation specifically would take field verification or a
+        different kind of evidence entirely (permit-vs-utility-hookup
+        cross-referencing, interior inspection, resident surveys) that
+        this project's geometry- and classification-based methods can't
+        provide on their own.
       </p>
       <p>
         <strong>For policy purposes</strong>, the practical takeaway is
         the one at the top of this page: El Paso almost certainly has
         substantially more missing-middle housing than its own records
         show, concentrated in specific, identifiable places — inner-ring,
-        pre-war, non-owner-occupied tracts — exactly the population a
-        zoning reform, legalization program, or targeted outreach effort
-        would want to find first.
+        pre-war, non-owner-occupied tracts — and the best-supported
+        explanation for why it's invisible to both administrative
+        records and satellite-based detection is that it's happening
+        inside existing buildings, not through additions or new
+        construction that would already have been visible. Already
+        happening, already low-impact on neighborhood character,
+        already concentrated in identifiable places — that's the case
+        for treating this as a legalization and code-reform question
+        rather than a detection problem to keep refining.
       </p>
     </div>
   </section>
@@ -791,9 +896,18 @@ function renderShapeAndSignalCharts(s) {
     },
   });
 
-  const homesteadEntries = Object.entries(s.homestead_by_typology)
+  // Typologies with a near-zero homestead-exemption rate (renter-occupied
+  // apartment/multifamily types, vacant lots, non-residential) are omitted
+  // from the bar chart entirely -- at this scale they're indistinguishable
+  // slivers that just compress the readable bars -- and listed in a note
+  // below instead, so the chart only shows typologies where ownership is
+  // actually part of the story.
+  const HOMESTEAD_MIN_PCT = 1.0;
+  const allHomesteadEntries = Object.entries(s.homestead_by_typology)
     .filter(([, v]) => v !== null)
     .sort((a, b) => b[1] - a[1]);
+  const homesteadEntries = allHomesteadEntries.filter(([, v]) => v * 100 >= HOMESTEAD_MIN_PCT);
+  const omittedHomestead = allHomesteadEntries.filter(([, v]) => v * 100 < HOMESTEAD_MIN_PCT).map(([k]) => k);
   new Chart(document.getElementById('homesteadChart'), {
     type: 'bar',
     data: {
@@ -810,6 +924,10 @@ function renderShapeAndSignalCharts(s) {
       scales: { x: { title: { display: true, text: '% claiming homestead exemption' } } },
     },
   });
+  if (omittedHomestead.length) {
+    document.getElementById('homesteadOmittedNote').textContent =
+      `Omitted (all under ${HOMESTEAD_MIN_PCT}% homestead-exempt -- effectively zero, overwhelmingly non-owner-occupied): ${omittedHomestead.join(', ')}.`;
+  }
 
   const sf = s.shape_features;
   document.getElementById('shapeCoverageStat').textContent = sf.single_family_parcels_with_footprint_data.toLocaleString();
@@ -986,21 +1104,53 @@ function renderDistanceChart(gradient) {
 // TYPOLOGY BY DECADE CHART
 // ---------------------------------------------------------------------
 function renderDecadeChart(d) {
-  const datasets = d.typologies.map((t, i) => ({
+  // Single-Family Detached so outnumbers every missing-middle typology
+  // per decade that stacking it in with the rest compresses them all to
+  // slivers. Pull it out onto its own line on a secondary axis so the
+  // other typologies' bars are actually readable against their own
+  // (much smaller) scale.
+  const SF_LABEL = 'Single-Family Detached';
+  const sfIdx = d.typologies.indexOf(SF_LABEL);
+  const barTypologies = d.typologies.filter((t, i) => i !== sfIdx);
+  const barIdxs = d.typologies.map((t, i) => i).filter(i => i !== sfIdx);
+
+  const datasets = barTypologies.map((t, j) => ({
     label: t,
-    data: d.matrix.map(row => row[i]),
+    data: d.matrix.map(row => row[barIdxs[j]]),
     backgroundColor: colorFor(t),
+    yAxisID: 'yBars',
   }));
+
+  if (sfIdx !== -1) {
+    datasets.push({
+      label: SF_LABEL,
+      type: 'line',
+      data: d.matrix.map(row => row[sfIdx]),
+      borderColor: colorFor(SF_LABEL),
+      backgroundColor: colorFor(SF_LABEL),
+      yAxisID: 'ySF',
+      tension: 0.2,
+      pointRadius: 3,
+    });
+  }
 
   new Chart(document.getElementById('decadeChart'), {
     type: 'bar',
     data: { labels: d.decades.map(dec => `${dec}s`), datasets },
     options: {
       responsive: true,
-      plugins: { legend: { display: false } },
+      plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } } },
       scales: {
         x: { stacked: true },
-        y: { stacked: true, title: { display: true, text: 'Parcels' } },
+        yBars: {
+          stacked: true, position: 'left',
+          title: { display: true, text: 'Missing-middle parcels (stacked)' },
+        },
+        ySF: {
+          position: 'right',
+          title: { display: true, text: 'Single-family parcels' },
+          grid: { drawOnChartArea: false },
+        },
       },
     },
   });
@@ -1011,9 +1161,11 @@ function renderDecadeChart(d) {
 // ---------------------------------------------------------------------
 function renderImportance(modelMetrics, importanceCsv, nHighConfidence) {
   document.getElementById('aucStat').textContent = modelMetrics.test_auc.toFixed(3);
-  document.getElementById('candHighStat').textContent = nHighConfidence.toLocaleString();
+  const nHigh = modelMetrics.candidates_p80 != null ? modelMetrics.candidates_p80 : nHighConfidence;
+  const nTotal = modelMetrics.candidates_p50 != null ? modelMetrics.candidates_p50 : nHigh;
+  document.getElementById('candHighStat').textContent = nHigh.toLocaleString();
   document.getElementById('candStat').textContent =
-    Math.max(0, 7909 - nHighConfidence).toLocaleString() + ' more';
+    Math.max(0, nTotal - nHigh).toLocaleString() + ' more';
 
   const rows = parseImportanceCsv(importanceCsv);
   new Chart(document.getElementById('importanceChart'), {
