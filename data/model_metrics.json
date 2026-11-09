@@ -1,13 +1,14 @@
 {
-  "test_auc": 0.9962,
+  "test_auc": 0.9966,
   "n_train": 179493,
   "n_test": 59831,
   "n_positive_train": 6893,
   "n_positive_test": 2297,
-  "n_features": 36,
+  "n_features": 37,
   "n_features_structural": 15,
   "n_features_shape": 8,
   "n_features_ownership": 13,
-  "candidates_p50": 4439,
-  "candidates_p80": 1569
+  "n_features_physical": 1,
+  "candidates_p50": 4072,
+  "candidates_p80": 1466
 }

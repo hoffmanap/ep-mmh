@@ -290,7 +290,7 @@
       </div>
     </div>
 
-    <div class="panel-grid cols-3">
+    <div class="panel-grid single">
       <div class="panel">
         <div class="panel-title">SHARE BY DISTANCE FROM CORE</div>
         <div class="field-card" style="padding-top:0;">
@@ -300,9 +300,11 @@
             (r = <span class="stamp">-0.151</span>, n=218,009).
           </p>
         </div>
-        <div class="chart-wrap"><canvas id="distChart" height="180"></canvas></div>
+        <div class="chart-wrap"><canvas id="distChart" height="140"></canvas></div>
       </div>
+    </div>
 
+    <div class="panel-grid single">
       <div class="panel">
         <div class="panel-title">TYPOLOGY BY DECADE BUILT</div>
         <div class="field-card" style="padding-top:0;">
@@ -312,9 +314,11 @@
             a mild tilt toward older stock, not a strong era effect.
           </p>
         </div>
-        <div class="chart-wrap"><canvas id="decadeChart" height="180"></canvas></div>
+        <div class="chart-wrap"><canvas id="decadeChart" height="280"></canvas></div>
       </div>
+    </div>
 
+    <div class="panel-grid single">
       <div class="panel">
         <div class="panel-title">TYPOLOGY BY ZONING DISTRICT</div>
         <div class="field-card" style="padding-top:0;">
@@ -324,7 +328,7 @@
             share-within-code view.
           </p>
         </div>
-        <div class="chart-wrap"><canvas id="zoningChart" height="200"></canvas></div>
+        <div class="chart-wrap"><canvas id="zoningChart" height="320"></canvas></div>
       </div>
     </div>
   </section>
@@ -336,22 +340,25 @@
     <div class="narrative-body">
       <p>
         A classifier trained <strong>only</strong> on confirmed
-        missing-middle and confirmed single-family parcels — 36
-        features across three groups (structural: lot size, structure
+        missing-middle and confirmed single-family parcels — 37
+        features across four groups (structural: lot size, structure
         count, square footage, year built, distance downtown;
-        building-shape/footprint; and ownership/financing, including
-        First American's independent unit/building counts), with the
-        EPCAD code that <em>defines</em> the label explicitly excluded
-        — learns what missing-middle housing looks like structurally,
-        then flags single-family-labeled parcels that fit the same
-        signature. Test AUC: <strong>0.996</strong>.
-        Adding the shape and ownership features (an earlier pass used
-        structural features alone) raised AUC from 0.986, but also
-        <em>shrank</em> the candidate set it flags — a more precise
-        classifier ends up more conservative, not more generous. See
-        the callout below the candidate panel for what that traded
-        off. Below are the descriptive statistics behind why it works,
-        and what it flags.
+        building-shape/footprint; ownership/financing, including
+        First American's independent unit/building counts; and
+        physical capacity, specifically First American's total
+        bathroom count — a house needs enough existing plumbing to
+        split before it's worth converting), with the EPCAD code that
+        <em>defines</em> the label explicitly excluded — learns what
+        missing-middle housing looks like structurally, then flags
+        single-family-labeled parcels that fit the same signature.
+        Test AUC: <strong>0.997</strong>.
+        Adding the shape, ownership, and bathroom-count features (an
+        earlier pass used structural features alone) raised AUC from
+        0.986, but also <em>shrank</em> the candidate set it flags — a
+        more precise classifier ends up more conservative, not more
+        generous. See the callout below the candidate panel for what
+        that traded off. Below are the descriptive statistics behind
+        why it works, and what it flags.
       </p>
     </div>
 
@@ -372,6 +379,13 @@
           </p>
         </div>
         <div class="chart-wrap"><canvas id="lotSweetSpotChart" height="180"></canvas></div>
+        <p style="font-size:0.72rem; margin:8px 0 0; color:var(--ink-faint, #7a7468); font-style:italic;">
+          Click a bar to see which typologies make up that lot-size bucket.
+        </p>
+        <div class="field-card" style="padding-top:0;">
+          <p id="lotDrilldownTitle" style="font-size:0.78rem; margin:10px 0; font-weight:600;"></p>
+        </div>
+        <div class="chart-wrap"><canvas id="lotTypologyDrilldownChart" height="180"></canvas></div>
       </div>
 
       <div class="panel">
@@ -419,7 +433,7 @@
 
     <div class="panel-grid single">
       <div class="panel">
-        <div class="panel-title">WHAT "TEST AUC" ACTUALLY MEASURES — AND WHY 0.996 IS GOOD BUT NOT THE WHOLE STORY</div>
+        <div class="panel-title">WHAT "TEST AUC" ACTUALLY MEASURES — AND WHY 0.997 IS GOOD BUT NOT THE WHOLE STORY</div>
         <div class="field-card" style="padding-top:0;">
           <p style="font-size:0.78rem; margin:10px 0;">
             <strong>AUC (area under the ROC curve)</strong> answers one
@@ -429,12 +443,12 @@
             the model never trained on), how often would the model rank
             the missing-middle one as more likely to be missing-middle?
             An AUC of 0.5 is a coin flip; 1.0 is perfect separation. At
-            <strong>0.996</strong>, the model gets that ordering right
-            99.6% of the time — yes, that's a strong score, well above
+            <strong>0.997</strong>, the model gets that ordering right
+            99.7% of the time — yes, that's a strong score, well above
             what most real-world classification tasks reach, and it
-            means the structural/shape/ownership signature of
-            missing-middle housing really is distinct from single-family
-            housing in this data.
+            means the structural/shape/ownership/physical-capacity
+            signature of missing-middle housing really is distinct from
+            single-family housing in this data.
           </p>
           <p style="font-size:0.78rem; margin:10px 0;">
             But AUC alone doesn't tell you how many candidates to flag —
@@ -506,6 +520,22 @@
         kind EPCAD never labeled at all — those are different
         questions, and this project reports both answers rather than
         the more flattering one.
+      </p>
+      <p style="font-size:0.8rem; margin:10px 0 0;">
+        The current model adds one more field on top of that v2
+        baseline: First American's <strong>total bathroom count</strong>
+        — a physical-capacity signal (a house needs enough existing
+        plumbing to split before a conversion is worth doing), ranking
+        #5 in feature importance. It nudges test AUC to
+        <span class="big-stat">0.997</span> and shrinks the candidate
+        set a bit further (4,439 → 4,072 at p≥0.5; 1,569 →
+        <span class="big-stat">1,471</span> at p≥0.8), and on the
+        section 5 downstream test it's essentially a wash (88 of 182
+        tracts either way). It's kept anyway: the ACS tract comparison
+        only tests whether a parcel looks undercounted <em>today</em>,
+        not whether it's physically capable of being converted
+        <em>tomorrow</em> — a question the bathroom count speaks to
+        that the downstream test was never built to measure.
       </p>
     </div>
   </section>
@@ -626,99 +656,160 @@
     <div class="narrative-body">
       <p>
         Four independent pieces of evidence, each with its own blind
-        spots, point the same direction. <strong>The legal mechanism</strong>
-        (section 1): single-family zoning makes most missing-middle
-        housing illegal to build, so owners have every reason not to
-        document it. <strong>EPCAD's own data</strong> (sections 2-3)
-        already shows missing-middle concentrated exactly where that
-        mechanism predicts — near downtown, on oddly small or large
-        lots, in older stock, strongly tied to non-owner-occupancy — a
-        pattern clean enough that a structural model separates
-        missing-middle from single-family parcels at 0.996 AUC using
-        structure, shape, and ownership signal, never the EPCAD label
-        itself.
-        <strong>The footprint check</strong> (section 4), an entirely
-        separate data source, independently confirms ~8.7% of
-        single-family-labeled parcels carry more or larger structures
-        than EPCAD has on record. <strong>The ACS check</strong>
-        (section 5), a third and completely independent source, puts an
-        actual number on the size of the gap: at missing middle's real
-        definition, EPCAD accounts for only about half of what
-        household survey data implies exists.
+        spots, point the same direction.
       </p>
-      <p>
-        <strong>The key finding, reasoned through.</strong> Put those
-        four pieces together and a specific explanation for
+    </div>
+
+    <div class="panel-grid">
+      <div class="panel">
+        <div class="panel-title">1 · THE LEGAL MECHANISM <span class="stamp">SECTION 1</span></div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            Single-family zoning makes most missing-middle housing
+            illegal to build, so owners have every reason not to
+            document it.
+          </p>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">2 · EPCAD'S OWN PATTERN <span class="stamp">SECTIONS 2-3</span></div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            Missing-middle already concentrates exactly where that
+            mechanism predicts — near downtown, odd lot sizes, older
+            stock, non-owner-occupancy — cleanly enough that a
+            structural model separates it from single-family at
+            <span class="big-stat">0.997 AUC</span> using structure,
+            shape, ownership, and physical-capacity signal, never the
+            EPCAD label itself.
+          </p>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">3 · THE FOOTPRINT CHECK <span class="stamp">SECTION 4</span></div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            An entirely separate data source — building-footprint
+            geometry — independently confirms
+            <span class="big-stat">~8.7%</span> of single-family-labeled
+            parcels carry more or larger structures than EPCAD has on
+            record.
+          </p>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">4 · THE ACS CHECK <span class="stamp">SECTION 5</span></div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            A third, completely independent source puts a number on the
+            gap: at missing middle's real definition, EPCAD accounts
+            for only about <span class="big-stat">half</span> of what
+            household survey data implies exists.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">THE KEY FINDING, REASONED THROUGH</div>
+      <p style="font-size:0.8rem; margin:6px 0 0;">
+        Put those four pieces together and a specific explanation for
         <em>where</em> the undercount lives falls out — an inference
         from the pattern of results, not a new measurement on its own.
-        A model trained purely on structure, footprint shape, and
-        ownership signal — never on EPCAD's own classification — can
-        tell confirmed missing-middle parcels from confirmed
-        single-family parcels apart at 0.996 AUC (section 3): converted
-        missing-middle housing leaves a detectable structural
+        A model trained purely on structure, footprint shape,
+        ownership, and bathroom-count signal — never on EPCAD's own
+        classification — can tell confirmed missing-middle parcels from
+        confirmed single-family parcels apart at 0.997 AUC (section 3):
+        converted missing-middle housing leaves a detectable structural
         fingerprint even with no permit on file. But two separate
         <em>exterior</em>-evidence methods built to catch that
-        fingerprint — the footprint-shape check (section 4, ~8.7% of
-        single-family parcels flagged) and the model's high-confidence
-        candidates (section 3, 1,569-2,622 parcels) — both undershoot
-        the ACS-implied ~24,000-unit gap (section 5) by roughly an
-        order of magnitude. The straightforward reading: <strong>most
-        of the undercounted missing-middle housing was converted
-        without any exterior change</strong> — internal subdivisions, a
-        garage or basement turned into a separate unit, no new
-        footprint or roofline — which is exactly the kind of conversion
-        no satellite comparison or permit record would ever catch.
-        This project has no interior-inspection or permit-matching data
-        to confirm it directly, but it's the explanation consistent
-        with every method here without requiring any of them to be
-        wrong.
+        fingerprint — the footprint-shape check (~8.7% of single-family
+        parcels flagged) and the model's high-confidence candidates
+        (1,471-2,622 parcels across model versions) — both undershoot
+        the ACS-implied ~24,000-unit gap by roughly an order of
+        magnitude.
       </p>
-      <p>
-        That has three specific implications. <strong>First</strong>,
-        single-family homes can reasonably be converted to
-        missing-middle housing, but for zoning and building codes — the
-        conversions are evidently feasible, since the pattern above
-        implies they're already happening; what's missing is the legal
-        framework from section 1, not a technical or market barrier.
-        <strong>Second</strong>, these renovations don't require changes
-        that would alter a neighborhood's exterior character — if they
-        did, the two exterior-evidence methods would have found far
-        more of them than they did. <strong>Third</strong>, this data
-        can help target where zoning and code reform would matter
-        most, because the concentration pattern in sections 2-3 (near
-        downtown, older housing stock, non-owner-occupied) identifies
-        specific tracts where informal conversion is evidently already
-        happening, ahead of any policy change.
+      <p style="font-size:0.8rem; margin:10px 0 0;">
+        <strong>The straightforward reading: most of the undercounted
+        missing-middle housing was converted without any exterior
+        change</strong> — internal subdivisions, a garage or basement
+        turned into a separate unit, no new footprint or roofline —
+        exactly the kind of conversion no satellite comparison or
+        permit record would ever catch. This project has no
+        interior-inspection or permit-matching data to confirm it
+        directly, but it's the explanation consistent with every
+        method here without requiring any of them to be wrong.
       </p>
-      <p>
-        <strong>What this project does <em>not</em> show:</strong> that
-        the structural candidate detector has found the missing units,
-        or that internal conversion is the <em>only</em> driver of the
-        gap. Some of it is almost certainly EPCAD assessment lag or
-        genuine ACS sampling noise at the tract level — this project
-        can't cleanly separate how much of the ~24,000-unit gap is real
-        but invisible conversion versus measurement noise between two
-        different data sources. Confirming the internal-conversion
-        explanation specifically would take field verification or a
-        different kind of evidence entirely (permit-vs-utility-hookup
-        cross-referencing, interior inspection, resident surveys) that
-        this project's geometry- and classification-based methods can't
-        provide on their own.
-      </p>
-      <p>
-        <strong>For policy purposes</strong>, the practical takeaway is
-        the one at the top of this page: El Paso almost certainly has
-        substantially more missing-middle housing than its own records
-        show, concentrated in specific, identifiable places — inner-ring,
-        pre-war, non-owner-occupied tracts — and the best-supported
-        explanation for why it's invisible to both administrative
-        records and satellite-based detection is that it's happening
-        inside existing buildings, not through additions or new
-        construction that would already have been visible. Already
-        happening, already low-impact on neighborhood character,
-        already concentrated in identifiable places — that's the case
-        for treating this as a legalization and code-reform question
-        rather than a detection problem to keep refining.
+    </div>
+
+    <div class="panel-grid single">
+      <div class="panel">
+        <div class="panel-title">THREE IMPLICATIONS</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            <strong>First</strong> — single-family homes can reasonably
+            be converted to missing-middle housing, but for zoning and
+            building codes. The conversions are evidently feasible,
+            since the pattern above implies they're already happening;
+            what's missing is the legal framework from section 1, not a
+            technical or market barrier.
+          </p>
+          <p style="font-size:0.78rem; margin:10px 0;">
+            <strong>Second</strong> — these renovations don't require
+            changes that would alter a neighborhood's exterior
+            character. If they did, the two exterior-evidence methods
+            would have found far more of them than they did.
+          </p>
+          <p style="font-size:0.78rem; margin:10px 0;">
+            <strong>Third</strong> — this data can help target where
+            zoning and code reform would matter most, because the
+            concentration pattern in sections 2-3 (near downtown, older
+            housing stock, non-owner-occupied) identifies specific
+            tracts where informal conversion is evidently already
+            happening, ahead of any policy change.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-grid single">
+      <div class="panel">
+        <div class="panel-title">WHAT THIS PROJECT DOES <em>NOT</em> SHOW</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            That the structural candidate detector has found the
+            missing units, or that internal conversion is the
+            <em>only</em> driver of the gap. Some of it is almost
+            certainly EPCAD assessment lag or genuine ACS sampling
+            noise at the tract level — this project can't cleanly
+            separate how much of the ~24,000-unit gap is real but
+            invisible conversion versus measurement noise between two
+            different data sources. Confirming the internal-conversion
+            explanation specifically would take field verification or a
+            different kind of evidence entirely (permit-vs-utility-hookup
+            cross-referencing, interior inspection, resident surveys)
+            that this project's geometry- and classification-based
+            methods can't provide on their own.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">FOR POLICY PURPOSES</div>
+      <p style="font-size:0.8rem; margin:6px 0 0;">
+        El Paso almost certainly has substantially more missing-middle
+        housing than its own records show, concentrated in specific,
+        identifiable places — inner-ring, pre-war, non-owner-occupied
+        tracts — and the best-supported explanation for why it's
+        invisible to both administrative records and satellite-based
+        detection is that it's happening inside existing buildings, not
+        through additions or new construction that would already have
+        been visible. Already happening, already low-impact on
+        neighborhood character, already concentrated in identifiable
+        places — that's the case for treating this as a legalization
+        and code-reform question rather than a detection problem to
+        keep refining.
       </p>
     </div>
   </section>
@@ -784,15 +875,16 @@ Promise.all([
   fetch('data/shape_and_signal_stats.json').then(r => r.ok ? r.json() : null),
   fetch('data/tract_comparison_epcad_acs.json').then(r => r.ok ? r.json() : null),
   fetch('data/zoning_simplified.geojson').then(r => r.ok ? r.json() : null),
+  fetch('data/lot_size_typology_breakdown.json').then(r => r.ok ? r.json() : null),
 ])
-  .then(([stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats, tractComparison, zoningGeo]) =>
-    renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats, tractComparison, zoningGeo))
+  .then(([stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats, tractComparison, zoningGeo, lotTypologyBreakdown]) =>
+    renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats, tractComparison, zoningGeo, lotTypologyBreakdown))
   .catch(err => {
     console.error(err);
     document.getElementById('loadError').style.display = 'block';
   });
 
-function renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats, tractComparison, zoningGeo) {
+function renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats, tractComparison, zoningGeo, lotTypologyBreakdown) {
   renderMap(geojson.features, candidates.features || [], zoningGeo);
   renderLegend();
   renderStatBlock(stats.stats);
@@ -803,6 +895,61 @@ function renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mort
   if (mortgageStats) renderInvestorChart(mortgageStats);
   if (shapeStats) renderShapeAndSignalCharts(shapeStats);
   if (tractComparison) renderAcsComparisonChart(tractComparison);
+  if (lotTypologyBreakdown) renderLotTypologyDrilldown(lotTypologyBreakdown);
+}
+
+// ---------------------------------------------------------------------
+// LOT-SIZE BUCKET -> TYPOLOGY BREAKDOWN DRILL-DOWN
+//
+// The SHARE BY LOT SIZE chart above only shows what fraction of each
+// lot-size bucket is missing-middle vs. single-family -- it says
+// nothing about WHICH missing-middle typologies (duplex, townhouse,
+// which apartment tier, etc.) make up that share. This renders a
+// second chart, keyed off a click on a bar above, breaking that
+// bucket down by typology using data/lot_size_typology_breakdown.json
+// (bins x typologies count matrix, computed in correlations_analysis.py).
+// ---------------------------------------------------------------------
+function renderLotTypologyDrilldown(breakdown) {
+  let drilldownChart = null;
+  const titleEl = document.getElementById('lotDrilldownTitle');
+
+  function showBin(binLabel) {
+    const binIdx = breakdown.bins.indexOf(binLabel);
+    if (binIdx === -1) return;
+    const counts = breakdown.matrix[binIdx];
+    // Sort typologies by count, descending, and drop zero-count ones --
+    // most lot-size buckets only actually contain 3-5 of the 12 possible
+    // typologies, so showing all 12 just pads the chart with empty bars.
+    const entries = breakdown.typologies
+      .map((t, i) => [t, counts[i]])
+      .filter(([, c]) => c > 0)
+      .sort((a, b) => b[1] - a[1]);
+
+    titleEl.textContent = `Typology breakdown — ${binLabel} lots (n=${entries.reduce((a, [, c]) => a + c, 0).toLocaleString()})`;
+
+    if (drilldownChart) drilldownChart.destroy();
+    drilldownChart = new Chart(document.getElementById('lotTypologyDrilldownChart'), {
+      type: 'bar',
+      data: {
+        labels: entries.map(([t]) => t),
+        datasets: [{
+          label: 'Parcels',
+          data: entries.map(([, c]) => c),
+          backgroundColor: entries.map(([t]) => colorFor(t)),
+        }],
+      },
+      options: {
+        indexAxis: 'y',
+        plugins: { legend: { display: false } },
+        scales: { x: { title: { display: true, text: 'parcels in this lot-size bucket' } } },
+      },
+    });
+  }
+
+  window.onLotBinSelected = showBin;
+  // Default to the smallest-lot bucket, since that's the one with the
+  // highest missing-middle share and the most interesting breakdown.
+  showBin(breakdown.bins[0]);
 }
 
 // ---------------------------------------------------------------------
@@ -845,10 +992,11 @@ function renderAcsComparisonChart(tc) {
 // SWEET-SPOT / ZONING CONCENTRATION / HOMESTEAD / SHAPE-FEATURE CHARTS
 // ---------------------------------------------------------------------
 function renderShapeAndSignalCharts(s) {
+  const lotBinLabels = s.lot_size_sweet_spot.map(b => b.bin);
   new Chart(document.getElementById('lotSweetSpotChart'), {
     type: 'bar',
     data: {
-      labels: s.lot_size_sweet_spot.map(b => b.bin),
+      labels: lotBinLabels,
       datasets: [{
         label: 'Missing-middle share (%)',
         data: s.lot_size_sweet_spot.map(b => b.mm_share_pct),
@@ -858,6 +1006,12 @@ function renderShapeAndSignalCharts(s) {
     options: {
       plugins: { legend: { display: false } },
       scales: { x: { ticks: { font: { size: 9 } } }, y: { title: { display: true, text: '% missing-middle' } } },
+      onClick: (evt, elements, chart) => {
+        if (!elements.length || typeof window.onLotBinSelected !== 'function') return;
+        const label = chart.data.labels[elements[0].index];
+        window.onLotBinSelected(label);
+      },
+      onHover: (evt, elements) => { evt.native.target.style.cursor = elements.length ? 'pointer' : 'default'; },
     },
   });
 
@@ -963,12 +1117,21 @@ function zoningFamilyColor(label) {
 function renderMap(feats, candidateFeats, zoningGeo) {
   const map = L.map('map', { scrollWheelZoom: true }).setView([31.7598, -106.4887], 11);
 
-  // CartoDB Positron: a basemap built to be quiet -- light, low-contrast,
-  // minimal labeling -- so the parcel markers and zoning overlay carry the
-  // visual weight instead of competing with street clutter and POI icons.
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    maxZoom: 19,
+  // KNOWN GOTCHA, read before changing this tile source again: CartoDB's
+  // basemaps.cartocdn.com tiles (light_all / Positron, dark_all, etc.)
+  // now require an API key for anonymous/unauthenticated requests -- as
+  // of late 2026 they serve a visible "API KEY REQUIRED" watermark tile
+  // instead of the basemap, with NO error thrown (the request succeeds,
+  // the image is just wrong), so this fails silently and looks like a
+  // CSS/zoom problem rather than a dead tile source. Confirmed broken
+  // here (previously used this exact URL) -- do not switch back to any
+  // *.cartocdn.com/basemaps URL without a CARTO API key configured.
+  // Using Esri's World_Light_Gray_Base instead: same quiet, low-contrast,
+  // minimal-label intent as Positron, no API key required, no rate-limit
+  // issues seen in normal GitHub-Pages-scale traffic.
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+    attribution: '&copy; Esri, HERE, Garmin, &copy; OpenStreetMap contributors, and the GIS community',
+    maxZoom: 16,
     className: 'field-tiles',
   }).addTo(map);
 

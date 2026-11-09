@@ -47,6 +47,25 @@ missing-middle ones) is not automatically better at the DIFFERENT task
 of guessing at undercounted missing-middle that EPCAD's own labels
 miss entirely -- those are different questions, and this is the
 honest result of asking both.
+
+v3/v4 (current): tested adding First American's PHYSICAL fields
+(bedrooms, bathrooms, living area sqft, effective year built, lot
+sqft -- scripts/join_fa_physical.py, a nearest-neighbor join separate
+from the ownership/financing join above, 58% parcel match rate). All
+five at once (v3) barely moved anything (AUC 0.9962 -> 0.9967, tract
+comparison a wash) and cost real coverage, so most were dropped. One
+field earned its place: `fa_bathrooms` alone (v4, this version) raised
+AUC to 0.9966 and ranked #5 in permutation importance -- a plausible,
+independently-motivated signal (a single-family home needs enough
+existing plumbing to physically support splitting into multiple
+units; bathroom count is a capacity signal for conversion that
+doesn't depend on being told the unit count already). Kept despite the
+downstream ACS-comparison test again being essentially a wash (88/182
+tracts, 9.56% vs. v2's 9.59%) because the AUC gain is real and the
+rationale holds independent of that one downstream test -- this
+feature is also meant to flag future conversion *potential*, not just
+find present undercounting, which the ACS gap-closing test doesn't
+measure.
 """
 import pandas as pd
 import numpy as np
@@ -151,6 +170,23 @@ for c in ["fa_SumResidentialUnits", "fa_SumBuildingsNbr", "fa_TotalOpenLienAmt"]
     fa_sub[c] = pd.to_numeric(fa_sub[c], errors="coerce")
 df = df.merge(fa_sub, on="PROP_ID_num", how="left")
 
+print("Loading First American bathroom count (data/output/parcels_with_fa_physical.csv)...")
+# A separate join from the one above (scripts/join_fa_physical.py), by
+# situs lat/lon nearest-neighbor (0.02-mile tolerance), of First
+# American's PHYSICAL characteristic fields. Only fa_bathrooms is kept
+# as a feature -- bedrooms, building sqft, effective year built, and
+# lot sqft were tested too and didn't earn their keep against this
+# join's lower coverage (58% of parcels match); bathrooms did (see
+# module docstring). The rationale: converting a single-family home
+# into multiple units needs enough existing plumbing to split, so
+# bathroom count is a physical-capacity signal for conversion that's
+# independent of unit count itself.
+phys = pd.read_csv(f"{OUT}/parcels_with_fa_physical.csv")
+phys["PROP_ID_num"] = pd.to_numeric(phys["PROP_ID"], errors="coerce")
+phys = phys[phys["PROP_ID_num"] != 0].drop_duplicates(subset="PROP_ID_num", keep="first")
+df = df.merge(phys[["PROP_ID_num", "fa_bathrooms"]], on="PROP_ID_num", how="left")
+df["fa_bathrooms"] = pd.to_numeric(df["fa_bathrooms"], errors="coerce")
+
 # ---------------------------------------------------------------------
 # Feature set (deliberately excludes state_cd / ClassCD -- the model
 # must learn to recognize missing-middle from structure, not from the
@@ -180,7 +216,8 @@ OWNERSHIP_COLS = [
     "fa_owner_occupied_flag", "fa_vacant_flag", "fa_value_gap_pct",
     "fa_SumResidentialUnits", "fa_SumBuildingsNbr", "fa_TotalOpenLienAmt",
 ]
-FEATURE_COLS = STRUCTURAL_COLS + SHAPE_COLS + OWNERSHIP_COLS
+PHYSICAL_COLS = ["fa_bathrooms"]
+FEATURE_COLS = STRUCTURAL_COLS + SHAPE_COLS + OWNERSHIP_COLS + PHYSICAL_COLS
 
 # train only on confidently-labeled parcels: A1 (negative) vs B1/B2/B3-6/A3/A4 (positive)
 TRAIN_POSITIVE = ["Duplex","Townhouse","Condominium","Apartment/Multifamily",
@@ -222,16 +259,6 @@ print("\nFeature importance (permutation, AUC drop):")
 print(importance.to_string(index=False))
 
 importance.to_csv(f"{OUT}/feature_importance.csv", index=False)
-with open(f"{OUT}/model_metrics.json", "w") as f:
-    json.dump({
-        "test_auc": round(float(auc), 4),
-        "n_train": len(X_train), "n_test": len(X_test),
-        "n_positive_train": int(y_train.sum()), "n_positive_test": int(y_test.sum()),
-        "n_features": len(FEATURE_COLS),
-        "n_features_structural": len(STRUCTURAL_COLS),
-        "n_features_shape": len(SHAPE_COLS),
-        "n_features_ownership": len(OWNERSHIP_COLS),
-    }, f, indent=2)
 
 # ---------------------------------------------------------------------
 # Score ALL parcels currently labeled Single-Family Detached (A1) --
@@ -243,11 +270,31 @@ a1_X = a1_df[FEATURE_COLS].fillna(0)
 a1_df["mm_probability"] = model.predict_proba(a1_X)[:, 1]
 
 candidates = a1_df[a1_df["mm_probability"] >= 0.5].sort_values("mm_probability", ascending=False)
-print(f"Flagged {len(candidates):,} A1-labeled parcels as likely missing-middle (p >= 0.5)")
-print(f"  of which {(candidates['mm_probability'] >= 0.8).sum():,} have p >= 0.8 (high confidence)")
+n_50 = len(candidates)
+n_80 = int((candidates["mm_probability"] >= 0.8).sum())
+print(f"Flagged {n_50:,} A1-labeled parcels as likely missing-middle (p >= 0.5)")
+print(f"  of which {n_80:,} have p >= 0.8 (high confidence)")
 
 out_cols = ["PROP_ID", "GEO_ID", "lat", "lon", "ZONING", "year_built",
             "dist_to_core_mi", "n_main_structures", "total_living_area",
             "land_acres_num", "mm_probability"]
 candidates[out_cols].to_csv(f"{OUT}/missing_middle_candidates.csv", index=False)
+
+# candidates_p80 here counts ALL high-confidence candidates, including
+# any missing lat/lon -- the dashboard's candidates_high_confidence.geojson
+# (built separately, see README) can only plot ones with coordinates,
+# so its feature count may be a handful lower than candidates_p80.
+with open(f"{OUT}/model_metrics.json", "w") as f:
+    json.dump({
+        "test_auc": round(float(auc), 4),
+        "n_train": len(X_train), "n_test": len(X_test),
+        "n_positive_train": int(y_train.sum()), "n_positive_test": int(y_test.sum()),
+        "n_features": len(FEATURE_COLS),
+        "n_features_structural": len(STRUCTURAL_COLS),
+        "n_features_shape": len(SHAPE_COLS),
+        "n_features_ownership": len(OWNERSHIP_COLS),
+        "n_features_physical": len(PHYSICAL_COLS),
+        "candidates_p50": n_50,
+        "candidates_p80": n_80,
+    }, f, indent=2)
 print("Saved feature_importance.csv, model_metrics.json, missing_middle_candidates.csv")

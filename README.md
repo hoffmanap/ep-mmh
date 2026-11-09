@@ -100,60 +100,72 @@ parcels EPCAD's own classification might have missed — informal,
 undocumented missing middle, which is exactly the population the
 problem statement above says should exist.
 
-**Three feature groups feed the model, 36 features total** (an
-earlier pass used only the first group):
+**Four feature groups feed the model, 37 features total** (an earlier
+pass used only the first group):
 
 1. **Structural (15 features, original):** parcel size, number of
    distinct main dwelling structures, total square footage, year
    built, distance to downtown, value density.
-2. **Building shape/footprint (8 features, added this pass):**
-   footprint count and size, compactness, footprint-to-recorded-area
-   ratio, new-detached and addition flags (`scripts/shape_features.py`
-   — see section 4). These had previously been used only as an
-   *independent* validation check, never fed to the classifier itself.
-3. **Ownership/financing (13 features, added this pass):** EPCAD's own
-   homestead, disabled-veteran, tax-exempt, mailing-mismatch and
-   legal-description flags, plus First American fields —
-   `fa_SumResidentialUnits` and `fa_SumBuildingsNbr` (an independent
-   third-party unit/building count), owner-occupied and vacancy flags,
-   and a value-gap feature between First American's AVM estimate and
-   EPCAD's assessed value. **First American data had previously been
-   used only descriptively** (the ownership/financing appendix below),
-   never as a predictive feature — this was a real gap, not an
-   oversight that turned out to be nothing.
+2. **Building shape/footprint (8 features):** footprint count and
+   size, compactness, footprint-to-recorded-area ratio, new-detached
+   and addition flags (`scripts/shape_features.py` — see section 4).
+   These had previously been used only as an *independent* validation
+   check, never fed to the classifier itself.
+3. **Ownership/financing (13 features):** EPCAD's own homestead,
+   disabled-veteran, tax-exempt, mailing-mismatch and legal-description
+   flags, plus First American fields — `fa_SumResidentialUnits` and
+   `fa_SumBuildingsNbr` (an independent third-party unit/building
+   count), owner-occupied and vacancy flags, and a value-gap feature
+   between First American's AVM estimate and EPCAD's assessed value.
+   **First American data had previously been used only descriptively**
+   (the ownership/financing appendix below), never as a predictive
+   feature — this was a real gap, not an oversight that turned out to
+   be nothing.
+4. **Physical characteristic (1 feature):** `fa_bathrooms` — First
+   American's total bathroom count, joined separately
+   (`scripts/join_fa_physical.py`) because it comes from a different
+   part of the First American record than the ownership/financing
+   fields above. Four other physical fields (bedrooms, living-area
+   sqft, effective year built, lot sqft) were tested and dropped —
+   they didn't earn their keep against this join's lower coverage
+   (58% of parcels match, vs. near-complete for the other feature
+   groups). Bathrooms did: the rationale is that converting a
+   single-family home into multiple units requires enough existing
+   plumbing to physically support the split, so bathroom count is an
+   independent capacity signal for conversion, distinct from the
+   square-footage and structure-count signals already in the model.
 
 **Result: the richer feature set is a measurably better classifier,
 but a worse candidate-finder** — those are different claims, and the
 project needs to be honest that they diverged:
 
-| | v1 (15 structural features) | v2 (36 features, current) |
-|---|---|---|
-| Test AUC | 0.986 | **0.996** |
-| Precision on missing-middle class (p≥0.5) | lower | **0.66** |
-| Recall on missing-middle class (p≥0.5) | — | 0.95 |
-| Candidates flagged, p≥0.5 | 7,909 | **4,439** |
-| Candidates at ≥80% confidence | 2,622 | **1,569** |
+| | v1 (15 structural features) | v2 (36 features) | current (37, + `fa_bathrooms`) |
+|---|---|---|---|
+| Test AUC | 0.986 | 0.996 | **0.997** |
+| Precision on missing-middle class (p≥0.5) | lower | 0.66 | **0.67** |
+| Recall on missing-middle class (p≥0.5) | — | 0.95 | 0.96 |
+| Candidates flagged, p≥0.5 | 7,909 | 4,439 | **4,072** |
+| Candidates at ≥80% confidence | 2,622 | 1,569 | **1,471** |
 
-The strongest tells in the new model, in order: **number of main
-structures on the parcel**, **year built**, **distance to downtown
-core**, **parcel size (acres)**, and **total living area of main
-structures**; `fa_SumResidentialUnits` and `primary_footprint_area_sqft`
-rank 6th and 7th — the new feature groups do contribute, just behind
-the original structural signal. Full ranking:
+The strongest tells in the current model, in order: **number of main
+structures on the parcel**, **distance to downtown core**, **year
+built**, **parcel size (acres)**, and **`fa_bathrooms`** — bathroom
+count ranks 5th, ahead of every footprint-shape and ownership feature
+except `primary_footprint_area_sqft` (6th). Full ranking:
 `data/output/feature_importance.csv`.
 
-**What "test AUC" actually measures, and whether 0.996 is good.**
+**What "test AUC" actually measures, and whether 0.997 is good.**
 AUC (area under the ROC curve) answers one specific question: pick one
 random confirmed missing-middle parcel and one random confirmed
 single-family parcel from the held-out test set (59,831 parcels the
 model never trained on) — how often does the model rank the
 missing-middle one as more likely to be missing-middle? 0.5 is a coin
-flip, 1.0 is perfect separation. At **0.996**, it gets that ordering
-right 99.6% of the time, which is a strong score — well above what
+flip, 1.0 is perfect separation. At **0.997**, it gets that ordering
+right 99.7% of the time, which is a strong score — well above what
 most real-world classification tasks achieve — and means the
-structural/shape/ownership signature of missing-middle housing really
-is distinct from single-family housing in this data, not something
-the model is guessing at.
+structural/shape/ownership/physical-capacity signature of missing-middle
+housing really is distinct from single-family housing in this data, not
+something the model is guessing at.
 
 AUC alone doesn't say how many candidates to flag, though — that's
 **precision** (of parcels flagged missing-middle, how many actually
@@ -194,6 +206,21 @@ better at the labeled task isn't automatically better at the
 unlabeled one; they are genuinely different questions, and this
 project reports both honestly rather than picking whichever looks
 better.
+
+**Adding `fa_bathrooms` (current model) continues that same pattern,
+mildly.** AUC ticked up again (0.996 → 0.997) and bathrooms earned a
+real top-5 importance ranking, but the downstream ACS test barely
+moved — 88 of 182 tracts improved either way, countywide share 9.56%
+vs. v2's 9.59%, functionally a wash. It's kept anyway: the rationale
+for bathroom count (existing plumbing capacity constrains whether a
+conversion is physically feasible) is independently sound regardless
+of this one downstream test, and the metric that test measures —
+closing today's EPCAD/ACS gap — isn't the only thing this feature is
+useful for; it's also a plausible forward-looking signal for which
+single-family homes *could* convert, not just which already-converted
+ones EPCAD missed. See `scripts/train_mm_detector.py`'s docstring for
+the full before/after on all the physical-characteristic fields
+tested, including the four that were tried and dropped.
 - These appear on the dashboard map as hollow rust-colored markers,
   distinct from confirmed missing-middle parcels
 
@@ -424,8 +451,9 @@ changes the finding substantially:
 | source | missing-middle units (2-19) | total units | share |
 |---|---|---|---|
 | EPCAD, unit-weighted | 29,601 | 323,575 | **9.15%** |
-| EPCAD + model candidates (v2, current) | 31,171 | 325,145 | 9.59% |
-| EPCAD + model candidates (v1, prior model) | 32,222 | 326,196 | 9.88% |
+| EPCAD + model candidates (current, 37 features) | 31,069 | 324,998 | 9.56% |
+| EPCAD + model candidates (v2, 36 features) | 31,171 | 325,145 | 9.59% |
+| EPCAD + model candidates (v1, 15 features) | 32,222 | 326,196 | 9.88% |
 | ACS B25024 (2-19 units in structure) | 54,042 | 318,700 | **16.96%** |
 
 **This is the real headline number of the ACS validation: EPCAD
@@ -447,16 +475,18 @@ difference from 10.36 to **10.31** and improved the match in **96 of
 182 tracts (53%)**, the first time across any definition tested that
 the model's candidates net positive rather than negative.
 
-The **current (v2) model** — retrained with footprint/shape and
+The **v2 model** — retrained with footprint/shape and
 ownership/financing features added (section 3) — is a better
 classifier (AUC 0.996 vs. 0.986) but produces a *smaller* high-
 confidence candidate set (1,569 vs. 2,622), and that smaller set helps
 slightly less on this specific test: mean absolute difference moves
 from 10.36 to **10.30** (still an improvement, just a smaller one) and
 the match improves in **88 of 182 tracts (49%)** — just under half,
-versus v1's just-over-half. Countywide, v2's candidates push EPCAD's
-share from 9.15% to 9.59%, versus v1's 9.15% to 9.88%. Both read as
-weak, close-to-a-coin-flip evidence either way; neither model's
+versus v1's just-over-half. The **current model** (v2 + `fa_bathrooms`,
+section 3) barely moves this further: 1,471 high-confidence candidates,
+mean absolute difference still **10.30**, still 88 of 182 tracts,
+countywide share 9.56% instead of 9.59%. All three post-v1 results read
+as weak, close-to-a-coin-flip evidence either way; none of the models'
 candidates clear the bar of "found a lot of real undocumented units."
 This is a genuine, somewhat counterintuitive finding worth sitting
 with: a classifier can get measurably *better* at the labeled task
@@ -493,8 +523,9 @@ the same direction:
    downtown, on oddly small or oddly large lots, in older housing stock,
    strongly anti-correlated with owner-occupancy. The structural model
    learns this pattern well enough to separate missing-middle from
-   single-family parcels with 0.996 AUC — using structure, shape and
-   ownership signal, never the EPCAD code itself.
+   single-family parcels with 0.997 AUC — using structure, shape,
+   ownership, and physical-capacity (bathroom count) signal, never the
+   EPCAD code itself.
 3. **The footprint check (section 4)**, an entirely separate data
    source (satellite-derived building outlines, not EPCAD's own
    records), independently confirms that ~8.7% of single-family-labeled
@@ -516,7 +547,7 @@ measurements above do and don't find:
 - A model trained purely on structure, footprint shape, and ownership
   signal — never on EPCAD's own classification — can tell confirmed
   missing-middle parcels from confirmed single-family parcels apart
-  with 0.996 AUC (section 3). That's strong evidence that **converted
+  with 0.997 AUC (section 3). That's strong evidence that **converted
   missing-middle housing leaves a detectable structural fingerprint
   even with no building permit on file** — the fingerprint is real and
   learnable, independent of whether the county ever classified or
@@ -524,7 +555,7 @@ measurements above do and don't find:
 - But that same model, extended with footprint-shape features
   specifically built to catch *exterior* evidence of conversion
   (extra structures, oversized footprints relative to recorded square
-  footage), still only turns up 1,569-2,622 high-confidence candidates
+  footage), still only turns up 1,471-2,622 high-confidence candidates
   against an ACS-implied gap of roughly 24,000 missing-middle units
   (section 5) — and the independent footprint check alone finds
   exterior anomalies on only ~8.7% of single-family-labeled parcels
@@ -563,7 +594,7 @@ something already in this analysis rather than asserted on its own:**
 2. **These renovations don't require changes that would alter a
    neighborhood's exterior character.** This follows directly from
    the gap between the two exterior-evidence methods (sections 3-4:
-   8.7% footprint-anomaly rate, 1,569-2,622 model candidates) and the
+   8.7% footprint-anomaly rate, 1,471-2,622 model candidates) and the
    size of the ACS-implied undercount (section 5: ~24,000 units) — if
    most of the missing units required visible exterior changes, the
    footprint check and the shape-aware model would have found far more
@@ -678,6 +709,25 @@ Two bugs silently corrupted the first version of this analysis:
    pip install pandas pyogrio numpy geopandas scipy scikit-learn
    ```
 
+## Known gotchas (cross-project, not just data bugs)
+
+- **CartoDB basemap tiles require an API key now — do not use them.**
+  `*.basemaps.cartocdn.com` (Positron/`light_all`, Dark Matter/
+  `dark_all`, etc.) used to be usable anonymously and was this
+  project's basemap at one point. As of late 2026 it requires a CARTO
+  API key for unauthenticated requests: without one, it serves a
+  visible **"API KEY REQUIRED" watermark tile instead of the map**,
+  with no error thrown — the HTTP request succeeds, so this fails
+  silently and looks like a CSS, zoom-level, or caching problem rather
+  than a dead tile source, which wastes real debugging time. This
+  project now uses Esri's `World_Light_Gray_Base`
+  (`server.arcgisonline.com/ArcGIS/rest/services/Canvas/
+  World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}`, max zoom 16, no
+  key required, `index.html`'s `renderMap()`), which has the same
+  quiet/low-contrast intent as Positron. If a future basemap swap is
+  needed, check whether the provider requires a key *before* wiring it
+  in, not after the map silently breaks.
+
 ## Running the pipeline
 
 ```
@@ -710,7 +760,8 @@ ep-mmh/
 │   ├── shape_features.py            # spatial join footprints <-> parcels; shadow-structure signals
 │   ├── fetch_acs_units_in_structure.py  # ACS B25024 comparison (section 5)
 │   ├── join_tracts_and_compare.py   # official zoning join + tract-level EPCAD/model/ACS comparison
-│   ├── join_first_american.py       # spatial join: First American mortgage data <-> EPCAD parcels
+│   ├── join_first_american.py       # spatial join: First American ownership/financing data <-> EPCAD parcels
+│   ├── join_fa_physical.py          # separate spatial join: First American physical characteristics (bed/bath/sqft) <-> EPCAD parcels (section 3)
 │   └── make_mortgage_dashboard_data.py  # aggregate financing stats for the dashboard
 ├── data/
 │   ├── raw/                         # EPCAD flat-file exports (not checked in — see Setup)
@@ -718,6 +769,7 @@ ep-mmh/
 │   ├── output/                      # generated intermediate CSVs (not checked in, large)
 │   ├── dashboard_stats.json         # generated: aggregated stats for the dashboard (checked in)
 │   ├── shape_and_signal_stats.json  # generated: correlations/sweet-spots/zoning/shape-feature stats (checked in)
+│   ├── lot_size_typology_breakdown.json  # generated: typology counts per lot-size bin, for the drill-down chart (checked in)
 │   ├── shape_by_typology.json       # generated: footprint-shape features (ratio, flags) broken out by typology (checked in)
 │   ├── acs_units_in_structure.json  # generated: ACS B25024 comparison (checked in)
 │   ├── tract_comparison_epcad_acs.json  # generated: tract-level EPCAD vs. model vs. ACS comparison, broad (any-size) definition (checked in)
@@ -777,7 +829,7 @@ ep-mmh/
 - The candidate-detector model (section 3) was retrained with
   footprint-shape and ownership/financing features added, which
   improved its AUC (0.986 → 0.996) but *shrank* the candidate set
-  (7,909 → 4,439 at p≥0.5; 2,622 → 1,569 at p≥0.8) and slightly
+  (7,909 → 4,439 at p≥0.5; 2,622 → 1,471 at p≥0.8) and slightly
   reduced how much those candidates help close the section-5 gap
   (96/182 tracts improved → 88/182). Better discrimination on the
   labeled training task and better performance on the unlabeled
