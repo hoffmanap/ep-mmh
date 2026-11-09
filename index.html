@@ -256,10 +256,12 @@
         built from permitted, assessed improvements — is a
         <strong>floor, not a ceiling</strong>, on how much missing-middle
         housing actually exists. The rest of this page sizes that gap
-        from four independent angles: EPCAD's own baseline data, a
+        from five independent angles: EPCAD's own baseline data, a
         structural model trained to spot what EPCAD's own classification
         might miss, an external geometric check against real building
-        footprints, and an external survey check against Census data.
+        footprints, an external survey check against Census data, and
+        an external address-level check against El Paso Electric's own
+        meter billing records.
       </p>
     </div>
     <div class="callout">
@@ -276,7 +278,7 @@
       assessed — captures only about <strong>60%</strong> of the
       missing-middle housing independently gathered survey data says is
       really there, at that scoped definition. Section 5 has the full
-      comparison; section 6 ties all four pieces of evidence together.
+      comparison; section 7 ties all five pieces of evidence together.
     </div>
   </section>
 
@@ -741,7 +743,7 @@
             before this project split EPCAD's B3/B4 "triplex"/"fourplex"
             parcels out of a catch-all "Multi-Unit Residential (Other)"
             bucket that had been counting every one of them as a single
-            unit — see section 6 for that fix). Tract-level mean absolute
+            unit — see section 2 for that fix). Tract-level mean absolute
             difference is <span class="stamp">10.22 points</span>. Here,
             unlike at any other definition tested, the structural
             model's high-confidence candidates help slightly more often
@@ -773,13 +775,110 @@
     </div>
   </section>
 
-  <!-- ============ 6. SYNTHESIS ============ -->
+  <!-- ============ 6. VALIDATION, LAYER 3 — EPE METERS ============ -->
   <section class="narrative-section">
     <div class="section-number">06</div>
+    <div class="section-title">VALIDATION, LAYER 3 — ELECTRIC METER BILLING CLASS (EXTERNAL, ADDRESS-LEVEL)</div>
+    <div class="narrative-body">
+      <p>
+        El Paso Electric classifies every service address into a
+        billing class — Residential Single, Residential Duplex,
+        Residential Triplex, or Apartment Complex — for rate-setting
+        purposes, entirely independent of EPCAD's parcel records or
+        this project's model. Unlike the footprint and ACS checks
+        above, which only validate <em>aggregate counts</em>, this is
+        the first source that can be joined address-by-address to the
+        structural model's specific flagged parcels.
+      </p>
+    </div>
+
+    <div class="panel-grid single">
+      <div class="panel">
+        <div class="panel-title">DOES EPE INDEPENDENTLY CONFIRM THE MODEL'S FLAGGED PARCELS?</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            <strong>The join itself:</strong> EPE's data has no parcel
+            ID or coordinates — only a free-text service address and
+            ZIP — so this is a normalized-address string join against
+            EPCAD's situs address fields, not a guaranteed-unique key
+            match like the other validations in this project.
+            <span class="stamp">58.8%</span> of EPCAD's residential
+            parcels (145,094 of 246,950) matched to an EPE residential
+            meter record; the rest didn't match, most likely because
+            an address didn't normalize identically on both sides
+            (abbreviations, unit suffixes, EPE coverage gaps for
+            addresses served by another utility), not because no
+            meter exists. Unmatched means "couldn't check," not
+            "not missing middle."
+          </p>
+          <p style="font-size:0.78rem; margin:10px 0;">
+            <strong>Sanity check first:</strong> of the
+            <span class="stamp">8,739</span> parcels EPCAD's own
+            STATE_CD field already calls missing-middle, 4,219
+            matched to an EPE record, and EPE's independent billing
+            class agrees they're multi-unit (duplex/triplex/apartment,
+            not single) for only <span class="stamp">22.8%</span> of
+            them. That's lower than it sounds like it should be, but
+            it has a real, previously-known explanation rather than
+            being a join-quality problem: <strong>EPE bills by
+            electric account, not by inspected unit count</strong> —
+            a duplex with one owner-paid account for the whole
+            building, or units sub-metered by the landlord rather than
+            EPE, reads as "Residential Single" to EPE even though it's
+            a confirmed two-unit building. The breakdown bears this
+            out directly — of EPCAD-confirmed missing-middle parcels
+            EPE calls "Residential Single," 2,142 are duplexes, 502
+            are townhouses, and 400 are fourplexes: EPE agreement is a
+            floor on multi-unit status, not the real rate, exactly the
+            same one-directional-undercount pattern as every other
+            source in this project.
+          </p>
+          <p style="font-size:0.78rem; margin:10px 0;">
+            <strong>The actual test:</strong> for the structural
+            model's <span class="stamp">1,471</span> high-confidence
+            (p ≥ 0.8) candidates — EPCAD single-family parcels the
+            model thinks are secretly multi-unit — 775 (52.7%) matched
+            an EPE record, and of those,
+            <span class="big-stat">128 (16.5%)</span> are independently
+            billed by EPE as duplex, triplex, or apartment-complex
+            rather than single. Among <em>all</em> EPCAD single-family
+            parcels matched to EPE (not just the model's candidates),
+            that rate is <span class="stamp">0.76%</span> —
+            <strong>the model's high-confidence candidates hit an
+            independent, address-level multi-unit signal at
+            21.7x the baseline rate.</strong> That's a genuinely
+            different kind of validation than anything else in this
+            project: not an aggregate count matching up, but 128
+            specific parcels where a third, independent administrative
+            system agrees with the model about a specific address.
+          </p>
+          <p style="font-size:0.78rem; margin:10px 0;">
+            <strong>Caveat, to be direct about it:</strong> 16.5% is a
+            floor, not the model's true hit rate — same billing-account
+            undercount logic as above means plenty of real hidden
+            units never show up as a duplex/triplex/apartment EPE
+            class even when they exist. But it cuts the other way too:
+            a 21.7x lift over baseline, from a data source with every
+            incentive to under-, not over-, report multi-unit billing,
+            is hard to explain away as coincidence. It's independent
+            corroboration for a meaningful slice of the model's
+            candidates, not proof for all of them. See
+            <code>data/epe_meter_validation.json</code> and
+            <code>data/epe_confirmed_hidden_units.csv</code> for the
+            full figures and the 128 confirmed addresses.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 7. SYNTHESIS ============ -->
+  <section class="narrative-section">
+    <div class="section-number">07</div>
     <div class="section-title">WHAT THIS MEANS, PUT TOGETHER</div>
     <div class="narrative-body">
       <p>
-        Four independent pieces of evidence, each with its own blind
+        Five independent pieces of evidence, each with its own blind
         spots, point the same direction.
       </p>
     </div>
@@ -827,8 +926,22 @@
           <p style="font-size:0.78rem; margin:10px 0;">
             A third, completely independent source puts a number on the
             gap: at missing middle's real definition, EPCAD accounts
-            for only about <span class="big-stat">half</span> of what
+            for only about <span class="big-stat">60%</span> of what
             household survey data implies exists.
+          </p>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">5 · THE ELECTRIC METER CHECK <span class="stamp">SECTION 6</span></div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            A fourth independent source, matched address-by-address
+            rather than in aggregate: El Paso Electric's own billing
+            class confirms a duplex/triplex/apartment meter at
+            <span class="big-stat">21.7x</span> the baseline rate for
+            the model's high-confidence candidates specifically — 128
+            individually-named parcels where a third administrative
+            system agrees with the model.
           </p>
         </div>
       </div>
@@ -843,7 +956,7 @@
     <div class="callout">
       <div class="callout-label">THE KEY FINDING, REASONED THROUGH</div>
       <p style="font-size:0.8rem; margin:6px 0 0;">
-        Put those four pieces together and a specific explanation for
+        Put those five pieces together and a specific explanation for
         <em>where</em> the undercount lives falls out — an inference
         from the pattern of results, not a new measurement on its own.
         A model trained purely on structure, footprint shape,
@@ -856,7 +969,7 @@
         fingerprint — the footprint-shape check (~8.7% of single-family
         parcels flagged) and the model's high-confidence candidates
         (1,471-2,622 parcels across model versions) — both undershoot
-        the ACS-implied ~24,000-unit gap by roughly an order of
+        the ACS-implied ~21,000-unit gap by roughly an order of
         magnitude.
       </p>
       <p style="font-size:0.8rem; margin:10px 0 0;">
@@ -868,7 +981,15 @@
         permit record would ever catch. This project has no
         interior-inspection or permit-matching data to confirm it
         directly, but it's the explanation consistent with every
-        method here without requiring any of them to be wrong.
+        method here without requiring any of them to be wrong. The
+        electric-meter check (section 6) adds one more data point in
+        the same direction: it independently confirms a real slice
+        (128 parcels, a 21.7x lift over baseline) of the model's
+        candidates specifically, without being able to confirm or
+        rule out the rest — exactly what you'd expect if the
+        candidates are mostly real but EPE's billing-account
+        classification misses most of them the same way every other
+        source here undercounts in one direction.
       </p>
     </div>
 

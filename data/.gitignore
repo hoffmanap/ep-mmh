@@ -1,7 +1,11 @@
-raw/
+raw/*
+!raw/epe/
+raw/epe/*
+!raw/epe/El_Paso_Electric_Meters.xlsx
 gis/
 output/
 *.csv
 *.zip
 !missing_middle_candidates.csv
 !feature_importance.csv
+!epe_confirmed_hidden_units.csv

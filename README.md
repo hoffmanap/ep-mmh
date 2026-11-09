@@ -33,8 +33,10 @@ than taking any single source's count at face value.
 > **16.96%** exists. EPCAD's classification — a legal record of what's
 > been permitted and assessed — is capturing only about **60%** of the
 > missing-middle housing that independently gathered survey data says
-> is actually there. See section 5 for the full comparison, and
-> section 6 for what ties all four pieces of evidence together.
+> is actually there. See section 5 for the full comparison, section 6
+> for an independent address-level check against El Paso Electric's
+> own meter billing data, and section 7 for what ties all five pieces
+> of evidence together.
 
 ## 2. Baseline data — how EPCAD classifies housing, and where it can't see
 
@@ -512,9 +514,75 @@ Full tract-level numbers: `data/mm_2_19_comparison_summary.json`
 (checked in); per-tract detail CSV regenerates via
 `scripts/mm_2_19_comparison.py`.
 
-## 6. What this means, put together
+## 6. Validation, layer 3 — electric meter billing class (external, address-level)
 
-Four independent pieces of evidence, each with its own blind spots, point
+El Paso Electric classifies every service address into a billing
+class — Residential Single, Residential Duplex, Residential Triplex,
+or Apartment Complex — for rate-setting purposes, entirely independent
+of EPCAD's parcel records or this project's model. Unlike the
+footprint and ACS checks above, which only validate *aggregate
+counts*, EPE's data can be joined address-by-address to the structural
+model's specific flagged parcels (`scripts/join_epe_meters.py`,
+`data/epe_meter_validation.json`, `data/epe_confirmed_hidden_units.csv`).
+
+**The join.** EPE's data has no parcel ID or coordinates — only a
+free-text service address and ZIP (`El_Paso_Electric_Meters.xlsx`,
+212,877 meter rows, 199,269 unique address+ZIP combinations) — so this
+is a normalized-address string join against EPCAD's situs address
+fields, not a guaranteed-unique key match like the other validations
+here. 4,525 (address, ZIP) pairs have multiple EPE rows; 96% are the
+same billing class repeated (meter swaps, tenant turnover), and the
+mixed-class ones are mostly a single-family main account sharing an
+address string with an apartment-complex account — both collapsed to
+one row per address, keeping the higher (more unit-informative) class.
+58.8% of EPCAD's residential parcels (145,094 of 246,950) matched to
+an EPE residential meter record; the rest didn't match, most likely
+because an address didn't normalize identically on both sides
+(abbreviations, unit suffixes, or addresses served by another
+utility), not because no meter exists. Unmatched means "couldn't
+check," not "not missing middle."
+
+**Sanity check.** Of the 8,739 parcels EPCAD's own STATE_CD field
+already calls missing-middle, 4,219 matched to an EPE record, and
+EPE's independent billing class agrees they're multi-unit
+(duplex/triplex/apartment, not single) for only **22.8%** of them.
+That has a real explanation rather than being a join-quality problem:
+**EPE bills by electric account, not by inspected unit count** — a
+duplex with one owner-paid account for the whole building, or units
+sub-metered by the landlord rather than EPE, reads as "Residential
+Single" to EPE even though it's a confirmed two-unit building. The
+breakdown bears this out directly: of EPCAD-confirmed missing-middle
+parcels EPE calls "Residential Single," 2,142 are duplexes, 502 are
+townhouses, and 400 are fourplexes. EPE agreement is a floor on
+multi-unit status, not the real rate — the same one-directional
+undercount pattern as every other source in this project.
+
+**The actual test.** For the structural model's 1,471 high-confidence
+(p≥0.8) candidates — EPCAD single-family parcels the model thinks are
+secretly multi-unit — 775 (52.7%) matched an EPE record, and of those,
+**128 (16.5%)** are independently billed by EPE as duplex, triplex, or
+apartment-complex rather than single. Among *all* EPCAD single-family
+parcels matched to EPE (not just the model's candidates), that rate is
+only **0.76%** — **the model's high-confidence candidates hit an
+independent, address-level multi-unit signal at 21.7x the baseline
+rate.** That's a genuinely different kind of validation than anything
+else in this project: not an aggregate count matching up, but 128
+specific parcels where a third, independent administrative system
+agrees with the model about a specific address (full list:
+`data/epe_confirmed_hidden_units.csv`).
+
+**Caveat.** 16.5% is a floor on the model's true hit rate, not the
+rate itself — the same billing-account undercount logic above means
+plenty of real hidden units never show up as a duplex/triplex/
+apartment EPE class even when they exist. But a 21.7x lift over
+baseline, from a data source with every incentive to under-, not
+over-, report multi-unit billing, is hard to explain away as
+coincidence. It's independent corroboration for a meaningful slice of
+the model's candidates, not proof for all of them.
+
+## 7. What this means, put together
+
+Five independent pieces of evidence, each with its own blind spots, point
 the same direction:
 
 1. **The legal mechanism (section 1).** Single-family zoning makes most
@@ -539,10 +607,16 @@ the same direction:
 4. **The ACS check (section 5)**, a third, completely independent data
    source (self-reported household survey, not administrative records
    at all), puts a number on the size of the gap: at missing middle's
-   real definition, EPCAD accounts for only about **half** of what ACS
+   real definition, EPCAD accounts for only about **60%** of what ACS
    implies exists.
+5. **The electric meter check (section 6)**, a fourth independent data
+   source matched address-by-address rather than in aggregate: El
+   Paso Electric's own billing class confirms a duplex/triplex/
+   apartment meter at **21.7x** the baseline rate for the model's
+   high-confidence candidates specifically — 128 individually-named
+   parcels where a third administrative system agrees with the model.
 
-**The key finding, reasoned through.** Put these four pieces together
+**The key finding, reasoned through.** Put these five pieces together
 and a specific explanation for *where* the undercount lives falls out
 — not a new measurement, but the most parsimonious reading of what the
 measurements above do and don't find:
@@ -580,6 +654,13 @@ measurements above do and don't find:
   this project has no interior inspection or permit-matching data that
   could confirm it directly — but it's the explanation that requires
   the fewest assumptions.
+- The electric-meter check (section 6) adds one more data point in the
+  same direction, of a different kind: it independently confirms a
+  real slice (128 parcels, a 21.7x lift over baseline) of the model's
+  candidates specifically, without being able to confirm or rule out
+  the rest — exactly what you'd expect if the candidates are mostly
+  real but EPE's billing-account classification misses most of them,
+  the same way every other source here undercounts in one direction.
 
 **That has three specific implications, each one corroborated by
 something already in this analysis rather than asserted on its own:**
@@ -768,6 +849,7 @@ python scripts/shape_features.py
 python scripts/fetch_acs_units_in_structure.py  # ACS comparison (section 5)
 python scripts/join_tracts_and_compare.py       # official zoning + tract-level EPCAD/model/ACS comparison (broad definition)
 python scripts/mm_2_19_comparison.py            # same comparison re-scoped to the literature's actual 2-19 unit definition (section 5)
+python scripts/join_epe_meters.py               # El Paso Electric meter billing-class validation (section 6)
 ```
 
 Then open `index.html` — it reads the generated JSON/GeoJSON files
@@ -790,9 +872,11 @@ ep-mmh/
 │   ├── join_tracts_and_compare.py   # official zoning join + tract-level EPCAD/model/ACS comparison
 │   ├── join_first_american.py       # spatial join: First American ownership/financing data <-> EPCAD parcels
 │   ├── join_fa_physical.py          # separate spatial join: First American physical characteristics (bed/bath/sqft) <-> EPCAD parcels (section 3)
-│   └── make_mortgage_dashboard_data.py  # aggregate financing stats for the dashboard
+│   ├── make_mortgage_dashboard_data.py  # aggregate financing stats for the dashboard
+│   └── join_epe_meters.py           # address-join to El Paso Electric meter billing class, independent per-parcel validation (section 6)
 ├── data/
 │   ├── raw/                         # EPCAD flat-file exports (not checked in — see Setup)
+│   ├── raw/epe/El_Paso_Electric_Meters.xlsx  # El Paso Electric meter billing-class export (checked in)
 │   ├── gis/                         # EPCAD parcel geodatabase + footprint tiles + zoning/tract boundaries (not checked in — see Setup)
 │   ├── output/                      # generated intermediate CSVs (not checked in, large)
 │   ├── dashboard_stats.json         # generated: aggregated stats for the dashboard (checked in)
@@ -809,7 +893,9 @@ ep-mmh/
 │   ├── missing_middle_candidates.csv    # generated: full candidate list w/ probabilities (checked in)
 │   ├── feature_importance.csv       # generated: classifier permutation importances (checked in)
 │   ├── model_metrics.json           # generated: classifier test AUC etc. (checked in)
-│   └── mortgage_stats.json          # generated: First American financing aggregates (checked in)
+│   ├── mortgage_stats.json          # generated: First American financing aggregates (checked in)
+│   ├── epe_meter_validation.json    # generated: El Paso Electric meter billing-class validation stats (checked in)
+│   └── epe_confirmed_hidden_units.csv  # generated: 128 model candidates independently confirmed multi-unit by EPE billing class (checked in)
 ```
 
 ## Known caveats

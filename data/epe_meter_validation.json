@@ -1,0 +1,20 @@
+{
+  "match_rate_all_addressable_parcels": 0.4713,
+  "n_addressable_parcels_matched": 147210,
+  "n_addressable_parcels_total": 312351,
+  "match_rate_residential_parcels": 0.5875,
+  "n_residential_parcels_matched": 145094,
+  "n_residential_parcels_total": 246950,
+  "sanity_check_confirmed_mm_n_total": 8739,
+  "sanity_check_confirmed_mm_match_rate": 0.4828,
+  "sanity_check_confirmed_mm_n_matched": 4219,
+  "sanity_check_confirmed_mm_epe_agree_pct": 22.8,
+  "candidates_p80_n": 1471,
+  "candidates_p80_n_matched_to_epe": 775,
+  "candidates_p80_matched_pct": 52.69,
+  "candidates_p80_epe_confirms_multiunit_n": 128,
+  "candidates_p80_epe_confirms_multiunit_pct_of_matched": 16.52,
+  "baseline_all_single_family_matched_n": 138014,
+  "baseline_all_single_family_epe_multiunit_pct": 0.76,
+  "candidate_vs_baseline_lift": 21.71
+}
