@@ -17,7 +17,7 @@ FA_RAW = os.environ.get("EP_MMH_FA_RAW", "data/first_american")
 parcels = pd.read_csv(f"{OUT}/parcels_analysis.csv")
 
 RES = ['Single-Family Detached', 'Single-Family Detached (Other Residential Subtype)',
-       'Mobile/Manufactured Home', 'Duplex', 'Townhouse', 'Condominium', 'Apartment/Multifamily',
+       'Mobile/Manufactured Home', 'Duplex', 'Triplex', 'Fourplex', 'Townhouse', 'Condominium', 'Apartment/Multifamily',
        'Multi-Unit Residential (Other)', 'Apartment (4-6 units)', 'Apartment (7-30 units)',
        'Apartment (31-99 units)', 'Apartment (100+ units)']
 res = parcels[parcels["typology"].isin(RES)].copy()
@@ -96,6 +96,31 @@ lot_sweet_spot = res_m.groupby("sqft_lot_bin", observed=True)["is_missing_middle
 lot_sweet_spot["mm_share_pct"] = (lot_sweet_spot["mean"] * 100).round(1)
 print("\n=== Missing-middle share by lot size (sqft) ===")
 print(lot_sweet_spot[["mm_share_pct", "count"]])
+
+# ---------------------------------------------------------------------
+# Lot-size bin x typology breakdown -- powers the dashboard's interactive
+# drill-down (click a lot-size bucket, see which typologies make it up).
+# Computed on the full `res` table (not the FA-matched res_m subset)
+# since it only needs LAND_ACRES/typology, both always present, so there's
+# no reason to lose ~40% of parcels to the FA bed/bath join tolerance.
+# ---------------------------------------------------------------------
+res["sqft_lot"] = pd.to_numeric(res["LAND_ACRES"], errors="coerce") * 43560
+res["sqft_lot_bin"] = pd.cut(res["sqft_lot"], bins=sqft_lot_bins, labels=sqft_lot_labels, right=False)
+typology_order = sorted(res["typology"].dropna().unique().tolist())
+lot_typology_matrix = (
+    res.groupby(["sqft_lot_bin", "typology"], observed=True).size()
+    .unstack("typology", fill_value=0)
+    .reindex(columns=typology_order, fill_value=0)
+    .reindex(sqft_lot_labels, fill_value=0)
+)
+lot_typology_breakdown = {
+    "bins": sqft_lot_labels,
+    "typologies": typology_order,
+    "matrix": lot_typology_matrix.values.tolist(),
+}
+with open(f"{OUT}/lot_size_typology_breakdown.json", "w") as f:
+    json.dump(lot_typology_breakdown, f)
+print(f"\nSaved lot_size_typology_breakdown.json ({len(typology_order)} typologies x {len(sqft_lot_labels)} bins)")
 
 sqft_bins = [0, 600, 900, 1200, 1500, 1800, 2200, 2800, 3500, 99999]
 res_m["sqft_bin"] = pd.cut(res_m["building_sqft"], sqft_bins)

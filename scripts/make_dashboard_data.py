@@ -25,7 +25,7 @@ OUT = os.environ.get("EP_MMH_OUT", "data/output")
 # that was originally dropped (the "STATE_CD gap" fixed earlier this project).
 RESIDENTIAL_TYPES = [
     "Single-Family Detached", "Single-Family Detached (Other Residential Subtype)",
-    "Mobile/Manufactured Home", "Duplex", "Townhouse", "Condominium", "Apartment/Multifamily",
+    "Mobile/Manufactured Home", "Duplex", "Triplex", "Fourplex", "Townhouse", "Condominium", "Apartment/Multifamily",
     "Multi-Unit Residential (Other)", "Apartment (4-6 units)", "Apartment (7-30 units)",
     "Apartment (31-99 units)", "Apartment (100+ units)",
 ]

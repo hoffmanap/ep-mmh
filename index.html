@@ -186,6 +186,32 @@
     color:var(--rust);
   }
 
+  .flow-arrow{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin:-4px 0 16px;
+    color:var(--rust);
+  }
+  .flow-arrow .flow-stem{
+    width:2px; height:18px;
+    background:var(--rust);
+  }
+  .flow-arrow .flow-head{
+    width:0; height:0;
+    border-left:7px solid transparent;
+    border-right:7px solid transparent;
+    border-top:9px solid var(--rust);
+  }
+  .flow-arrow .flow-label{
+    font-family:'Special Elite', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.5px;
+    color:var(--rust);
+    margin:2px 0;
+    text-align:center;
+  }
+
   .leaflet-control-layers{
     font-family:'IBM Plex Mono', monospace !important;
     font-size:0.76rem;
@@ -238,19 +264,19 @@
     </div>
     <div class="callout">
       <div class="callout-label">BOTTOM LINE, UP FRONT</div>
-      EPCAD's own records say <span class="big-stat">20.72%</span> of
+      EPCAD's own records say <span class="big-stat">21.56%</span> of
       El Paso's housing units are missing-middle — but most of that is
       actually large apartment complexes, not missing middle in the
       term's real sense. Scoped correctly (2-19 units, the definition
       Parolek and the paper this project adapts both use), EPCAD's
-      figure drops to <span class="big-stat">9.15%</span>, while the
+      figure drops to <span class="big-stat">10.11%</span>, while the
       Census's own household survey (ACS) implies
       <span class="big-stat">16.96%</span> actually exists. EPCAD's
       classification — a legal record of what's been permitted and
-      assessed — captures only about <strong>half</strong> of the
+      assessed — captures only about <strong>60%</strong> of the
       missing-middle housing independently gathered survey data says is
-      really there. Section 5 has the full comparison; section 6 ties
-      all four pieces of evidence together.
+      really there, at that scoped definition. Section 5 has the full
+      comparison; section 6 ties all four pieces of evidence together.
     </div>
   </section>
 
@@ -269,13 +295,56 @@
       </p>
     </div>
 
+    <div class="callout">
+      <div class="callout-label">WHERE TRIPLEXES AND FOURPLEXES ACTUALLY LIVE IN THIS DATA</div>
+      <p style="font-size:0.8rem; margin:6px 0 0;">
+        EPCAD's <code>STATE_CD</code> does track them separately — codes
+        <strong>B3</strong> and <strong>B4</strong> — but an earlier
+        version of this pipeline lumped B3, B4, B5, and B6 together into
+        a single "Multi-Unit Residential (Other)" bucket and, worse,
+        counted every parcel in that bucket as exactly <strong>one
+        unit</strong> in every unit-weighted statistic on this page. A
+        real triplex was being counted the same as a studio apartment.
+        That's now fixed: B3 is split out as <strong>Triplex</strong>
+        (368 parcels, 3 units each) and B4 as <strong>Fourplex</strong>
+        (906 parcels, 4 units each) — based on the Texas statewide SPTB
+        state-code convention other Texas appraisal districts document
+        for these same codes, corroborated here by B3/B4 parcels
+        averaging more improvement records per parcel than B1 duplexes
+        do. B5 (125 parcels) and B6 (24) stay lumped as "Multi-Unit
+        Residential (Other)" — too few parcels and too ambiguous a
+        structural signal to confidently assign them a specific unit
+        count (EPCAD's own site blocks automated lookups, so this
+        couldn't be confirmed against a published legend directly).
+      </p>
+      <p style="font-size:0.8rem; margin:10px 0 0;">
+        Fixing this wasn't cosmetic — this page's headline undercount
+        numbers moved. Countywide unit-weighted missing-middle share
+        went from 20.72% to <strong>21.56%</strong>; at the scoped
+        2-19-unit definition (section 5), EPCAD's recorded share went
+        from 9.15% to <strong>10.11%</strong> of what ACS implies
+        exists, closing roughly a point of the undercount gap just by
+        counting units in parcels that were already correctly flagged
+        as missing-middle, just under-weighted.
+      </p>
+    </div>
+
     <div class="map-layout">
       <div class="panel">
         <div class="panel-title">MISSING-MIDDLE PARCEL MAP</div>
         <div id="map"></div>
         <div style="font-size:0.72rem; padding:6px 12px; opacity:0.75;">
-          Use the layer control (top right) to toggle the official
-          City of El Paso zoning-district overlay on or off.
+          Use the layer control (top right) to toggle the official City
+          of El Paso zoning-district overlay, or the
+          <strong>"Where to legalize (tract gap)"</strong> choropleth —
+          shades each census tract by how much more missing-middle
+          housing ACS residents self-report than EPCAD's own records
+          show for that tract (dark rust = biggest gap, i.e. the
+          tracts where this project's evidence most strongly suggests
+          informal missing-middle housing already exists and zoning
+          reform would legalize the most of it; sage green = EPCAD's
+          records already roughly match or exceed ACS there). Click a
+          tract for its exact numbers.
         </div>
       </div>
       <div class="sidebar-stack">
@@ -433,54 +502,91 @@
 
     <div class="panel-grid single">
       <div class="panel">
-        <div class="panel-title">WHAT "TEST AUC" ACTUALLY MEASURES — AND WHY 0.997 IS GOOD BUT NOT THE WHOLE STORY</div>
+        <div class="panel-title">THREE DIFFERENT QUESTIONS, THREE DIFFERENT (AND NOT CONTRADICTORY) ANSWERS</div>
         <div class="field-card" style="padding-top:0;">
           <p style="font-size:0.78rem; margin:10px 0;">
-            <strong>AUC (area under the ROC curve)</strong> answers one
-            specific question: if you picked one random confirmed
-            missing-middle parcel and one random confirmed single-family
-            parcel from the <em>held-out test set</em> (59,831 parcels
-            the model never trained on), how often would the model rank
-            the missing-middle one as more likely to be missing-middle?
-            An AUC of 0.5 is a coin flip; 1.0 is perfect separation. At
-            <strong>0.997</strong>, the model gets that ordering right
-            99.7% of the time — yes, that's a strong score, well above
-            what most real-world classification tasks reach, and it
-            means the structural/shape/ownership/physical-capacity
-            signature of missing-middle housing really is distinct from
-            single-family housing in this data.
-          </p>
-          <p style="font-size:0.78rem; margin:10px 0;">
-            But AUC alone doesn't tell you how many candidates to flag —
-            that depends on <strong>precision</strong> (of the parcels
-            flagged missing-middle, how many actually are) and
-            <strong>recall</strong> (of the parcels that actually are
-            missing-middle, how many got flagged). At the 0.5 threshold
-            used to generate candidates, this model scores
-            <strong>0.66 precision / 0.95 recall</strong> on the class
-            that matters — it catches 95% of true missing-middle
-            parcels in the test set, at the cost of one false positive
-            for roughly every two true ones. That's a deliberate,
-            reasonable trade-off for a <em>screening</em> tool meant to
-            flag parcels worth a closer look, not a tool meant to make
-            a final determination on its own.
-          </p>
-          <p style="font-size:0.78rem; margin:10px 0;">
-            <strong>None of this is the same question as "did the model
-            find real undercounted missing-middle housing."</strong>
-            AUC, precision, and recall are all computed against EPCAD's
-            own labels — parcels the county has already classified.
-            The candidates below are single-family-<em>labeled</em>
-            parcels the model thinks share the missing-middle
-            signature; EPCAD has made no determination on them one way
-            or the other, so there's no ground truth to score the
-            candidates against directly. The callout below, and section
-            5's ACS comparison, are the closest this project gets to an
-            answer on that separate question — and the answer there is
-            much more modest than the AUC alone would suggest.
+            It's easy to read "0.997 AUC" next to "0.66 precision" and
+            hear the model described as both great and not-great at the
+            same time. It isn't a contradiction — they're answers to
+            <strong>three separate questions</strong>, and all three can
+            be true at once:
           </p>
         </div>
       </div>
+    </div>
+
+    <div class="panel-grid cols-3">
+      <div class="panel">
+        <div class="panel-title">Q1 · CAN IT TELL THEM APART AT ALL?</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            Show it one confirmed missing-middle parcel and one confirmed
+            single-family parcel, no threshold involved — just rank
+            them. It gets the ranking right <span class="big-stat">99.7%</span>
+            of the time (AUC). This is the model's raw ability to tell
+            the two apart, independent of any yes/no decision.
+          </p>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Q2 · WHERE DO YOU DRAW THE LINE?</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            To turn that ranking into an actual candidate list, you have
+            to pick a cutoff. This project uses
+            <span class="big-stat">p ≥ 0.5</span> — a deliberately loose
+            bar, chosen to flag more parcels worth a second look rather
+            than fewer. A stricter cutoff (p ≥ 0.8) produces a shorter,
+            higher-confidence list instead; see the candidate panel below.
+          </p>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Q3 · HOW GOOD IS THE LIST AT THAT LINE?</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            At p ≥ 0.5: <span class="big-stat">95% recall</span> (it
+            catches 95% of true missing-middle parcels in the test set)
+            but only <span class="big-stat">66% precision</span> (1 in 3
+            flagged parcels is a false positive). A loose cutoff chosen
+            to maximize recall will <em>always</em> cost precision —
+            that's not a flaw in the model, it's the direct, mechanical
+            consequence of the choice made in Q2.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">THE ANALOGY</div>
+      <p style="font-size:0.8rem; margin:6px 0 0;">
+        Think of a smoke detector tuned to go off at the faintest hint
+        of smoke. It will catch nearly every real fire (high recall) —
+        but it will also go off for burnt toast fairly often (lower
+        precision). That doesn't mean the detector is bad at sensing
+        smoke; a <em>less</em> sensitive detector would miss more real
+        fires in exchange for fewer false alarms. Which trade-off is
+        "right" depends on what the alarm is for. Here, the candidate
+        list is a screening tool meant to flag parcels worth a closer
+        look, not a final determination — so this project deliberately
+        tunes toward catching more real missing-middle parcels, accepting
+        the false-positive cost that comes with it, rather than a
+        tighter cutoff that would miss more of the real ones to
+        avoid flagging a few extra.
+      </p>
+      <p style="font-size:0.8rem; margin:10px 0 0;">
+        <strong>One more thing none of these three numbers answer:</strong>
+        "did the model find real undercounted missing-middle housing."
+        AUC, precision, and recall are all scored against EPCAD's own
+        labels — parcels the county has already classified one way or
+        the other. The candidates below are single-family-<em>labeled</em>
+        parcels the model thinks share the missing-middle signature;
+        EPCAD has made no determination on them, so there's no ground
+        truth to score against directly. Section 5's ACS comparison is
+        the closest this project gets to an answer on that separate
+        question — and the answer there is much more modest than the
+        AUC alone would suggest.
+      </p>
     </div>
 
     <div class="panel-grid single">
@@ -530,8 +636,9 @@
         <span class="big-stat">0.997</span> and shrinks the candidate
         set a bit further (4,439 → 4,072 at p≥0.5; 1,569 →
         <span class="big-stat">1,471</span> at p≥0.8), and on the
-        section 5 downstream test it's essentially a wash (88 of 182
-        tracts either way). It's kept anyway: the ACS tract comparison
+        section 5 downstream test it's essentially a wash (84 of 182
+        tracts improved either way, mean diff 10.22 → 10.19). It's kept
+        anyway: the ACS tract comparison
         only tests whether a parcel looks undercounted <em>today</em>,
         not whether it's physically capable of being converted
         <em>tomorrow</em> — a question the bathroom count speaks to
@@ -615,10 +722,10 @@
             Each dot is one of 182 census tracts. The chart below plots
             EPCAD's <em>broad</em> (any non-single-family structure)
             share against ACS — countywide, EPCAD
-            (<span class="stamp">20.72%</span>) and ACS
+            (<span class="stamp">21.56%</span>) and ACS
             (<span class="stamp">23.05%</span>) look close, but that's
-            misleading: EPCAD's broad flag includes large apartment
-            complexes that aren't "missing middle" by any real
+            still somewhat misleading: EPCAD's broad flag includes large
+            apartment complexes that aren't "missing middle" by any real
             definition, and the ACS side was scoped the same broad way
             to match it.
           </p>
@@ -626,25 +733,42 @@
             <strong>Scoped to missing middle's actual definition —
             2-19 units, per Parolek and the Salazar-Miranda &amp; Talen
             paper this project adapts — the picture changes
-            substantially.</strong> EPCAD (<span class="stamp">9.15%</span>)
-            captures only about <strong>54%</strong> of what ACS implies
+            substantially.</strong> EPCAD (<span class="stamp">10.11%</span>)
+            captures only about <strong>60%</strong> of what ACS implies
             exists (<span class="stamp">16.96%</span>) — a real
-            <strong>7.8-point countywide undercount</strong>, not a
-            unit-of-analysis artifact. Tract-level mean absolute
-            difference is <span class="stamp">10.36 points</span>. Here,
+            <strong>6.85-point countywide undercount</strong>, not a
+            unit-of-analysis artifact (down from a 7.8-point/54% gap
+            before this project split EPCAD's B3/B4 "triplex"/"fourplex"
+            parcels out of a catch-all "Multi-Unit Residential (Other)"
+            bucket that had been counting every one of them as a single
+            unit — see section 6 for that fix). Tract-level mean absolute
+            difference is <span class="stamp">10.22 points</span>. Here,
             unlike at any other definition tested, the structural
             model's high-confidence candidates help slightly more often
-            than not — with the current (shape+ownership-feature)
-            model, mean diff moves to 10.30, improving 88 of 182 tracts
-            (49%); the prior, structural-only model moved it to 10.31,
-            improving 96 of 182 (53%). Either way it's weak evidence,
-            not decisive, and nowhere near enough to close a gap this
-            size (ACS implies ~24,000 more missing-middle units exist
-            than EPCAD has on record). See
-            <code>data/mm_2_19_comparison_summary.json</code>.
+            than not — with the current (shape+ownership+bathroom-feature)
+            model, mean diff moves to 10.19, improving 84 of 182 tracts
+            (46%); the prior, shape+ownership-feature model (before the
+            B3/B4 fix) had moved it to 10.30, improving 88 of 182 (49%) —
+            similar magnitude, not directly comparable since the EPCAD
+            baseline itself shifted. Either way it's weak evidence, not
+            decisive, and nowhere near enough to close a gap this size
+            (ACS implies ~21,000 more missing-middle units exist than
+            EPCAD has on record, down from ~24,000 before the B3/B4 fix).
+            See <code>data/mm_2_19_comparison_summary.json</code>.
           </p>
         </div>
         <div class="chart-wrap"><canvas id="acsComparisonChart" height="280"></canvas></div>
+        <p style="font-size:0.72rem; margin:8px 0 0; color:var(--ink-faint, #7a7468);">
+          Each dot is one census tract. The dashed line is perfect
+          agreement (EPCAD's share = ACS's self-reported share). Tracts
+          in the shaded <strong style="color:#3d6b63;">green</strong>
+          region sit above the line — ACS residents report more
+          missing-middle housing there than EPCAD's records show, i.e.
+          EPCAD <em>underrepresents</em> it. Tracts in the shaded
+          <strong style="color:#8a5252;">red</strong> region sit below
+          the line — the rarer case where EPCAD's records show more
+          than ACS does, i.e. EPCAD <em>overrepresents</em> it.
+        </p>
       </div>
     </div>
   </section>
@@ -710,6 +834,12 @@
       </div>
     </div>
 
+    <div class="flow-arrow">
+      <div class="flow-label">TOGETHER, THEY POINT TO ONE EXPLANATION</div>
+      <div class="flow-stem"></div>
+      <div class="flow-head"></div>
+    </div>
+
     <div class="callout">
       <div class="callout-label">THE KEY FINDING, REASONED THROUGH</div>
       <p style="font-size:0.8rem; margin:6px 0 0;">
@@ -740,6 +870,12 @@
         directly, but it's the explanation consistent with every
         method here without requiring any of them to be wrong.
       </p>
+    </div>
+
+    <div class="flow-arrow">
+      <div class="flow-label">WHICH MEANS</div>
+      <div class="flow-stem"></div>
+      <div class="flow-head"></div>
     </div>
 
     <div class="panel-grid single">
@@ -849,6 +985,8 @@ const TYPOLOGY_COLORS = {
   "Single-Family Detached": "#9e9b8f",
   "Mobile/Manufactured Home": "#c2bfae",
   "Duplex": "#3D5A6C",
+  "Triplex": "#2E6B5E",
+  "Fourplex": "#7A8C3D",
   "Townhouse": "#B06A6A",
   "Condominium": "#9C7A96",
   "Apartment/Multifamily": "#A6531C",
@@ -876,16 +1014,17 @@ Promise.all([
   fetch('data/tract_comparison_epcad_acs.json').then(r => r.ok ? r.json() : null),
   fetch('data/zoning_simplified.geojson').then(r => r.ok ? r.json() : null),
   fetch('data/lot_size_typology_breakdown.json').then(r => r.ok ? r.json() : null),
+  fetch('data/legalize_priority_tracts.geojson').then(r => r.ok ? r.json() : null),
 ])
-  .then(([stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats, tractComparison, zoningGeo, lotTypologyBreakdown]) =>
-    renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats, tractComparison, zoningGeo, lotTypologyBreakdown))
+  .then(([stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats, tractComparison, zoningGeo, lotTypologyBreakdown, legalizeGeo]) =>
+    renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats, tractComparison, zoningGeo, lotTypologyBreakdown, legalizeGeo))
   .catch(err => {
     console.error(err);
     document.getElementById('loadError').style.display = 'block';
   });
 
-function renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats, tractComparison, zoningGeo, lotTypologyBreakdown) {
-  renderMap(geojson.features, candidates.features || [], zoningGeo);
+function renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mortgageStats, shapeStats, tractComparison, zoningGeo, lotTypologyBreakdown, legalizeGeo) {
+  renderMap(geojson.features, candidates.features || [], zoningGeo, legalizeGeo);
   renderLegend();
   renderStatBlock(stats.stats);
   renderDistanceChart(stats.distance_gradient);
@@ -955,6 +1094,52 @@ function renderLotTypologyDrilldown(breakdown) {
 // ---------------------------------------------------------------------
 // ACS VALIDATION SCATTER — EPCAD vs ACS missing-middle share per tract
 // ---------------------------------------------------------------------
+// Shades the two halves of the EPCAD-vs-ACS diagonal and labels them --
+// above the y=x line a tract's ACS-reported share exceeds what EPCAD's
+// own records show for it (EPCAD UNDERREPRESENTS missing-middle there);
+// below the line EPCAD's records show more than ACS does for that tract
+// (EPCAD OVERREPRESENTS it, relatively rare in this data).
+const acsDiagonalShading = {
+  id: 'acsDiagonalShading',
+  beforeDatasetsDraw(chart) {
+    const { ctx, chartArea, scales: { x, y } } = chart;
+    if (!chartArea) return;
+    const x0 = x.getPixelForValue(0), x100 = x.getPixelForValue(100);
+    const y0 = y.getPixelForValue(0), y100 = y.getPixelForValue(100);
+    ctx.save();
+    // Below the diagonal (EPCAD overrepresents): triangle (0,0)-(100,0)-(100,100)
+    ctx.beginPath();
+    ctx.moveTo(x0, y0);
+    ctx.lineTo(x100, y0);
+    ctx.lineTo(x100, y100);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(176, 106, 106, 0.10)';
+    ctx.fill();
+    // Above the diagonal (EPCAD underrepresents): triangle (0,0)-(0,100)-(100,100)
+    ctx.beginPath();
+    ctx.moveTo(x0, y0);
+    ctx.lineTo(x0, y100);
+    ctx.lineTo(x100, y100);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(79, 140, 133, 0.12)';
+    ctx.fill();
+    ctx.restore();
+
+    ctx.save();
+    ctx.font = '600 11px sans-serif';
+    ctx.textBaseline = 'middle';
+    // "EPCAD underrepresents" label, upper-left of the shaded upper region
+    ctx.fillStyle = '#3d6b63';
+    ctx.textAlign = 'left';
+    ctx.fillText('EPCAD UNDERREPRESENTS', chartArea.left + 10, chartArea.top + 16);
+    // "EPCAD overrepresents" label, lower-right of the shaded lower region
+    ctx.fillStyle = '#8a5252';
+    ctx.textAlign = 'right';
+    ctx.fillText('EPCAD OVERREPRESENTS', chartArea.right - 10, chartArea.bottom - 12);
+    ctx.restore();
+  },
+};
+
 function renderAcsComparisonChart(tc) {
   const points = tc.tract_level.map(t => ({ x: t.mm_share_epcad_pct, y: t.mm_share_acs_pct }));
   new Chart(document.getElementById('acsComparisonChart'), {
@@ -978,6 +1163,7 @@ function renderAcsComparisonChart(tc) {
         },
       ],
     },
+    plugins: [acsDiagonalShading],
     options: {
       plugins: { legend: { display: false } },
       scales: {
@@ -1114,8 +1300,47 @@ function zoningFamilyColor(label) {
   return '#9e9b8f';
 }
 
-function renderMap(feats, candidateFeats, zoningGeo) {
-  const map = L.map('map', { scrollWheelZoom: true }).setView([31.7598, -106.4887], 11);
+// Typologies that are legally multi-unit, middle-housing structures --
+// these get their own toggleable layer in the map legend by default.
+// Condominium is deliberately excluded from this core list: EPCAD's A3
+// code describes an OWNERSHIP structure (individually-owned units in a
+// building), not a unit count -- a condo parcel can be one unit in a
+// large tower or one half of a duplex-style building, so lumping every
+// condo parcel in with duplexes/triplexes/apartments overstates how
+// much of the map is really "missing middle" in the physical-typology
+// sense this project is about. It's kept as an opt-in "potential"
+// layer instead, off by default, since an unknown share of condos
+// really are small-scale middle housing.
+const CORE_MM_TYPOLOGIES = [
+  "Duplex", "Triplex", "Fourplex", "Townhouse", "Multi-Unit Residential (Other)",
+  "Apartment/Multifamily", "Apartment (4-6 units)", "Apartment (7-30 units)",
+  "Apartment (31-99 units)", "Apartment (100+ units)",
+];
+const POTENTIAL_MM_TYPOLOGIES = ["Condominium"];
+
+let map, typologyLayers = {};
+
+// Color scale for the "where should it be legalized" tract choropleth --
+// gap_pct_points = ACS self-reported share minus EPCAD's recorded share
+// for that tract. Positive (warm) = ACS implies more missing-middle
+// housing than EPCAD's records credit the tract with -- i.e. housing
+// that's very plausibly already there informally, concentrated enough
+// in that tract to be worth prioritizing for zoning/code legalization.
+// Negative (cool) tracts are where EPCAD's own records already roughly
+// match or exceed what ACS implies -- lower legalization priority by
+// this specific signal, not necessarily "no missing-middle here".
+function legalizeFillColor(gap) {
+  if (gap == null || isNaN(gap)) return '#cfc9b8';
+  if (gap >= 20) return '#7a2e1f';
+  if (gap >= 10) return '#A6531C';
+  if (gap >= 5) return '#C98A52';
+  if (gap >= 0) return '#E8C9A0';
+  if (gap >= -10) return '#BFD3CE';
+  return '#7FA89C';
+}
+
+function renderMap(feats, candidateFeats, zoningGeo, legalizeGeo) {
+  map = L.map('map', { scrollWheelZoom: true }).setView([31.7598, -106.4887], 11);
 
   // KNOWN GOTCHA, read before changing this tile source again: CartoDB's
   // basemaps.cartocdn.com tiles (light_all / Positron, dark_all, etc.)
@@ -1154,27 +1379,81 @@ function renderMap(feats, candidateFeats, zoningGeo) {
     });
   }
 
-  const cluster = L.layerGroup().addTo(map);
+  // "Where should missing-middle be legalized" tract choropleth -- off
+  // by default (click-to-enable in the layer control, same as zoning),
+  // since it competes visually with the parcel-level dots that are the
+  // page's primary story. Colors by gap_pct_points: how much more
+  // missing-middle housing ACS residents self-report in that tract than
+  // EPCAD's records show for it, i.e. a plausibility/priority signal
+  // for where informal conversions are already concentrated and where
+  // zoning reform would legalize the most existing (if undocumented)
+  // housing per tract, not a claim about where *new* construction
+  // should go.
+  let legalizeLayer = null;
+  if (legalizeGeo) {
+    legalizeLayer = L.geoJSON(legalizeGeo, {
+      style: feature => ({
+        color: '#2B2420',
+        weight: 0.5,
+        fillColor: legalizeFillColor(feature.properties.gap_pct_points),
+        fillOpacity: 0.55,
+      }),
+      onEachFeature: (feature, layer) => {
+        const p = feature.properties;
+        const gap = p.gap_pct_points;
+        const sign = gap > 0 ? '+' : '';
+        layer.bindPopup(
+          `<strong>${p.NAME}</strong><br>` +
+          `EPCAD recorded share: ${p.mm_share_epcad_pct?.toFixed(1)}%<br>` +
+          `ACS self-reported share: ${p.mm_share_acs_pct?.toFixed(1)}%<br>` +
+          `Gap: <strong>${sign}${gap?.toFixed(1)} pts</strong> ` +
+          `(${gap > 0 ? 'ACS implies more than EPCAD records' : 'EPCAD already roughly matches/exceeds ACS'})<br>` +
+          `Model high-confidence candidates in tract: ${p.n_candidates}`
+        );
+      },
+    });
+  }
+
+  // Build one Leaflet layerGroup PER TYPOLOGY rather than one shared
+  // layer -- this is what lets the legend act as an interactive
+  // per-typology filter (click a swatch, that typology's dots toggle
+  // on/off) instead of just being a static color key.
+  [...CORE_MM_TYPOLOGIES, ...POTENTIAL_MM_TYPOLOGIES].forEach(t => {
+    typologyLayers[t] = L.layerGroup();
+  });
+  const cluster = L.layerGroup();
 
   feats.forEach(f => {
     const [lon, lat] = f.geometry.coordinates;
     const p = f.properties;
     const color = colorFor(p.typology);
-    L.circleMarker([lat, lon], {
+    const marker = L.circleMarker([lat, lon], {
       radius: 3.5,
       color: "#2B2420",
       weight: 0.5,
       fillColor: color,
       fillOpacity: 0.85,
-    })
-    .bindPopup(
+    }).bindPopup(
       `<strong>${p.typology}</strong><br>` +
       (p.year_built ? `Year built: ${p.year_built}<br>` : '') +
       (p.dist_to_core_mi != null ? `Distance to core: ${p.dist_to_core_mi.toFixed(1)} mi<br>` : '') +
       (p.zoning ? `Zoning: ${p.zoning}` : '')
-    )
-    .addTo(cluster);
+    );
+    const target = typologyLayers[p.typology];
+    if (target) {
+      marker.addTo(target);
+    } else {
+      // Typologies outside both lists (shouldn't normally occur, since
+      // the source geojson is already filtered to is_missing_middle
+      // parcels) still render, just ungrouped, so nothing silently
+      // disappears from the map.
+      marker.addTo(cluster);
+    }
   });
+  // Core typologies start visible; the opt-in "potential" (condo) layer
+  // starts hidden -- see CORE_MM_TYPOLOGIES / POTENTIAL_MM_TYPOLOGIES above.
+  CORE_MM_TYPOLOGIES.forEach(t => typologyLayers[t].addTo(map));
+  cluster.addTo(map);
 
   // Candidate layer: single-family-labeled parcels the structural-feature
   // classifier flagged as likely missing-middle (>=80% confidence), drawn
@@ -1205,24 +1484,64 @@ function renderMap(feats, candidateFeats, zoningGeo) {
   candidateLayer.addTo(map);
 
   const overlays = {
-    "Confirmed missing-middle": cluster,
     "Candidates (model-flagged, ≥80%)": candidateLayer,
   };
   if (zoningLayer) overlays["Official zoning districts"] = zoningLayer;
+  if (legalizeLayer) overlays["Where to legalize (tract gap)"] = legalizeLayer;
   L.control.layers(null, overlays, { collapsed: false }).addTo(map);
 }
 
 // ---------------------------------------------------------------------
-// LEGEND
+// LEGEND -- doubles as an interactive per-typology map filter. Only
+// typologies that can actually appear as a "confirmed missing-middle"
+// dot are listed (see CORE_MM_TYPOLOGIES / POTENTIAL_MM_TYPOLOGIES
+// above) -- farm/ranch houses, mobile homes, and single-family detached
+// parcels are never classified as missing-middle in the first place
+// (EPCAD's STATE_CD already excludes them), so they never had dots to
+// toggle and are left off entirely rather than listed as dead colors.
+// Condominium is listed separately, off by default: see the note on
+// CORE_MM_TYPOLOGIES above for why it's treated as "potential" rather
+// than confirmed middle housing.
 // ---------------------------------------------------------------------
 function renderLegend() {
   const el = document.getElementById('legend');
-  Object.entries(TYPOLOGY_COLORS).forEach(([label, color]) => {
-    const row = document.createElement('div');
+
+  function addRow(label, color, typology, checked) {
+    const row = document.createElement('label');
     row.className = 'legend-item';
-    row.innerHTML = `<span class="swatch" style="background:${color}"></span>${label}`;
+    row.style.cursor = 'pointer';
+    row.style.display = 'flex';
+    row.style.alignItems = 'center';
+    row.style.gap = '6px';
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = checked;
+    cb.addEventListener('change', () => {
+      if (!map || !typologyLayers[typology]) return;
+      if (cb.checked) typologyLayers[typology].addTo(map);
+      else map.removeLayer(typologyLayers[typology]);
+    });
+    row.appendChild(cb);
+    const swatch = document.createElement('span');
+    swatch.className = 'swatch';
+    swatch.style.background = color;
+    row.appendChild(swatch);
+    row.appendChild(document.createTextNode(label));
     el.appendChild(row);
-  });
+  }
+
+  CORE_MM_TYPOLOGIES.forEach(t => addRow(t, colorFor(t), t, true));
+
+  const sep = document.createElement('div');
+  sep.style.cssText = 'margin:8px 0 4px; font-size:0.68rem; color:var(--ink-faint,#7a7468); font-style:italic;';
+  sep.textContent = 'Potential (not confirmed multi-unit):';
+  el.appendChild(sep);
+  POTENTIAL_MM_TYPOLOGIES.forEach(t => addRow(t, colorFor(t), t, false));
+
+  const note = document.createElement('p');
+  note.style.cssText = 'font-size:0.68rem; color:var(--ink-faint,#7a7468); margin:8px 0 0;';
+  note.textContent = 'Farm/ranch houses, mobile homes, and single-family-detached parcels are never classified as confirmed missing-middle here -- see the model-flagged Candidates layer for single-family parcels worth a second look instead.';
+  el.appendChild(note);
 }
 
 // ---------------------------------------------------------------------

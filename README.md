@@ -24,14 +24,14 @@ ceiling, on how much missing-middle housing actually exists. This
 project tries to size that gap from several independent angles rather
 than taking any single source's count at face value.
 
-> **Bottom line, up front:** EPCAD's own records say 20.72% of El
+> **Bottom line, up front:** EPCAD's own records say 21.56% of El
 > Paso's housing units are missing-middle (duplex through small
 > apartment building). But most of that is actually large apartment
 > complexes — scoped to missing middle's real definition (2-19 units,
 > per Parolek and the paper this project adapts), EPCAD's figure drops
-> to **9.15%**, while the Census's own household survey (ACS) implies
+> to **10.11%**, while the Census's own household survey (ACS) implies
 > **16.96%** exists. EPCAD's classification — a legal record of what's
-> been permitted and assessed — is capturing only about **half** of the
+> been permitted and assessed — is capturing only about **60%** of the
 > missing-middle housing that independently gathered survey data says
 > is actually there. See section 5 for the full comparison, and
 > section 6 for what ties all four pieces of evidence together.
@@ -45,7 +45,10 @@ needed for the baseline:
 - **Primary classification** uses the GIS parcel layer's `STATE_CD`
   field (one row per parcel): `A1`=single-family, `A2`=mobile home,
   `A3`=condominium, `A4`=townhouse, `B1`=duplex, `B2`=apartment/
-  multifamily, `B3`-`B6`=other multi-unit residential subtypes.
+  multifamily, `B3`=triplex, `B4`=fourplex, `B5`/`B6`=other multi-unit
+  residential subtypes (too few parcels — 125 and 24 — and too
+  ambiguous a structural signal to confidently assign them a specific
+  unit count; see "Known data bugs" below).
 - **Secondary enrichment** sub-splits generic `B2` parcels into
   apartment-size bands (4-6 / 7-30 / 31-99 / 100+ units) using the
   `Improvements.ClassCD` field's `QS`/`QL`/`QN`/`QR` prefixes, joined
@@ -59,7 +62,7 @@ missing-middle by EPCAD's own code — **3.52%** of parcels. But that's a
 parcel count, and parcels aren't units — one apartment building is a
 single parcel holding 50+ units. Converted to a unit-weighted basis
 (each parcel's typology's recorded/typical unit count, summed): EPCAD's
-own records imply **67,050 of 323,627 residential units (20.72%)** are
+own records imply **70,504 of 327,081 residential units (21.56%)** are
 missing-middle — a very different number from the 3.52% parcel-count
 headline, and the first sign that parcel-level and unit-level views of
 "how much missing middle exists" tell very different stories. See
@@ -378,7 +381,7 @@ parcels matched, 182/188 tracts had both EPCAD and ACS data to compare):
 | source | missing-middle units | total units | share |
 |---|---|---|---|
 | EPCAD, parcel count | 8,883 parcels | 252,626 parcels | 3.52% (of *parcels*) |
-| EPCAD, unit-weighted (exact) | 67,050 | 323,627 | **20.72%** |
+| EPCAD, unit-weighted (exact) | 70,504 | 327,081 | **21.56%** |
 | ACS B25024 (2+ units in structure), 182 tracts matched to EPCAD | 73,463 | 318,700 | **23.05%** |
 
 Once EPCAD's own records are converted to the same unit basis ACS
@@ -405,7 +408,7 @@ close the gap** — a genuinely useful negative result. Treating each
 mean absolute difference from 7.16 to **7.28** (slightly worse), and
 only improves the match in 57 of 182 tracts (worse than a coin flip).
 **So whose count is more accurate?** For the countywide total, EPCAD's
-unit-weighted figure (20.72%) and ACS (23.05%) are close enough that
+unit-weighted figure (21.56%) and ACS (23.05%) are close enough that
 neither should be treated as definitively right — they're measuring
 related but not identical things (EPCAD: what's been assessed and
 classified; ACS: what households self-report, survey-sampled, with its
@@ -450,18 +453,18 @@ changes the finding substantially:
 
 | source | missing-middle units (2-19) | total units | share |
 |---|---|---|---|
-| EPCAD, unit-weighted | 29,601 | 323,575 | **9.15%** |
+| EPCAD, unit-weighted | 33,055 | 327,029 | **10.11%** |
 | EPCAD + model candidates (current, 37 features) | 31,069 | 324,998 | 9.56% |
 | EPCAD + model candidates (v2, 36 features) | 31,171 | 325,145 | 9.59% |
 | EPCAD + model candidates (v1, 15 features) | 32,222 | 326,196 | 9.88% |
 | ACS B25024 (2-19 units in structure) | 54,042 | 318,700 | **16.96%** |
 
 **This is the real headline number of the ACS validation: EPCAD
-captures only about 54% of the missing-middle housing ACS implies
-actually exists in El Paso County** — a **7.8-point countywide gap**,
+captures only about 60% of the missing-middle housing ACS implies
+actually exists in El Paso County** — a **6.85-point countywide gap**,
 nearly a factor-of-two undercount, not the reassuring 2.3-point gap the
 broad (any-size) comparison suggested. The tract-level mean absolute
-difference is **10.36 points**. This is also the most direct possible
+difference is **10.22 points**. This is also the most direct possible
 confirmation of the problem statement in section 1: EPCAD's own
 classification, built from permitted and assessed improvements, really
 is a *floor*, and a materially low one, on how much missing-middle
@@ -471,7 +474,7 @@ Here, unlike at the broader or narrower cuts, the structural model's
 high-confidence candidates help slightly more often than not — with
 the **prior (v1), structural-only model**: adding its 2,622
 high-confidence candidates as extra units moved the mean absolute
-difference from 10.36 to **10.31** and improved the match in **96 of
+difference from 10.36 (pre-B3/B4-split baseline) to **10.31** and improved the match in **96 of
 182 tracts (53%)**, the first time across any definition tested that
 the model's candidates net positive rather than negative.
 
@@ -480,11 +483,11 @@ ownership/financing features added (section 3) — is a better
 classifier (AUC 0.996 vs. 0.986) but produces a *smaller* high-
 confidence candidate set (1,569 vs. 2,622), and that smaller set helps
 slightly less on this specific test: mean absolute difference moves
-from 10.36 to **10.30** (still an improvement, just a smaller one) and
+from 10.36 (pre-B3/B4-split baseline) to **10.30** (still an improvement, just a smaller one) and
 the match improves in **88 of 182 tracts (49%)** — just under half,
 versus v1's just-over-half. The **current model** (v2 + `fa_bathrooms`,
 section 3) barely moves this further: 1,471 high-confidence candidates,
-mean absolute difference still **10.30**, still 88 of 182 tracts,
+mean absolute difference now **10.19** (10.22 EPCAD-alone baseline), 84 of 182 tracts,
 countywide share 9.56% instead of 9.59%. All three post-v1 results read
 as weak, close-to-a-coin-flip evidence either way; none of the models'
 candidates clear the bar of "found a lot of real undocumented units."
@@ -499,7 +502,7 @@ p≥0.8 was apparently true positives this stricter model no longer
 reaches that threshold on.
 
 Either way, even the larger (v1) candidate count is far too few to
-meaningfully close a gap this size (ACS implies roughly 24,000 more
+meaningfully close a gap this size (ACS implies roughly 21,000 more
 missing-middle units exist than EPCAD has on record) — closing it
 would take a different kind of evidence than a structural anomaly
 detector of this scale can provide, regardless of which version of
@@ -556,7 +559,7 @@ measurements above do and don't find:
   specifically built to catch *exterior* evidence of conversion
   (extra structures, oversized footprints relative to recorded square
   footage), still only turns up 1,471-2,622 high-confidence candidates
-  against an ACS-implied gap of roughly 24,000 missing-middle units
+  against an ACS-implied gap of roughly 21,000 missing-middle units
   (section 5) — and the independent footprint check alone finds
   exterior anomalies on only ~8.7% of single-family-labeled parcels
   (section 4). Two separate exterior-evidence methods, same result:
@@ -595,7 +598,7 @@ something already in this analysis rather than asserted on its own:**
    neighborhood's exterior character.** This follows directly from
    the gap between the two exterior-evidence methods (sections 3-4:
    8.7% footprint-anomaly rate, 1,471-2,622 model candidates) and the
-   size of the ACS-implied undercount (section 5: ~24,000 units) — if
+   size of the ACS-implied undercount (section 5: ~21,000 units) — if
    most of the missing units required visible exterior changes, the
    footprint check and the shape-aware model would have found far more
    of them than they did. A policy concerned with preserving
@@ -625,7 +628,7 @@ assessment lag or genuine ACS sampling noise at the tract level
 (several of the biggest-gap tracts have small total unit counts,
 where ACS's margin of error is largest) rather than undocumented
 housing of any kind — this project can't cleanly separate how much of
-the ~24,000-unit gap is "real but invisible conversions" versus
+the ~21,000-unit gap is "real but invisible conversions" versus
 "measurement noise between two different data sources." Confirming the
 internal-conversion explanation specifically would take either field
 verification in the highest-gap tracts (listed in section 5) or a
@@ -694,6 +697,31 @@ Two bugs silently corrupted the first version of this analysis:
    none of these local extensions are defined there either, so their
    typology assignment remains inference from acreage/legal-
    description patterns, flagged as such in `build_dataset.py`.
+4. **`B3`/`B4` lumped into a catch-all, and under-counted on top of
+   it.** EPCAD does track triplexes (`B3`, 368 parcels) and fourplexes
+   (`B4`, 906 parcels) as distinct `STATE_CD` values, but an earlier
+   version of this pipeline lumped `B3`, `B4`, `B5`, and `B6` together
+   into one "Multi-Unit Residential (Other)" typology — and every
+   parcel in that bucket was then counted as exactly **one unit** in
+   every unit-weighted statistic on this page (`approx_units` was
+   `None` for all four codes, which `.fillna(1)` silently turned into
+   1). A real triplex was being counted the same as a studio
+   apartment. Fixed by splitting `B3`→Triplex (3 units) and
+   `B4`→Fourplex (4 units) in `STATE_CD_TYPOLOGY`, based on the Texas
+   statewide SPTB state-code convention other Texas appraisal
+   districts document for these codes (EPCAD's own site blocks
+   automated lookups via a Cloudflare challenge, so this couldn't be
+   confirmed against an EPCAD-published legend directly), corroborated
+   here by B3/B4 parcels averaging more "MAIN AREA" improvement
+   records per parcel (2.06 / 2.57) than B1 duplexes (1.48). `B5`
+   (125 parcels) and `B6` (24) are left lumped as "Multi-Unit
+   Residential (Other)" — too few parcels and too ambiguous a
+   structural pattern (B5's average is actually *lower* than B4's) to
+   confidently assign them a specific unit count. This wasn't
+   cosmetic: it moved this page's headline numbers (see sections 1
+   and 5) — countywide unit-weighted missing-middle share from 20.72%
+   to 21.56%, and the section-5 scoped-definition EPCAD share from
+   9.15% to 10.11% of what ACS implies exists.
 
 ## Setup
 
@@ -775,6 +803,7 @@ ep-mmh/
 │   ├── tract_comparison_epcad_acs.json  # generated: tract-level EPCAD vs. model vs. ACS comparison, broad (any-size) definition (checked in)
 │   ├── mm_2_19_comparison_summary.json  # generated: same comparison re-scoped to the literature's 2-19 unit definition (checked in)
 │   ├── zoning_simplified.geojson    # generated: official City zoning polygons, dissolved/simplified for the map overlay (checked in)
+│   ├── legalize_priority_tracts.geojson  # generated: census tracts + EPCAD/ACS gap per tract, for the "where to legalize" map choropleth (checked in)
 │   ├── parcels_missing_middle.geojson   # generated: confirmed missing-middle parcel points (checked in)
 │   ├── candidates_high_confidence.geojson  # generated: model-flagged candidate parcels (checked in)
 │   ├── missing_middle_candidates.csv    # generated: full candidate list w/ probabilities (checked in)
@@ -789,11 +818,11 @@ ep-mmh/
   local codes with no documented meaning anywhere, including EPCAD's
   own official data dictionary. Their typology assignment is inference
   from acreage/legal-description patterns, flagged as such in code.
-- The unit-weighted EPCAD share (20.72%) fills two small typologies
+- The unit-weighted EPCAD share (21.56%) fills two small typologies
   with no documented typical-unit-count (`Multi-Unit Residential
   (Other)`, generic `Apartment/Multifamily` — 1,437 parcels combined)
   at a conservative 1 unit each, so the true figure is likely a touch
-  higher than 20.72%, not lower.
+  higher than 21.56%, not lower.
 - ACS figures are 5-year survey estimates with sampling error, largest
   in tracts with small total unit counts — several of the biggest
   EPCAD-vs-ACS tract gaps are in tracts under 1,000 units.
@@ -821,8 +850,8 @@ ep-mmh/
   5's corrected 2-19-unit recheck is the one to use if "missing
   middle" specifically (not "non-single-family generally") is what
   matters for your question — and it's the project's central finding:
-  EPCAD captures only about 54% of what ACS implies exists at that
-  definition (9.15% vs. 16.96%), an undercount the structural model's
+  EPCAD captures only about 60% of what ACS implies exists at that
+  definition (10.11% vs. 16.96%), an undercount the structural model's
   candidates only marginally help close.
 - First American ownership/financing data (Ownership and financing
   section) is a single 2020 snapshot, not current.

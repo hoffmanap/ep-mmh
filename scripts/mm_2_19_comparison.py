@@ -36,16 +36,17 @@ import json
 import os
 
 OUT = os.environ.get("EP_MMH_OUT", "data/output")
+DATA = os.environ.get("EP_MMH_DATA", "data")
 
 RES = ["Single-Family Detached", "Single-Family Detached (Other Residential Subtype)",
-       "Mobile/Manufactured Home", "Duplex", "Townhouse", "Condominium", "Apartment/Multifamily",
+       "Mobile/Manufactured Home", "Duplex", "Triplex", "Fourplex", "Townhouse", "Condominium", "Apartment/Multifamily",
        "Multi-Unit Residential (Other)", "Apartment (4-6 units)", "Apartment (7-30 units)",
        "Apartment (31-99 units)", "Apartment (100+ units)"]
 
 # EPCAD-side missing-middle cut: everything up through "Apartment (7-30 units)"
 # (the closest available EPCAD band to a 19-unit ceiling), excluding the two
 # large-complex bands (31-99, 100+).
-MM_2_19_TYPES = ["Duplex", "Townhouse", "Condominium", "Apartment/Multifamily",
+MM_2_19_TYPES = ["Duplex", "Triplex", "Fourplex", "Townhouse", "Condominium", "Apartment/Multifamily",
                  "Multi-Unit Residential (Other)", "Apartment (4-6 units)", "Apartment (7-30 units)"]
 
 print("Loading parcels and tract join...")
@@ -116,5 +117,5 @@ summary = {
     "countywide_acs_mm_2_19_total_units": int(full["total_units_acs"].sum()),
     "countywide_acs_mm_2_19_pct": round(100 * full["mm_2_19_units_acs"].sum() / full["total_units_acs"].sum(), 2),
 }
-json.dump(summary, open("data/mm_2_19_comparison_summary.json", "w"), indent=2)
-print("\nSaved data/mm_2_19_comparison_summary.json")
+json.dump(summary, open(f"{DATA}/mm_2_19_comparison_summary.json", "w"), indent=2)
+print(f"\nSaved {DATA}/mm_2_19_comparison_summary.json")

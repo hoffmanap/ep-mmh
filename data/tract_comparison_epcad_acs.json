@@ -1,1 +1,1288 @@
-{"n_tracts_compared": 182, "mean_abs_diff_epcad_vs_acs_pct_points": 7.16, "mean_abs_diff_epcad_plus_model_vs_acs_pct_points": 7.28, "tracts_improved_by_model": 57, "countywide_total_units_epcad": 323575, "countywide_mm_units_epcad": 67050, "countywide_mm_share_epcad_pct": 20.72, "countywide_total_units_acs": 318700, "countywide_mm_units_acs": 73463, "countywide_mm_share_acs_pct": 23.05, "tract_level": [{"tract_fips": "48141000106", "mm_share_epcad_pct": 2.0, "mm_share_epcad_plus_model_pct": 2.0, "mm_share_acs_pct": 8.7, "total_units_acs": 2144.0}, {"tract_fips": "48141000107", "mm_share_epcad_pct": 0.5, "mm_share_epcad_plus_model_pct": 0.6, "mm_share_acs_pct": 0.4, "total_units_acs": 1877.0}, {"tract_fips": "48141000108", "mm_share_epcad_pct": 35.4, "mm_share_epcad_plus_model_pct": 35.4, "mm_share_acs_pct": 49.8, "total_units_acs": 1753.0}, {"tract_fips": "48141000109", "mm_share_epcad_pct": 0.5, "mm_share_epcad_plus_model_pct": 0.5, "mm_share_acs_pct": 0.5, "total_units_acs": 1246.0}, {"tract_fips": "48141000110", "mm_share_epcad_pct": 42.9, "mm_share_epcad_plus_model_pct": 42.9, "mm_share_acs_pct": 41.2, "total_units_acs": 1340.0}, {"tract_fips": "48141000111", "mm_share_epcad_pct": 30.3, "mm_share_epcad_plus_model_pct": 30.3, "mm_share_acs_pct": 60.5, "total_units_acs": 1314.0}, {"tract_fips": "48141000112", "mm_share_epcad_pct": 10.4, "mm_share_epcad_plus_model_pct": 10.6, "mm_share_acs_pct": 15.2, "total_units_acs": 1761.0}, {"tract_fips": "48141000113", "mm_share_epcad_pct": 5.0, "mm_share_epcad_plus_model_pct": 5.0, "mm_share_acs_pct": 5.6, "total_units_acs": 1236.0}, {"tract_fips": "48141000114", "mm_share_epcad_pct": 9.1, "mm_share_epcad_plus_model_pct": 9.2, "mm_share_acs_pct": 31.9, "total_units_acs": 1401.0}, {"tract_fips": "48141000204", "mm_share_epcad_pct": 16.3, "mm_share_epcad_plus_model_pct": 16.3, "mm_share_acs_pct": 21.8, "total_units_acs": 1901.0}, {"tract_fips": "48141000205", "mm_share_epcad_pct": 39.8, "mm_share_epcad_plus_model_pct": 39.8, "mm_share_acs_pct": 44.6, "total_units_acs": 2124.0}, {"tract_fips": "48141000206", "mm_share_epcad_pct": 3.7, "mm_share_epcad_plus_model_pct": 3.7, "mm_share_acs_pct": 15.3, "total_units_acs": 1758.0}, {"tract_fips": "48141000207", "mm_share_epcad_pct": 27.2, "mm_share_epcad_plus_model_pct": 27.4, "mm_share_acs_pct": 18.7, "total_units_acs": 1750.0}, {"tract_fips": "48141000208", "mm_share_epcad_pct": 3.4, "mm_share_epcad_plus_model_pct": 3.4, "mm_share_acs_pct": 0.0, "total_units_acs": 1563.0}, {"tract_fips": "48141000301", "mm_share_epcad_pct": 29.9, "mm_share_epcad_plus_model_pct": 30.4, "mm_share_acs_pct": 29.5, "total_units_acs": 2567.0}, {"tract_fips": "48141000302", "mm_share_epcad_pct": 13.7, "mm_share_epcad_plus_model_pct": 13.8, "mm_share_acs_pct": 19.5, "total_units_acs": 2048.0}, {"tract_fips": "48141000401", "mm_share_epcad_pct": 32.0, "mm_share_epcad_plus_model_pct": 34.4, "mm_share_acs_pct": 26.2, "total_units_acs": 2554.0}, {"tract_fips": "48141000403", "mm_share_epcad_pct": 26.9, "mm_share_epcad_plus_model_pct": 27.8, "mm_share_acs_pct": 17.6, "total_units_acs": 1514.0}, {"tract_fips": "48141000404", "mm_share_epcad_pct": 84.1, "mm_share_epcad_plus_model_pct": 84.1, "mm_share_acs_pct": 80.6, "total_units_acs": 1688.0}, {"tract_fips": "48141000600", "mm_share_epcad_pct": 44.9, "mm_share_epcad_plus_model_pct": 45.3, "mm_share_acs_pct": 24.8, "total_units_acs": 1790.0}, {"tract_fips": "48141000800", "mm_share_epcad_pct": 63.3, "mm_share_epcad_plus_model_pct": 63.9, "mm_share_acs_pct": 54.1, "total_units_acs": 2386.0}, {"tract_fips": "48141000901", "mm_share_epcad_pct": 15.6, "mm_share_epcad_plus_model_pct": 17.3, "mm_share_acs_pct": 7.2, "total_units_acs": 1801.0}, {"tract_fips": "48141000902", "mm_share_epcad_pct": 64.1, "mm_share_epcad_plus_model_pct": 64.7, "mm_share_acs_pct": 67.5, "total_units_acs": 1630.0}, {"tract_fips": "48141001001", "mm_share_epcad_pct": 17.9, "mm_share_epcad_plus_model_pct": 21.6, "mm_share_acs_pct": 15.1, "total_units_acs": 1279.0}, {"tract_fips": "48141001002", "mm_share_epcad_pct": 26.4, "mm_share_epcad_plus_model_pct": 27.8, "mm_share_acs_pct": 19.0, "total_units_acs": 1486.0}, {"tract_fips": "48141001107", "mm_share_epcad_pct": 10.7, "mm_share_epcad_plus_model_pct": 13.0, "mm_share_acs_pct": 11.0, "total_units_acs": 2477.0}, {"tract_fips": "48141001109", "mm_share_epcad_pct": 17.4, "mm_share_epcad_plus_model_pct": 17.8, "mm_share_acs_pct": 11.6, "total_units_acs": 2275.0}, {"tract_fips": "48141001110", "mm_share_epcad_pct": 58.2, "mm_share_epcad_plus_model_pct": 58.5, "mm_share_acs_pct": 55.7, "total_units_acs": 2263.0}, {"tract_fips": "48141001111", "mm_share_epcad_pct": 73.1, "mm_share_epcad_plus_model_pct": 73.3, "mm_share_acs_pct": 78.5, "total_units_acs": 3059.0}, {"tract_fips": "48141001112", "mm_share_epcad_pct": 16.7, "mm_share_epcad_plus_model_pct": 16.8, "mm_share_acs_pct": 18.8, "total_units_acs": 1749.0}, {"tract_fips": "48141001114", "mm_share_epcad_pct": 41.9, "mm_share_epcad_plus_model_pct": 41.9, "mm_share_acs_pct": 70.6, "total_units_acs": 2487.0}, {"tract_fips": "48141001115", "mm_share_epcad_pct": 77.9, "mm_share_epcad_plus_model_pct": 78.2, "mm_share_acs_pct": 90.4, "total_units_acs": 2123.0}, {"tract_fips": "48141001116", "mm_share_epcad_pct": 90.2, "mm_share_epcad_plus_model_pct": 90.2, "mm_share_acs_pct": 76.4, "total_units_acs": 1358.0}, {"tract_fips": "48141001117", "mm_share_epcad_pct": 31.5, "mm_share_epcad_plus_model_pct": 31.5, "mm_share_acs_pct": 39.8, "total_units_acs": 2581.0}, {"tract_fips": "48141001118", "mm_share_epcad_pct": 67.0, "mm_share_epcad_plus_model_pct": 67.1, "mm_share_acs_pct": 61.9, "total_units_acs": 1411.0}, {"tract_fips": "48141001119", "mm_share_epcad_pct": 47.8, "mm_share_epcad_plus_model_pct": 47.9, "mm_share_acs_pct": 39.4, "total_units_acs": 1798.0}, {"tract_fips": "48141001202", "mm_share_epcad_pct": 15.0, "mm_share_epcad_plus_model_pct": 15.5, "mm_share_acs_pct": 27.6, "total_units_acs": 2166.0}, {"tract_fips": "48141001204", "mm_share_epcad_pct": 38.1, "mm_share_epcad_plus_model_pct": 39.0, "mm_share_acs_pct": 43.0, "total_units_acs": 2216.0}, {"tract_fips": "48141001301", "mm_share_epcad_pct": 18.7, "mm_share_epcad_plus_model_pct": 18.9, "mm_share_acs_pct": 17.4, "total_units_acs": 1390.0}, {"tract_fips": "48141001302", "mm_share_epcad_pct": 0.4, "mm_share_epcad_plus_model_pct": 1.1, "mm_share_acs_pct": 0.0, "total_units_acs": 2605.0}, {"tract_fips": "48141001400", "mm_share_epcad_pct": 61.4, "mm_share_epcad_plus_model_pct": 61.9, "mm_share_acs_pct": 80.9, "total_units_acs": 1160.0}, {"tract_fips": "48141001501", "mm_share_epcad_pct": 42.0, "mm_share_epcad_plus_model_pct": 42.9, "mm_share_acs_pct": 35.2, "total_units_acs": 2335.0}, {"tract_fips": "48141001502", "mm_share_epcad_pct": 24.9, "mm_share_epcad_plus_model_pct": 29.4, "mm_share_acs_pct": 22.8, "total_units_acs": 1151.0}, {"tract_fips": "48141001600", "mm_share_epcad_pct": 70.6, "mm_share_epcad_plus_model_pct": 71.6, "mm_share_acs_pct": 79.6, "total_units_acs": 2492.0}, {"tract_fips": "48141001700", "mm_share_epcad_pct": 53.0, "mm_share_epcad_plus_model_pct": 53.2, "mm_share_acs_pct": 94.3, "total_units_acs": 419.0}, {"tract_fips": "48141001800", "mm_share_epcad_pct": 75.0, "mm_share_epcad_plus_model_pct": 75.4, "mm_share_acs_pct": 86.3, "total_units_acs": 446.0}, {"tract_fips": "48141001900", "mm_share_epcad_pct": 69.8, "mm_share_epcad_plus_model_pct": 70.6, "mm_share_acs_pct": 78.3, "total_units_acs": 1122.0}, {"tract_fips": "48141002000", "mm_share_epcad_pct": 47.3, "mm_share_epcad_plus_model_pct": 49.8, "mm_share_acs_pct": 72.6, "total_units_acs": 964.0}, {"tract_fips": "48141002100", "mm_share_epcad_pct": 66.5, "mm_share_epcad_plus_model_pct": 67.4, "mm_share_acs_pct": 84.9, "total_units_acs": 1285.0}, {"tract_fips": "48141002201", "mm_share_epcad_pct": 47.7, "mm_share_epcad_plus_model_pct": 48.9, "mm_share_acs_pct": 49.2, "total_units_acs": 1204.0}, {"tract_fips": "48141002202", "mm_share_epcad_pct": 68.7, "mm_share_epcad_plus_model_pct": 69.9, "mm_share_acs_pct": 59.4, "total_units_acs": 2208.0}, {"tract_fips": "48141002300", "mm_share_epcad_pct": 28.4, "mm_share_epcad_plus_model_pct": 30.5, "mm_share_acs_pct": 22.7, "total_units_acs": 1845.0}, {"tract_fips": "48141002400", "mm_share_epcad_pct": 21.8, "mm_share_epcad_plus_model_pct": 23.9, "mm_share_acs_pct": 30.3, "total_units_acs": 1398.0}, {"tract_fips": "48141002500", "mm_share_epcad_pct": 18.5, "mm_share_epcad_plus_model_pct": 20.2, "mm_share_acs_pct": 5.1, "total_units_acs": 2340.0}, {"tract_fips": "48141002600", "mm_share_epcad_pct": 27.1, "mm_share_epcad_plus_model_pct": 30.7, "mm_share_acs_pct": 19.7, "total_units_acs": 1195.0}, {"tract_fips": "48141002800", "mm_share_epcad_pct": 37.1, "mm_share_epcad_plus_model_pct": 39.2, "mm_share_acs_pct": 48.1, "total_units_acs": 1905.0}, {"tract_fips": "48141002900", "mm_share_epcad_pct": 32.6, "mm_share_epcad_plus_model_pct": 36.0, "mm_share_acs_pct": 64.4, "total_units_acs": 607.0}, {"tract_fips": "48141003000", "mm_share_epcad_pct": 11.4, "mm_share_epcad_plus_model_pct": 16.3, "mm_share_acs_pct": 32.1, "total_units_acs": 1477.0}, {"tract_fips": "48141003100", "mm_share_epcad_pct": 10.8, "mm_share_epcad_plus_model_pct": 12.8, "mm_share_acs_pct": 20.0, "total_units_acs": 1020.0}, {"tract_fips": "48141003200", "mm_share_epcad_pct": 20.8, "mm_share_epcad_plus_model_pct": 25.1, "mm_share_acs_pct": 22.9, "total_units_acs": 1104.0}, {"tract_fips": "48141003300", "mm_share_epcad_pct": 19.3, "mm_share_epcad_plus_model_pct": 19.9, "mm_share_acs_pct": 14.7, "total_units_acs": 2249.0}, {"tract_fips": "48141003402", "mm_share_epcad_pct": 17.8, "mm_share_epcad_plus_model_pct": 18.0, "mm_share_acs_pct": 55.6, "total_units_acs": 2625.0}, {"tract_fips": "48141003403", "mm_share_epcad_pct": 35.4, "mm_share_epcad_plus_model_pct": 35.4, "mm_share_acs_pct": 50.7, "total_units_acs": 2371.0}, {"tract_fips": "48141003404", "mm_share_epcad_pct": 22.8, "mm_share_epcad_plus_model_pct": 23.0, "mm_share_acs_pct": 27.4, "total_units_acs": 2705.0}, {"tract_fips": "48141003501", "mm_share_epcad_pct": 37.5, "mm_share_epcad_plus_model_pct": 39.6, "mm_share_acs_pct": 35.3, "total_units_acs": 1310.0}, {"tract_fips": "48141003502", "mm_share_epcad_pct": 30.2, "mm_share_epcad_plus_model_pct": 31.4, "mm_share_acs_pct": 43.6, "total_units_acs": 1659.0}, {"tract_fips": "48141003601", "mm_share_epcad_pct": 20.5, "mm_share_epcad_plus_model_pct": 24.5, "mm_share_acs_pct": 12.1, "total_units_acs": 1381.0}, {"tract_fips": "48141003602", "mm_share_epcad_pct": 68.1, "mm_share_epcad_plus_model_pct": 69.0, "mm_share_acs_pct": 47.6, "total_units_acs": 1242.0}, {"tract_fips": "48141003701", "mm_share_epcad_pct": 17.9, "mm_share_epcad_plus_model_pct": 18.8, "mm_share_acs_pct": 18.2, "total_units_acs": 1585.0}, {"tract_fips": "48141003702", "mm_share_epcad_pct": 15.0, "mm_share_epcad_plus_model_pct": 17.0, "mm_share_acs_pct": 7.7, "total_units_acs": 1815.0}, {"tract_fips": "48141003801", "mm_share_epcad_pct": 17.6, "mm_share_epcad_plus_model_pct": 18.3, "mm_share_acs_pct": 20.0, "total_units_acs": 1894.0}, {"tract_fips": "48141003803", "mm_share_epcad_pct": 23.9, "mm_share_epcad_plus_model_pct": 24.5, "mm_share_acs_pct": 15.4, "total_units_acs": 1004.0}, {"tract_fips": "48141003804", "mm_share_epcad_pct": 29.6, "mm_share_epcad_plus_model_pct": 31.3, "mm_share_acs_pct": 27.6, "total_units_acs": 1134.0}, {"tract_fips": "48141003901", "mm_share_epcad_pct": 17.1, "mm_share_epcad_plus_model_pct": 19.9, "mm_share_acs_pct": 17.3, "total_units_acs": 1241.0}, {"tract_fips": "48141003902", "mm_share_epcad_pct": 8.0, "mm_share_epcad_plus_model_pct": 11.2, "mm_share_acs_pct": 6.2, "total_units_acs": 1051.0}, {"tract_fips": "48141003904", "mm_share_epcad_pct": 25.9, "mm_share_epcad_plus_model_pct": 26.7, "mm_share_acs_pct": 36.9, "total_units_acs": 1124.0}, {"tract_fips": "48141003905", "mm_share_epcad_pct": 22.3, "mm_share_epcad_plus_model_pct": 22.9, "mm_share_acs_pct": 29.6, "total_units_acs": 958.0}, {"tract_fips": "48141004004", "mm_share_epcad_pct": 9.6, "mm_share_epcad_plus_model_pct": 9.8, "mm_share_acs_pct": 18.6, "total_units_acs": 1858.0}, {"tract_fips": "48141004005", "mm_share_epcad_pct": 15.4, "mm_share_epcad_plus_model_pct": 15.9, "mm_share_acs_pct": 10.2, "total_units_acs": 1958.0}, {"tract_fips": "48141004006", "mm_share_epcad_pct": 28.5, "mm_share_epcad_plus_model_pct": 28.6, "mm_share_acs_pct": 4.2, "total_units_acs": 1193.0}, {"tract_fips": "48141004007", "mm_share_epcad_pct": 34.9, "mm_share_epcad_plus_model_pct": 35.1, "mm_share_acs_pct": 35.7, "total_units_acs": 1049.0}, {"tract_fips": "48141004008", "mm_share_epcad_pct": 34.6, "mm_share_epcad_plus_model_pct": 35.0, "mm_share_acs_pct": 36.9, "total_units_acs": 1355.0}, {"tract_fips": "48141004103", "mm_share_epcad_pct": 47.5, "mm_share_epcad_plus_model_pct": 47.8, "mm_share_acs_pct": 39.5, "total_units_acs": 2387.0}, {"tract_fips": "48141004104", "mm_share_epcad_pct": 17.6, "mm_share_epcad_plus_model_pct": 18.8, "mm_share_acs_pct": 17.5, "total_units_acs": 2303.0}, {"tract_fips": "48141004105", "mm_share_epcad_pct": 18.0, "mm_share_epcad_plus_model_pct": 18.5, "mm_share_acs_pct": 47.4, "total_units_acs": 1249.0}, {"tract_fips": "48141004106", "mm_share_epcad_pct": 13.4, "mm_share_epcad_plus_model_pct": 14.0, "mm_share_acs_pct": 17.4, "total_units_acs": 1772.0}, {"tract_fips": "48141004107", "mm_share_epcad_pct": 0.4, "mm_share_epcad_plus_model_pct": 0.9, "mm_share_acs_pct": 0.0, "total_units_acs": 443.0}, {"tract_fips": "48141004201", "mm_share_epcad_pct": 7.7, "mm_share_epcad_plus_model_pct": 8.1, "mm_share_acs_pct": 10.1, "total_units_acs": 2101.0}, {"tract_fips": "48141004202", "mm_share_epcad_pct": 32.2, "mm_share_epcad_plus_model_pct": 32.2, "mm_share_acs_pct": 32.5, "total_units_acs": 2260.0}, {"tract_fips": "48141004303", "mm_share_epcad_pct": 7.9, "mm_share_epcad_plus_model_pct": 8.0, "mm_share_acs_pct": 9.8, "total_units_acs": 2029.0}, {"tract_fips": "48141004307", "mm_share_epcad_pct": 10.2, "mm_share_epcad_plus_model_pct": 10.2, "mm_share_acs_pct": 26.1, "total_units_acs": 2234.0}, {"tract_fips": "48141004309", "mm_share_epcad_pct": 34.2, "mm_share_epcad_plus_model_pct": 34.2, "mm_share_acs_pct": 46.5, "total_units_acs": 2204.0}, {"tract_fips": "48141004310", "mm_share_epcad_pct": 29.1, "mm_share_epcad_plus_model_pct": 29.2, "mm_share_acs_pct": 39.2, "total_units_acs": 1900.0}, {"tract_fips": "48141004311", "mm_share_epcad_pct": 33.2, "mm_share_epcad_plus_model_pct": 33.3, "mm_share_acs_pct": 28.6, "total_units_acs": 1836.0}, {"tract_fips": "48141004312", "mm_share_epcad_pct": 36.0, "mm_share_epcad_plus_model_pct": 36.3, "mm_share_acs_pct": 46.4, "total_units_acs": 2258.0}, {"tract_fips": "48141004313", "mm_share_epcad_pct": 64.5, "mm_share_epcad_plus_model_pct": 64.6, "mm_share_acs_pct": 49.3, "total_units_acs": 1480.0}, {"tract_fips": "48141004314", "mm_share_epcad_pct": 11.0, "mm_share_epcad_plus_model_pct": 11.1, "mm_share_acs_pct": 24.2, "total_units_acs": 1827.0}, {"tract_fips": "48141004316", "mm_share_epcad_pct": 17.2, "mm_share_epcad_plus_model_pct": 17.2, "mm_share_acs_pct": 30.0, "total_units_acs": 2025.0}, {"tract_fips": "48141004317", "mm_share_epcad_pct": 79.5, "mm_share_epcad_plus_model_pct": 79.5, "mm_share_acs_pct": 85.4, "total_units_acs": 2106.0}, {"tract_fips": "48141004318", "mm_share_epcad_pct": 1.2, "mm_share_epcad_plus_model_pct": 1.2, "mm_share_acs_pct": 0.6, "total_units_acs": 1404.0}, {"tract_fips": "48141004319", "mm_share_epcad_pct": 0.0, "mm_share_epcad_plus_model_pct": 0.0, "mm_share_acs_pct": 2.0, "total_units_acs": 1581.0}, {"tract_fips": "48141004320", "mm_share_epcad_pct": 2.7, "mm_share_epcad_plus_model_pct": 2.7, "mm_share_acs_pct": 0.7, "total_units_acs": 874.0}, {"tract_fips": "48141010203", "mm_share_epcad_pct": 16.0, "mm_share_epcad_plus_model_pct": 16.2, "mm_share_acs_pct": 16.7, "total_units_acs": 1213.0}, {"tract_fips": "48141010210", "mm_share_epcad_pct": 13.1, "mm_share_epcad_plus_model_pct": 13.1, "mm_share_acs_pct": 11.3, "total_units_acs": 3093.0}, {"tract_fips": "48141010211", "mm_share_epcad_pct": 21.7, "mm_share_epcad_plus_model_pct": 21.7, "mm_share_acs_pct": 10.1, "total_units_acs": 1074.0}, {"tract_fips": "48141010212", "mm_share_epcad_pct": 11.4, "mm_share_epcad_plus_model_pct": 11.4, "mm_share_acs_pct": 13.3, "total_units_acs": 2886.0}, {"tract_fips": "48141010213", "mm_share_epcad_pct": 0.0, "mm_share_epcad_plus_model_pct": 0.0, "mm_share_acs_pct": 0.0, "total_units_acs": 2778.0}, {"tract_fips": "48141010214", "mm_share_epcad_pct": 13.8, "mm_share_epcad_plus_model_pct": 13.8, "mm_share_acs_pct": 15.0, "total_units_acs": 2113.0}, {"tract_fips": "48141010217", "mm_share_epcad_pct": 0.0, "mm_share_epcad_plus_model_pct": 0.0, "mm_share_acs_pct": 0.5, "total_units_acs": 1711.0}, {"tract_fips": "48141010218", "mm_share_epcad_pct": 2.1, "mm_share_epcad_plus_model_pct": 3.0, "mm_share_acs_pct": 3.8, "total_units_acs": 1650.0}, {"tract_fips": "48141010220", "mm_share_epcad_pct": 11.3, "mm_share_epcad_plus_model_pct": 11.8, "mm_share_acs_pct": 9.3, "total_units_acs": 2793.0}, {"tract_fips": "48141010222", "mm_share_epcad_pct": 0.4, "mm_share_epcad_plus_model_pct": 0.5, "mm_share_acs_pct": 0.0, "total_units_acs": 655.0}, {"tract_fips": "48141010223", "mm_share_epcad_pct": 28.8, "mm_share_epcad_plus_model_pct": 28.8, "mm_share_acs_pct": 51.6, "total_units_acs": 2057.0}, {"tract_fips": "48141010224", "mm_share_epcad_pct": 0.0, "mm_share_epcad_plus_model_pct": 0.0, "mm_share_acs_pct": 0.0, "total_units_acs": 1905.0}, {"tract_fips": "48141010225", "mm_share_epcad_pct": 22.4, "mm_share_epcad_plus_model_pct": 22.4, "mm_share_acs_pct": 17.3, "total_units_acs": 1810.0}, {"tract_fips": "48141010226", "mm_share_epcad_pct": 7.6, "mm_share_epcad_plus_model_pct": 7.7, "mm_share_acs_pct": 24.2, "total_units_acs": 2421.0}, {"tract_fips": "48141010227", "mm_share_epcad_pct": 20.3, "mm_share_epcad_plus_model_pct": 23.3, "mm_share_acs_pct": 24.3, "total_units_acs": 1735.0}, {"tract_fips": "48141010228", "mm_share_epcad_pct": 24.9, "mm_share_epcad_plus_model_pct": 25.4, "mm_share_acs_pct": 16.3, "total_units_acs": 2147.0}, {"tract_fips": "48141010229", "mm_share_epcad_pct": 1.4, "mm_share_epcad_plus_model_pct": 3.4, "mm_share_acs_pct": 1.2, "total_units_acs": 2316.0}, {"tract_fips": "48141010230", "mm_share_epcad_pct": 26.0, "mm_share_epcad_plus_model_pct": 26.4, "mm_share_acs_pct": 11.0, "total_units_acs": 703.0}, {"tract_fips": "48141010231", "mm_share_epcad_pct": 6.3, "mm_share_epcad_plus_model_pct": 6.6, "mm_share_acs_pct": 2.9, "total_units_acs": 1079.0}, {"tract_fips": "48141010232", "mm_share_epcad_pct": 23.2, "mm_share_epcad_plus_model_pct": 25.4, "mm_share_acs_pct": 15.7, "total_units_acs": 1188.0}, {"tract_fips": "48141010303", "mm_share_epcad_pct": 31.2, "mm_share_epcad_plus_model_pct": 31.2, "mm_share_acs_pct": 37.8, "total_units_acs": 1575.0}, {"tract_fips": "48141010307", "mm_share_epcad_pct": 32.7, "mm_share_epcad_plus_model_pct": 33.1, "mm_share_acs_pct": 26.8, "total_units_acs": 2082.0}, {"tract_fips": "48141010311", "mm_share_epcad_pct": 24.1, "mm_share_epcad_plus_model_pct": 25.1, "mm_share_acs_pct": 2.4, "total_units_acs": 2258.0}, {"tract_fips": "48141010312", "mm_share_epcad_pct": 7.3, "mm_share_epcad_plus_model_pct": 8.1, "mm_share_acs_pct": 8.6, "total_units_acs": 1321.0}, {"tract_fips": "48141010316", "mm_share_epcad_pct": 21.0, "mm_share_epcad_plus_model_pct": 21.0, "mm_share_acs_pct": 26.6, "total_units_acs": 1444.0}, {"tract_fips": "48141010317", "mm_share_epcad_pct": 15.8, "mm_share_epcad_plus_model_pct": 15.8, "mm_share_acs_pct": 16.9, "total_units_acs": 1253.0}, {"tract_fips": "48141010322", "mm_share_epcad_pct": 18.5, "mm_share_epcad_plus_model_pct": 18.5, "mm_share_acs_pct": 8.3, "total_units_acs": 1839.0}, {"tract_fips": "48141010323", "mm_share_epcad_pct": 15.0, "mm_share_epcad_plus_model_pct": 15.0, "mm_share_acs_pct": 13.6, "total_units_acs": 1408.0}, {"tract_fips": "48141010326", "mm_share_epcad_pct": 16.2, "mm_share_epcad_plus_model_pct": 16.2, "mm_share_acs_pct": 14.9, "total_units_acs": 1910.0}, {"tract_fips": "48141010327", "mm_share_epcad_pct": 1.4, "mm_share_epcad_plus_model_pct": 8.1, "mm_share_acs_pct": 4.2, "total_units_acs": 1132.0}, {"tract_fips": "48141010328", "mm_share_epcad_pct": 11.0, "mm_share_epcad_plus_model_pct": 11.1, "mm_share_acs_pct": 31.3, "total_units_acs": 1550.0}, {"tract_fips": "48141010329", "mm_share_epcad_pct": 16.0, "mm_share_epcad_plus_model_pct": 16.0, "mm_share_acs_pct": 12.7, "total_units_acs": 1679.0}, {"tract_fips": "48141010333", "mm_share_epcad_pct": 1.8, "mm_share_epcad_plus_model_pct": 2.1, "mm_share_acs_pct": 0.3, "total_units_acs": 1455.0}, {"tract_fips": "48141010334", "mm_share_epcad_pct": 0.5, "mm_share_epcad_plus_model_pct": 0.6, "mm_share_acs_pct": 1.7, "total_units_acs": 1088.0}, {"tract_fips": "48141010335", "mm_share_epcad_pct": 1.3, "mm_share_epcad_plus_model_pct": 1.5, "mm_share_acs_pct": 7.8, "total_units_acs": 908.0}, {"tract_fips": "48141010336", "mm_share_epcad_pct": 9.8, "mm_share_epcad_plus_model_pct": 9.8, "mm_share_acs_pct": 20.7, "total_units_acs": 1865.0}, {"tract_fips": "48141010337", "mm_share_epcad_pct": 18.4, "mm_share_epcad_plus_model_pct": 18.4, "mm_share_acs_pct": 16.8, "total_units_acs": 2499.0}, {"tract_fips": "48141010338", "mm_share_epcad_pct": 20.2, "mm_share_epcad_plus_model_pct": 20.3, "mm_share_acs_pct": 16.0, "total_units_acs": 2336.0}, {"tract_fips": "48141010344", "mm_share_epcad_pct": 1.5, "mm_share_epcad_plus_model_pct": 1.9, "mm_share_acs_pct": 0.0, "total_units_acs": 811.0}, {"tract_fips": "48141010346", "mm_share_epcad_pct": 1.8, "mm_share_epcad_plus_model_pct": 2.2, "mm_share_acs_pct": 0.5, "total_units_acs": 2155.0}, {"tract_fips": "48141010347", "mm_share_epcad_pct": 10.1, "mm_share_epcad_plus_model_pct": 10.5, "mm_share_acs_pct": 2.5, "total_units_acs": 1391.0}, {"tract_fips": "48141010348", "mm_share_epcad_pct": 1.3, "mm_share_epcad_plus_model_pct": 1.3, "mm_share_acs_pct": 0.0, "total_units_acs": 1359.0}, {"tract_fips": "48141010349", "mm_share_epcad_pct": 1.7, "mm_share_epcad_plus_model_pct": 1.7, "mm_share_acs_pct": 0.7, "total_units_acs": 889.0}, {"tract_fips": "48141010350", "mm_share_epcad_pct": 0.8, "mm_share_epcad_plus_model_pct": 0.8, "mm_share_acs_pct": 0.9, "total_units_acs": 1646.0}, {"tract_fips": "48141010351", "mm_share_epcad_pct": 6.1, "mm_share_epcad_plus_model_pct": 6.1, "mm_share_acs_pct": 2.0, "total_units_acs": 908.0}, {"tract_fips": "48141010352", "mm_share_epcad_pct": 0.0, "mm_share_epcad_plus_model_pct": 0.0, "mm_share_acs_pct": 0.0, "total_units_acs": 1728.0}, {"tract_fips": "48141010353", "mm_share_epcad_pct": 0.0, "mm_share_epcad_plus_model_pct": 0.0, "mm_share_acs_pct": 0.0, "total_units_acs": 1509.0}, {"tract_fips": "48141010354", "mm_share_epcad_pct": 2.0, "mm_share_epcad_plus_model_pct": 2.0, "mm_share_acs_pct": 25.9, "total_units_acs": 2280.0}, {"tract_fips": "48141010355", "mm_share_epcad_pct": 9.2, "mm_share_epcad_plus_model_pct": 9.2, "mm_share_acs_pct": 13.3, "total_units_acs": 1494.0}, {"tract_fips": "48141010356", "mm_share_epcad_pct": 5.3, "mm_share_epcad_plus_model_pct": 5.3, "mm_share_acs_pct": 1.4, "total_units_acs": 1499.0}, {"tract_fips": "48141010357", "mm_share_epcad_pct": 4.7, "mm_share_epcad_plus_model_pct": 4.8, "mm_share_acs_pct": 3.3, "total_units_acs": 2089.0}, {"tract_fips": "48141010358", "mm_share_epcad_pct": 10.3, "mm_share_epcad_plus_model_pct": 10.4, "mm_share_acs_pct": 6.0, "total_units_acs": 3661.0}, {"tract_fips": "48141010359", "mm_share_epcad_pct": 3.2, "mm_share_epcad_plus_model_pct": 3.3, "mm_share_acs_pct": 0.0, "total_units_acs": 811.0}, {"tract_fips": "48141010360", "mm_share_epcad_pct": 11.1, "mm_share_epcad_plus_model_pct": 11.2, "mm_share_acs_pct": 1.1, "total_units_acs": 1375.0}, {"tract_fips": "48141010361", "mm_share_epcad_pct": 6.7, "mm_share_epcad_plus_model_pct": 6.7, "mm_share_acs_pct": 9.0, "total_units_acs": 1107.0}, {"tract_fips": "48141010362", "mm_share_epcad_pct": 6.3, "mm_share_epcad_plus_model_pct": 6.8, "mm_share_acs_pct": 5.3, "total_units_acs": 2899.0}, {"tract_fips": "48141010363", "mm_share_epcad_pct": 14.2, "mm_share_epcad_plus_model_pct": 14.3, "mm_share_acs_pct": 0.0, "total_units_acs": 1693.0}, {"tract_fips": "48141010364", "mm_share_epcad_pct": 18.6, "mm_share_epcad_plus_model_pct": 18.6, "mm_share_acs_pct": 6.3, "total_units_acs": 962.0}, {"tract_fips": "48141010365", "mm_share_epcad_pct": 11.1, "mm_share_epcad_plus_model_pct": 11.3, "mm_share_acs_pct": 9.9, "total_units_acs": 1090.0}, {"tract_fips": "48141010366", "mm_share_epcad_pct": 2.2, "mm_share_epcad_plus_model_pct": 2.2, "mm_share_acs_pct": 5.8, "total_units_acs": 2626.0}, {"tract_fips": "48141010367", "mm_share_epcad_pct": 15.4, "mm_share_epcad_plus_model_pct": 15.4, "mm_share_acs_pct": 19.2, "total_units_acs": 3361.0}, {"tract_fips": "48141010368", "mm_share_epcad_pct": 1.7, "mm_share_epcad_plus_model_pct": 1.7, "mm_share_acs_pct": 0.0, "total_units_acs": 3728.0}, {"tract_fips": "48141010369", "mm_share_epcad_pct": 1.9, "mm_share_epcad_plus_model_pct": 2.0, "mm_share_acs_pct": 3.3, "total_units_acs": 5770.0}, {"tract_fips": "48141010370", "mm_share_epcad_pct": 8.7, "mm_share_epcad_plus_model_pct": 8.7, "mm_share_acs_pct": 8.3, "total_units_acs": 6994.0}, {"tract_fips": "48141010371", "mm_share_epcad_pct": 0.3, "mm_share_epcad_plus_model_pct": 0.5, "mm_share_acs_pct": 9.3, "total_units_acs": 1477.0}, {"tract_fips": "48141010372", "mm_share_epcad_pct": 0.5, "mm_share_epcad_plus_model_pct": 0.6, "mm_share_acs_pct": 0.0, "total_units_acs": 1881.0}, {"tract_fips": "48141010401", "mm_share_epcad_pct": 13.3, "mm_share_epcad_plus_model_pct": 14.4, "mm_share_acs_pct": 14.7, "total_units_acs": 2465.0}, {"tract_fips": "48141010404", "mm_share_epcad_pct": 5.8, "mm_share_epcad_plus_model_pct": 7.0, "mm_share_acs_pct": 5.7, "total_units_acs": 1875.0}, {"tract_fips": "48141010406", "mm_share_epcad_pct": 3.8, "mm_share_epcad_plus_model_pct": 4.3, "mm_share_acs_pct": 9.2, "total_units_acs": 1060.0}, {"tract_fips": "48141010408", "mm_share_epcad_pct": 6.7, "mm_share_epcad_plus_model_pct": 8.2, "mm_share_acs_pct": 16.2, "total_units_acs": 1219.0}, {"tract_fips": "48141010409", "mm_share_epcad_pct": 1.1, "mm_share_epcad_plus_model_pct": 1.9, "mm_share_acs_pct": 3.7, "total_units_acs": 1882.0}, {"tract_fips": "48141010410", "mm_share_epcad_pct": 0.8, "mm_share_epcad_plus_model_pct": 1.1, "mm_share_acs_pct": 0.0, "total_units_acs": 1560.0}, {"tract_fips": "48141010411", "mm_share_epcad_pct": 12.0, "mm_share_epcad_plus_model_pct": 12.2, "mm_share_acs_pct": 8.4, "total_units_acs": 1124.0}, {"tract_fips": "48141010412", "mm_share_epcad_pct": 13.6, "mm_share_epcad_plus_model_pct": 14.1, "mm_share_acs_pct": 20.3, "total_units_acs": 1505.0}, {"tract_fips": "48141010413", "mm_share_epcad_pct": 18.7, "mm_share_epcad_plus_model_pct": 19.1, "mm_share_acs_pct": 47.5, "total_units_acs": 621.0}, {"tract_fips": "48141010501", "mm_share_epcad_pct": 10.3, "mm_share_epcad_plus_model_pct": 10.5, "mm_share_acs_pct": 12.4, "total_units_acs": 1786.0}, {"tract_fips": "48141010502", "mm_share_epcad_pct": 1.6, "mm_share_epcad_plus_model_pct": 2.5, "mm_share_acs_pct": 3.6, "total_units_acs": 696.0}, {"tract_fips": "48141010504", "mm_share_epcad_pct": 0.8, "mm_share_epcad_plus_model_pct": 1.3, "mm_share_acs_pct": 0.0, "total_units_acs": 479.0}, {"tract_fips": "48141010505", "mm_share_epcad_pct": 21.3, "mm_share_epcad_plus_model_pct": 22.3, "mm_share_acs_pct": 21.2, "total_units_acs": 926.0}, {"tract_fips": "48141010506", "mm_share_epcad_pct": 1.3, "mm_share_epcad_plus_model_pct": 1.6, "mm_share_acs_pct": 2.1, "total_units_acs": 800.0}]}
+{
+  "n_tracts_compared": 182,
+  "mean_abs_diff_epcad_vs_acs_pct_points": 7.23,
+  "mean_abs_diff_epcad_plus_model_vs_acs_pct_points": 7.28,
+  "tracts_improved_by_model": 50,
+  "countywide_total_units_epcad": 327029,
+  "countywide_mm_units_epcad": 70504,
+  "countywide_mm_share_epcad_pct": 21.56,
+  "countywide_total_units_acs": 318700,
+  "countywide_mm_units_acs": 73463,
+  "countywide_mm_share_acs_pct": 23.05,
+  "tract_level": [
+    {
+      "tract_fips": "48141000106",
+      "mm_share_epcad_pct": 2.0,
+      "mm_share_epcad_plus_model_pct": 2.0,
+      "mm_share_acs_pct": 8.7,
+      "total_units_acs": 2144.0
+    },
+    {
+      "tract_fips": "48141000107",
+      "mm_share_epcad_pct": 1.6,
+      "mm_share_epcad_plus_model_pct": 1.6,
+      "mm_share_acs_pct": 0.4,
+      "total_units_acs": 1877.0
+    },
+    {
+      "tract_fips": "48141000108",
+      "mm_share_epcad_pct": 35.4,
+      "mm_share_epcad_plus_model_pct": 35.5,
+      "mm_share_acs_pct": 49.8,
+      "total_units_acs": 1753.0
+    },
+    {
+      "tract_fips": "48141000109",
+      "mm_share_epcad_pct": 0.5,
+      "mm_share_epcad_plus_model_pct": 0.5,
+      "mm_share_acs_pct": 0.5,
+      "total_units_acs": 1246.0
+    },
+    {
+      "tract_fips": "48141000110",
+      "mm_share_epcad_pct": 42.9,
+      "mm_share_epcad_plus_model_pct": 42.9,
+      "mm_share_acs_pct": 41.2,
+      "total_units_acs": 1340.0
+    },
+    {
+      "tract_fips": "48141000111",
+      "mm_share_epcad_pct": 30.4,
+      "mm_share_epcad_plus_model_pct": 30.4,
+      "mm_share_acs_pct": 60.5,
+      "total_units_acs": 1314.0
+    },
+    {
+      "tract_fips": "48141000112",
+      "mm_share_epcad_pct": 10.4,
+      "mm_share_epcad_plus_model_pct": 10.4,
+      "mm_share_acs_pct": 15.2,
+      "total_units_acs": 1761.0
+    },
+    {
+      "tract_fips": "48141000113",
+      "mm_share_epcad_pct": 5.0,
+      "mm_share_epcad_plus_model_pct": 5.0,
+      "mm_share_acs_pct": 5.6,
+      "total_units_acs": 1236.0
+    },
+    {
+      "tract_fips": "48141000114",
+      "mm_share_epcad_pct": 9.1,
+      "mm_share_epcad_plus_model_pct": 9.1,
+      "mm_share_acs_pct": 31.9,
+      "total_units_acs": 1401.0
+    },
+    {
+      "tract_fips": "48141000204",
+      "mm_share_epcad_pct": 16.3,
+      "mm_share_epcad_plus_model_pct": 16.3,
+      "mm_share_acs_pct": 21.8,
+      "total_units_acs": 1901.0
+    },
+    {
+      "tract_fips": "48141000205",
+      "mm_share_epcad_pct": 39.8,
+      "mm_share_epcad_plus_model_pct": 39.8,
+      "mm_share_acs_pct": 44.6,
+      "total_units_acs": 2124.0
+    },
+    {
+      "tract_fips": "48141000206",
+      "mm_share_epcad_pct": 3.8,
+      "mm_share_epcad_plus_model_pct": 3.9,
+      "mm_share_acs_pct": 15.3,
+      "total_units_acs": 1758.0
+    },
+    {
+      "tract_fips": "48141000207",
+      "mm_share_epcad_pct": 32.7,
+      "mm_share_epcad_plus_model_pct": 32.9,
+      "mm_share_acs_pct": 18.7,
+      "total_units_acs": 1750.0
+    },
+    {
+      "tract_fips": "48141000208",
+      "mm_share_epcad_pct": 3.4,
+      "mm_share_epcad_plus_model_pct": 3.4,
+      "mm_share_acs_pct": 0.0,
+      "total_units_acs": 1563.0
+    },
+    {
+      "tract_fips": "48141000301",
+      "mm_share_epcad_pct": 30.2,
+      "mm_share_epcad_plus_model_pct": 30.3,
+      "mm_share_acs_pct": 29.5,
+      "total_units_acs": 2567.0
+    },
+    {
+      "tract_fips": "48141000302",
+      "mm_share_epcad_pct": 13.8,
+      "mm_share_epcad_plus_model_pct": 13.9,
+      "mm_share_acs_pct": 19.5,
+      "total_units_acs": 2048.0
+    },
+    {
+      "tract_fips": "48141000401",
+      "mm_share_epcad_pct": 32.0,
+      "mm_share_epcad_plus_model_pct": 32.4,
+      "mm_share_acs_pct": 26.2,
+      "total_units_acs": 2554.0
+    },
+    {
+      "tract_fips": "48141000403",
+      "mm_share_epcad_pct": 27.0,
+      "mm_share_epcad_plus_model_pct": 27.4,
+      "mm_share_acs_pct": 17.6,
+      "total_units_acs": 1514.0
+    },
+    {
+      "tract_fips": "48141000404",
+      "mm_share_epcad_pct": 84.5,
+      "mm_share_epcad_plus_model_pct": 84.5,
+      "mm_share_acs_pct": 80.6,
+      "total_units_acs": 1688.0
+    },
+    {
+      "tract_fips": "48141000600",
+      "mm_share_epcad_pct": 47.0,
+      "mm_share_epcad_plus_model_pct": 47.3,
+      "mm_share_acs_pct": 24.8,
+      "total_units_acs": 1790.0
+    },
+    {
+      "tract_fips": "48141000800",
+      "mm_share_epcad_pct": 65.4,
+      "mm_share_epcad_plus_model_pct": 65.6,
+      "mm_share_acs_pct": 54.1,
+      "total_units_acs": 2386.0
+    },
+    {
+      "tract_fips": "48141000901",
+      "mm_share_epcad_pct": 17.0,
+      "mm_share_epcad_plus_model_pct": 18.0,
+      "mm_share_acs_pct": 7.2,
+      "total_units_acs": 1801.0
+    },
+    {
+      "tract_fips": "48141000902",
+      "mm_share_epcad_pct": 64.7,
+      "mm_share_epcad_plus_model_pct": 65.1,
+      "mm_share_acs_pct": 67.5,
+      "total_units_acs": 1630.0
+    },
+    {
+      "tract_fips": "48141001001",
+      "mm_share_epcad_pct": 18.9,
+      "mm_share_epcad_plus_model_pct": 20.9,
+      "mm_share_acs_pct": 15.1,
+      "total_units_acs": 1279.0
+    },
+    {
+      "tract_fips": "48141001002",
+      "mm_share_epcad_pct": 28.6,
+      "mm_share_epcad_plus_model_pct": 29.3,
+      "mm_share_acs_pct": 19.0,
+      "total_units_acs": 1486.0
+    },
+    {
+      "tract_fips": "48141001107",
+      "mm_share_epcad_pct": 12.6,
+      "mm_share_epcad_plus_model_pct": 13.1,
+      "mm_share_acs_pct": 11.0,
+      "total_units_acs": 2477.0
+    },
+    {
+      "tract_fips": "48141001109",
+      "mm_share_epcad_pct": 21.6,
+      "mm_share_epcad_plus_model_pct": 21.7,
+      "mm_share_acs_pct": 11.6,
+      "total_units_acs": 2275.0
+    },
+    {
+      "tract_fips": "48141001110",
+      "mm_share_epcad_pct": 58.2,
+      "mm_share_epcad_plus_model_pct": 58.4,
+      "mm_share_acs_pct": 55.7,
+      "total_units_acs": 2263.0
+    },
+    {
+      "tract_fips": "48141001111",
+      "mm_share_epcad_pct": 73.1,
+      "mm_share_epcad_plus_model_pct": 73.2,
+      "mm_share_acs_pct": 78.5,
+      "total_units_acs": 3059.0
+    },
+    {
+      "tract_fips": "48141001112",
+      "mm_share_epcad_pct": 26.5,
+      "mm_share_epcad_plus_model_pct": 26.5,
+      "mm_share_acs_pct": 18.8,
+      "total_units_acs": 1749.0
+    },
+    {
+      "tract_fips": "48141001114",
+      "mm_share_epcad_pct": 42.0,
+      "mm_share_epcad_plus_model_pct": 42.1,
+      "mm_share_acs_pct": 70.6,
+      "total_units_acs": 2487.0
+    },
+    {
+      "tract_fips": "48141001115",
+      "mm_share_epcad_pct": 78.1,
+      "mm_share_epcad_plus_model_pct": 78.3,
+      "mm_share_acs_pct": 90.4,
+      "total_units_acs": 2123.0
+    },
+    {
+      "tract_fips": "48141001116",
+      "mm_share_epcad_pct": 90.2,
+      "mm_share_epcad_plus_model_pct": 90.2,
+      "mm_share_acs_pct": 76.4,
+      "total_units_acs": 1358.0
+    },
+    {
+      "tract_fips": "48141001117",
+      "mm_share_epcad_pct": 31.5,
+      "mm_share_epcad_plus_model_pct": 31.5,
+      "mm_share_acs_pct": 39.8,
+      "total_units_acs": 2581.0
+    },
+    {
+      "tract_fips": "48141001118",
+      "mm_share_epcad_pct": 67.1,
+      "mm_share_epcad_plus_model_pct": 67.1,
+      "mm_share_acs_pct": 61.9,
+      "total_units_acs": 1411.0
+    },
+    {
+      "tract_fips": "48141001119",
+      "mm_share_epcad_pct": 48.1,
+      "mm_share_epcad_plus_model_pct": 48.4,
+      "mm_share_acs_pct": 39.4,
+      "total_units_acs": 1798.0
+    },
+    {
+      "tract_fips": "48141001202",
+      "mm_share_epcad_pct": 15.0,
+      "mm_share_epcad_plus_model_pct": 15.0,
+      "mm_share_acs_pct": 27.6,
+      "total_units_acs": 2166.0
+    },
+    {
+      "tract_fips": "48141001204",
+      "mm_share_epcad_pct": 38.4,
+      "mm_share_epcad_plus_model_pct": 38.8,
+      "mm_share_acs_pct": 43.0,
+      "total_units_acs": 2216.0
+    },
+    {
+      "tract_fips": "48141001301",
+      "mm_share_epcad_pct": 19.9,
+      "mm_share_epcad_plus_model_pct": 20.0,
+      "mm_share_acs_pct": 17.4,
+      "total_units_acs": 1390.0
+    },
+    {
+      "tract_fips": "48141001302",
+      "mm_share_epcad_pct": 0.5,
+      "mm_share_epcad_plus_model_pct": 0.8,
+      "mm_share_acs_pct": 0.0,
+      "total_units_acs": 2605.0
+    },
+    {
+      "tract_fips": "48141001400",
+      "mm_share_epcad_pct": 61.5,
+      "mm_share_epcad_plus_model_pct": 61.9,
+      "mm_share_acs_pct": 80.9,
+      "total_units_acs": 1160.0
+    },
+    {
+      "tract_fips": "48141001501",
+      "mm_share_epcad_pct": 42.8,
+      "mm_share_epcad_plus_model_pct": 43.4,
+      "mm_share_acs_pct": 35.2,
+      "total_units_acs": 2335.0
+    },
+    {
+      "tract_fips": "48141001502",
+      "mm_share_epcad_pct": 25.2,
+      "mm_share_epcad_plus_model_pct": 27.0,
+      "mm_share_acs_pct": 22.8,
+      "total_units_acs": 1151.0
+    },
+    {
+      "tract_fips": "48141001600",
+      "mm_share_epcad_pct": 71.8,
+      "mm_share_epcad_plus_model_pct": 72.4,
+      "mm_share_acs_pct": 79.6,
+      "total_units_acs": 2492.0
+    },
+    {
+      "tract_fips": "48141001700",
+      "mm_share_epcad_pct": 53.0,
+      "mm_share_epcad_plus_model_pct": 53.2,
+      "mm_share_acs_pct": 94.3,
+      "total_units_acs": 419.0
+    },
+    {
+      "tract_fips": "48141001800",
+      "mm_share_epcad_pct": 75.2,
+      "mm_share_epcad_plus_model_pct": 75.7,
+      "mm_share_acs_pct": 86.3,
+      "total_units_acs": 446.0
+    },
+    {
+      "tract_fips": "48141001900",
+      "mm_share_epcad_pct": 69.9,
+      "mm_share_epcad_plus_model_pct": 70.4,
+      "mm_share_acs_pct": 78.3,
+      "total_units_acs": 1122.0
+    },
+    {
+      "tract_fips": "48141002000",
+      "mm_share_epcad_pct": 49.2,
+      "mm_share_epcad_plus_model_pct": 51.1,
+      "mm_share_acs_pct": 72.6,
+      "total_units_acs": 964.0
+    },
+    {
+      "tract_fips": "48141002100",
+      "mm_share_epcad_pct": 67.0,
+      "mm_share_epcad_plus_model_pct": 67.4,
+      "mm_share_acs_pct": 84.9,
+      "total_units_acs": 1285.0
+    },
+    {
+      "tract_fips": "48141002201",
+      "mm_share_epcad_pct": 49.0,
+      "mm_share_epcad_plus_model_pct": 49.8,
+      "mm_share_acs_pct": 49.2,
+      "total_units_acs": 1204.0
+    },
+    {
+      "tract_fips": "48141002202",
+      "mm_share_epcad_pct": 70.3,
+      "mm_share_epcad_plus_model_pct": 70.8,
+      "mm_share_acs_pct": 59.4,
+      "total_units_acs": 2208.0
+    },
+    {
+      "tract_fips": "48141002300",
+      "mm_share_epcad_pct": 30.5,
+      "mm_share_epcad_plus_model_pct": 32.0,
+      "mm_share_acs_pct": 22.7,
+      "total_units_acs": 1845.0
+    },
+    {
+      "tract_fips": "48141002400",
+      "mm_share_epcad_pct": 23.7,
+      "mm_share_epcad_plus_model_pct": 25.1,
+      "mm_share_acs_pct": 30.3,
+      "total_units_acs": 1398.0
+    },
+    {
+      "tract_fips": "48141002500",
+      "mm_share_epcad_pct": 19.5,
+      "mm_share_epcad_plus_model_pct": 20.4,
+      "mm_share_acs_pct": 5.1,
+      "total_units_acs": 2340.0
+    },
+    {
+      "tract_fips": "48141002600",
+      "mm_share_epcad_pct": 28.5,
+      "mm_share_epcad_plus_model_pct": 31.4,
+      "mm_share_acs_pct": 19.7,
+      "total_units_acs": 1195.0
+    },
+    {
+      "tract_fips": "48141002800",
+      "mm_share_epcad_pct": 37.5,
+      "mm_share_epcad_plus_model_pct": 38.9,
+      "mm_share_acs_pct": 48.1,
+      "total_units_acs": 1905.0
+    },
+    {
+      "tract_fips": "48141002900",
+      "mm_share_epcad_pct": 34.6,
+      "mm_share_epcad_plus_model_pct": 36.6,
+      "mm_share_acs_pct": 64.4,
+      "total_units_acs": 607.0
+    },
+    {
+      "tract_fips": "48141003000",
+      "mm_share_epcad_pct": 12.8,
+      "mm_share_epcad_plus_model_pct": 15.6,
+      "mm_share_acs_pct": 32.1,
+      "total_units_acs": 1477.0
+    },
+    {
+      "tract_fips": "48141003100",
+      "mm_share_epcad_pct": 11.0,
+      "mm_share_epcad_plus_model_pct": 13.1,
+      "mm_share_acs_pct": 20.0,
+      "total_units_acs": 1020.0
+    },
+    {
+      "tract_fips": "48141003200",
+      "mm_share_epcad_pct": 21.4,
+      "mm_share_epcad_plus_model_pct": 23.2,
+      "mm_share_acs_pct": 22.9,
+      "total_units_acs": 1104.0
+    },
+    {
+      "tract_fips": "48141003300",
+      "mm_share_epcad_pct": 19.5,
+      "mm_share_epcad_plus_model_pct": 19.8,
+      "mm_share_acs_pct": 14.7,
+      "total_units_acs": 2249.0
+    },
+    {
+      "tract_fips": "48141003402",
+      "mm_share_epcad_pct": 17.8,
+      "mm_share_epcad_plus_model_pct": 17.9,
+      "mm_share_acs_pct": 55.6,
+      "total_units_acs": 2625.0
+    },
+    {
+      "tract_fips": "48141003403",
+      "mm_share_epcad_pct": 35.4,
+      "mm_share_epcad_plus_model_pct": 35.4,
+      "mm_share_acs_pct": 50.7,
+      "total_units_acs": 2371.0
+    },
+    {
+      "tract_fips": "48141003404",
+      "mm_share_epcad_pct": 22.8,
+      "mm_share_epcad_plus_model_pct": 22.8,
+      "mm_share_acs_pct": 27.4,
+      "total_units_acs": 2705.0
+    },
+    {
+      "tract_fips": "48141003501",
+      "mm_share_epcad_pct": 38.2,
+      "mm_share_epcad_plus_model_pct": 39.2,
+      "mm_share_acs_pct": 35.3,
+      "total_units_acs": 1310.0
+    },
+    {
+      "tract_fips": "48141003502",
+      "mm_share_epcad_pct": 31.9,
+      "mm_share_epcad_plus_model_pct": 33.0,
+      "mm_share_acs_pct": 43.6,
+      "total_units_acs": 1659.0
+    },
+    {
+      "tract_fips": "48141003601",
+      "mm_share_epcad_pct": 21.5,
+      "mm_share_epcad_plus_model_pct": 23.7,
+      "mm_share_acs_pct": 12.1,
+      "total_units_acs": 1381.0
+    },
+    {
+      "tract_fips": "48141003602",
+      "mm_share_epcad_pct": 68.5,
+      "mm_share_epcad_plus_model_pct": 68.8,
+      "mm_share_acs_pct": 47.6,
+      "total_units_acs": 1242.0
+    },
+    {
+      "tract_fips": "48141003701",
+      "mm_share_epcad_pct": 18.4,
+      "mm_share_epcad_plus_model_pct": 19.2,
+      "mm_share_acs_pct": 18.2,
+      "total_units_acs": 1585.0
+    },
+    {
+      "tract_fips": "48141003702",
+      "mm_share_epcad_pct": 15.5,
+      "mm_share_epcad_plus_model_pct": 15.8,
+      "mm_share_acs_pct": 7.7,
+      "total_units_acs": 1815.0
+    },
+    {
+      "tract_fips": "48141003801",
+      "mm_share_epcad_pct": 17.7,
+      "mm_share_epcad_plus_model_pct": 18.5,
+      "mm_share_acs_pct": 20.0,
+      "total_units_acs": 1894.0
+    },
+    {
+      "tract_fips": "48141003803",
+      "mm_share_epcad_pct": 23.9,
+      "mm_share_epcad_plus_model_pct": 25.0,
+      "mm_share_acs_pct": 15.4,
+      "total_units_acs": 1004.0
+    },
+    {
+      "tract_fips": "48141003804",
+      "mm_share_epcad_pct": 29.8,
+      "mm_share_epcad_plus_model_pct": 30.1,
+      "mm_share_acs_pct": 27.6,
+      "total_units_acs": 1134.0
+    },
+    {
+      "tract_fips": "48141003901",
+      "mm_share_epcad_pct": 17.4,
+      "mm_share_epcad_plus_model_pct": 18.0,
+      "mm_share_acs_pct": 17.3,
+      "total_units_acs": 1241.0
+    },
+    {
+      "tract_fips": "48141003902",
+      "mm_share_epcad_pct": 8.3,
+      "mm_share_epcad_plus_model_pct": 9.4,
+      "mm_share_acs_pct": 6.2,
+      "total_units_acs": 1051.0
+    },
+    {
+      "tract_fips": "48141003904",
+      "mm_share_epcad_pct": 25.9,
+      "mm_share_epcad_plus_model_pct": 26.2,
+      "mm_share_acs_pct": 36.9,
+      "total_units_acs": 1124.0
+    },
+    {
+      "tract_fips": "48141003905",
+      "mm_share_epcad_pct": 22.3,
+      "mm_share_epcad_plus_model_pct": 23.4,
+      "mm_share_acs_pct": 29.6,
+      "total_units_acs": 958.0
+    },
+    {
+      "tract_fips": "48141004004",
+      "mm_share_epcad_pct": 9.6,
+      "mm_share_epcad_plus_model_pct": 9.6,
+      "mm_share_acs_pct": 18.6,
+      "total_units_acs": 1858.0
+    },
+    {
+      "tract_fips": "48141004005",
+      "mm_share_epcad_pct": 15.4,
+      "mm_share_epcad_plus_model_pct": 15.7,
+      "mm_share_acs_pct": 10.2,
+      "total_units_acs": 1958.0
+    },
+    {
+      "tract_fips": "48141004006",
+      "mm_share_epcad_pct": 28.5,
+      "mm_share_epcad_plus_model_pct": 28.7,
+      "mm_share_acs_pct": 4.2,
+      "total_units_acs": 1193.0
+    },
+    {
+      "tract_fips": "48141004007",
+      "mm_share_epcad_pct": 34.9,
+      "mm_share_epcad_plus_model_pct": 35.0,
+      "mm_share_acs_pct": 35.7,
+      "total_units_acs": 1049.0
+    },
+    {
+      "tract_fips": "48141004008",
+      "mm_share_epcad_pct": 34.7,
+      "mm_share_epcad_plus_model_pct": 34.8,
+      "mm_share_acs_pct": 36.9,
+      "total_units_acs": 1355.0
+    },
+    {
+      "tract_fips": "48141004103",
+      "mm_share_epcad_pct": 47.6,
+      "mm_share_epcad_plus_model_pct": 47.8,
+      "mm_share_acs_pct": 39.5,
+      "total_units_acs": 2387.0
+    },
+    {
+      "tract_fips": "48141004104",
+      "mm_share_epcad_pct": 19.2,
+      "mm_share_epcad_plus_model_pct": 19.4,
+      "mm_share_acs_pct": 17.5,
+      "total_units_acs": 2303.0
+    },
+    {
+      "tract_fips": "48141004105",
+      "mm_share_epcad_pct": 18.3,
+      "mm_share_epcad_plus_model_pct": 18.5,
+      "mm_share_acs_pct": 47.4,
+      "total_units_acs": 1249.0
+    },
+    {
+      "tract_fips": "48141004106",
+      "mm_share_epcad_pct": 13.5,
+      "mm_share_epcad_plus_model_pct": 14.0,
+      "mm_share_acs_pct": 17.4,
+      "total_units_acs": 1772.0
+    },
+    {
+      "tract_fips": "48141004107",
+      "mm_share_epcad_pct": 0.4,
+      "mm_share_epcad_plus_model_pct": 0.6,
+      "mm_share_acs_pct": 0.0,
+      "total_units_acs": 443.0
+    },
+    {
+      "tract_fips": "48141004201",
+      "mm_share_epcad_pct": 7.8,
+      "mm_share_epcad_plus_model_pct": 7.9,
+      "mm_share_acs_pct": 10.1,
+      "total_units_acs": 2101.0
+    },
+    {
+      "tract_fips": "48141004202",
+      "mm_share_epcad_pct": 32.2,
+      "mm_share_epcad_plus_model_pct": 32.2,
+      "mm_share_acs_pct": 32.5,
+      "total_units_acs": 2260.0
+    },
+    {
+      "tract_fips": "48141004303",
+      "mm_share_epcad_pct": 7.9,
+      "mm_share_epcad_plus_model_pct": 7.9,
+      "mm_share_acs_pct": 9.8,
+      "total_units_acs": 2029.0
+    },
+    {
+      "tract_fips": "48141004307",
+      "mm_share_epcad_pct": 13.3,
+      "mm_share_epcad_plus_model_pct": 13.3,
+      "mm_share_acs_pct": 26.1,
+      "total_units_acs": 2234.0
+    },
+    {
+      "tract_fips": "48141004309",
+      "mm_share_epcad_pct": 40.5,
+      "mm_share_epcad_plus_model_pct": 40.5,
+      "mm_share_acs_pct": 46.5,
+      "total_units_acs": 2204.0
+    },
+    {
+      "tract_fips": "48141004310",
+      "mm_share_epcad_pct": 30.1,
+      "mm_share_epcad_plus_model_pct": 30.1,
+      "mm_share_acs_pct": 39.2,
+      "total_units_acs": 1900.0
+    },
+    {
+      "tract_fips": "48141004311",
+      "mm_share_epcad_pct": 33.2,
+      "mm_share_epcad_plus_model_pct": 33.2,
+      "mm_share_acs_pct": 28.6,
+      "total_units_acs": 1836.0
+    },
+    {
+      "tract_fips": "48141004312",
+      "mm_share_epcad_pct": 42.1,
+      "mm_share_epcad_plus_model_pct": 42.2,
+      "mm_share_acs_pct": 46.4,
+      "total_units_acs": 2258.0
+    },
+    {
+      "tract_fips": "48141004313",
+      "mm_share_epcad_pct": 65.6,
+      "mm_share_epcad_plus_model_pct": 65.6,
+      "mm_share_acs_pct": 49.3,
+      "total_units_acs": 1480.0
+    },
+    {
+      "tract_fips": "48141004314",
+      "mm_share_epcad_pct": 14.6,
+      "mm_share_epcad_plus_model_pct": 14.7,
+      "mm_share_acs_pct": 24.2,
+      "total_units_acs": 1827.0
+    },
+    {
+      "tract_fips": "48141004316",
+      "mm_share_epcad_pct": 17.2,
+      "mm_share_epcad_plus_model_pct": 17.2,
+      "mm_share_acs_pct": 30.0,
+      "total_units_acs": 2025.0
+    },
+    {
+      "tract_fips": "48141004317",
+      "mm_share_epcad_pct": 79.5,
+      "mm_share_epcad_plus_model_pct": 79.5,
+      "mm_share_acs_pct": 85.4,
+      "total_units_acs": 2106.0
+    },
+    {
+      "tract_fips": "48141004318",
+      "mm_share_epcad_pct": 1.2,
+      "mm_share_epcad_plus_model_pct": 1.2,
+      "mm_share_acs_pct": 0.6,
+      "total_units_acs": 1404.0
+    },
+    {
+      "tract_fips": "48141004319",
+      "mm_share_epcad_pct": 0.0,
+      "mm_share_epcad_plus_model_pct": 0.0,
+      "mm_share_acs_pct": 2.0,
+      "total_units_acs": 1581.0
+    },
+    {
+      "tract_fips": "48141004320",
+      "mm_share_epcad_pct": 2.7,
+      "mm_share_epcad_plus_model_pct": 2.7,
+      "mm_share_acs_pct": 0.7,
+      "total_units_acs": 874.0
+    },
+    {
+      "tract_fips": "48141010203",
+      "mm_share_epcad_pct": 16.0,
+      "mm_share_epcad_plus_model_pct": 16.2,
+      "mm_share_acs_pct": 16.7,
+      "total_units_acs": 1213.0
+    },
+    {
+      "tract_fips": "48141010210",
+      "mm_share_epcad_pct": 13.1,
+      "mm_share_epcad_plus_model_pct": 13.1,
+      "mm_share_acs_pct": 11.3,
+      "total_units_acs": 3093.0
+    },
+    {
+      "tract_fips": "48141010211",
+      "mm_share_epcad_pct": 21.7,
+      "mm_share_epcad_plus_model_pct": 21.7,
+      "mm_share_acs_pct": 10.1,
+      "total_units_acs": 1074.0
+    },
+    {
+      "tract_fips": "48141010212",
+      "mm_share_epcad_pct": 11.4,
+      "mm_share_epcad_plus_model_pct": 11.4,
+      "mm_share_acs_pct": 13.3,
+      "total_units_acs": 2886.0
+    },
+    {
+      "tract_fips": "48141010213",
+      "mm_share_epcad_pct": 0.0,
+      "mm_share_epcad_plus_model_pct": 0.1,
+      "mm_share_acs_pct": 0.0,
+      "total_units_acs": 2778.0
+    },
+    {
+      "tract_fips": "48141010214",
+      "mm_share_epcad_pct": 13.8,
+      "mm_share_epcad_plus_model_pct": 13.8,
+      "mm_share_acs_pct": 15.0,
+      "total_units_acs": 2113.0
+    },
+    {
+      "tract_fips": "48141010217",
+      "mm_share_epcad_pct": 0.0,
+      "mm_share_epcad_plus_model_pct": 0.0,
+      "mm_share_acs_pct": 0.5,
+      "total_units_acs": 1711.0
+    },
+    {
+      "tract_fips": "48141010218",
+      "mm_share_epcad_pct": 2.8,
+      "mm_share_epcad_plus_model_pct": 3.1,
+      "mm_share_acs_pct": 3.8,
+      "total_units_acs": 1650.0
+    },
+    {
+      "tract_fips": "48141010220",
+      "mm_share_epcad_pct": 12.4,
+      "mm_share_epcad_plus_model_pct": 12.8,
+      "mm_share_acs_pct": 9.3,
+      "total_units_acs": 2793.0
+    },
+    {
+      "tract_fips": "48141010222",
+      "mm_share_epcad_pct": 0.4,
+      "mm_share_epcad_plus_model_pct": 0.5,
+      "mm_share_acs_pct": 0.0,
+      "total_units_acs": 655.0
+    },
+    {
+      "tract_fips": "48141010223",
+      "mm_share_epcad_pct": 28.8,
+      "mm_share_epcad_plus_model_pct": 28.8,
+      "mm_share_acs_pct": 51.6,
+      "total_units_acs": 2057.0
+    },
+    {
+      "tract_fips": "48141010224",
+      "mm_share_epcad_pct": 0.0,
+      "mm_share_epcad_plus_model_pct": 0.1,
+      "mm_share_acs_pct": 0.0,
+      "total_units_acs": 1905.0
+    },
+    {
+      "tract_fips": "48141010225",
+      "mm_share_epcad_pct": 22.5,
+      "mm_share_epcad_plus_model_pct": 22.6,
+      "mm_share_acs_pct": 17.3,
+      "total_units_acs": 1810.0
+    },
+    {
+      "tract_fips": "48141010226",
+      "mm_share_epcad_pct": 7.6,
+      "mm_share_epcad_plus_model_pct": 7.7,
+      "mm_share_acs_pct": 24.2,
+      "total_units_acs": 2421.0
+    },
+    {
+      "tract_fips": "48141010227",
+      "mm_share_epcad_pct": 20.5,
+      "mm_share_epcad_plus_model_pct": 22.7,
+      "mm_share_acs_pct": 24.3,
+      "total_units_acs": 1735.0
+    },
+    {
+      "tract_fips": "48141010228",
+      "mm_share_epcad_pct": 25.1,
+      "mm_share_epcad_plus_model_pct": 25.5,
+      "mm_share_acs_pct": 16.3,
+      "total_units_acs": 2147.0
+    },
+    {
+      "tract_fips": "48141010229",
+      "mm_share_epcad_pct": 2.4,
+      "mm_share_epcad_plus_model_pct": 3.9,
+      "mm_share_acs_pct": 1.2,
+      "total_units_acs": 2316.0
+    },
+    {
+      "tract_fips": "48141010230",
+      "mm_share_epcad_pct": 26.1,
+      "mm_share_epcad_plus_model_pct": 26.3,
+      "mm_share_acs_pct": 11.0,
+      "total_units_acs": 703.0
+    },
+    {
+      "tract_fips": "48141010231",
+      "mm_share_epcad_pct": 6.3,
+      "mm_share_epcad_plus_model_pct": 6.4,
+      "mm_share_acs_pct": 2.9,
+      "total_units_acs": 1079.0
+    },
+    {
+      "tract_fips": "48141010232",
+      "mm_share_epcad_pct": 24.5,
+      "mm_share_epcad_plus_model_pct": 25.6,
+      "mm_share_acs_pct": 15.7,
+      "total_units_acs": 1188.0
+    },
+    {
+      "tract_fips": "48141010303",
+      "mm_share_epcad_pct": 33.2,
+      "mm_share_epcad_plus_model_pct": 33.3,
+      "mm_share_acs_pct": 37.8,
+      "total_units_acs": 1575.0
+    },
+    {
+      "tract_fips": "48141010307",
+      "mm_share_epcad_pct": 34.3,
+      "mm_share_epcad_plus_model_pct": 34.3,
+      "mm_share_acs_pct": 26.8,
+      "total_units_acs": 2082.0
+    },
+    {
+      "tract_fips": "48141010311",
+      "mm_share_epcad_pct": 24.1,
+      "mm_share_epcad_plus_model_pct": 24.8,
+      "mm_share_acs_pct": 2.4,
+      "total_units_acs": 2258.0
+    },
+    {
+      "tract_fips": "48141010312",
+      "mm_share_epcad_pct": 9.0,
+      "mm_share_epcad_plus_model_pct": 9.2,
+      "mm_share_acs_pct": 8.6,
+      "total_units_acs": 1321.0
+    },
+    {
+      "tract_fips": "48141010316",
+      "mm_share_epcad_pct": 33.1,
+      "mm_share_epcad_plus_model_pct": 33.1,
+      "mm_share_acs_pct": 26.6,
+      "total_units_acs": 1444.0
+    },
+    {
+      "tract_fips": "48141010317",
+      "mm_share_epcad_pct": 19.6,
+      "mm_share_epcad_plus_model_pct": 19.8,
+      "mm_share_acs_pct": 16.9,
+      "total_units_acs": 1253.0
+    },
+    {
+      "tract_fips": "48141010322",
+      "mm_share_epcad_pct": 18.5,
+      "mm_share_epcad_plus_model_pct": 18.7,
+      "mm_share_acs_pct": 8.3,
+      "total_units_acs": 1839.0
+    },
+    {
+      "tract_fips": "48141010323",
+      "mm_share_epcad_pct": 15.0,
+      "mm_share_epcad_plus_model_pct": 15.0,
+      "mm_share_acs_pct": 13.6,
+      "total_units_acs": 1408.0
+    },
+    {
+      "tract_fips": "48141010326",
+      "mm_share_epcad_pct": 19.3,
+      "mm_share_epcad_plus_model_pct": 19.3,
+      "mm_share_acs_pct": 14.9,
+      "total_units_acs": 1910.0
+    },
+    {
+      "tract_fips": "48141010327",
+      "mm_share_epcad_pct": 1.4,
+      "mm_share_epcad_plus_model_pct": 1.7,
+      "mm_share_acs_pct": 4.2,
+      "total_units_acs": 1132.0
+    },
+    {
+      "tract_fips": "48141010328",
+      "mm_share_epcad_pct": 11.0,
+      "mm_share_epcad_plus_model_pct": 11.0,
+      "mm_share_acs_pct": 31.3,
+      "total_units_acs": 1550.0
+    },
+    {
+      "tract_fips": "48141010329",
+      "mm_share_epcad_pct": 16.0,
+      "mm_share_epcad_plus_model_pct": 16.5,
+      "mm_share_acs_pct": 12.7,
+      "total_units_acs": 1679.0
+    },
+    {
+      "tract_fips": "48141010333",
+      "mm_share_epcad_pct": 2.1,
+      "mm_share_epcad_plus_model_pct": 2.6,
+      "mm_share_acs_pct": 0.3,
+      "total_units_acs": 1455.0
+    },
+    {
+      "tract_fips": "48141010334",
+      "mm_share_epcad_pct": 0.7,
+      "mm_share_epcad_plus_model_pct": 1.0,
+      "mm_share_acs_pct": 1.7,
+      "total_units_acs": 1088.0
+    },
+    {
+      "tract_fips": "48141010335",
+      "mm_share_epcad_pct": 1.8,
+      "mm_share_epcad_plus_model_pct": 1.8,
+      "mm_share_acs_pct": 7.8,
+      "total_units_acs": 908.0
+    },
+    {
+      "tract_fips": "48141010336",
+      "mm_share_epcad_pct": 9.8,
+      "mm_share_epcad_plus_model_pct": 9.8,
+      "mm_share_acs_pct": 20.7,
+      "total_units_acs": 1865.0
+    },
+    {
+      "tract_fips": "48141010337",
+      "mm_share_epcad_pct": 18.5,
+      "mm_share_epcad_plus_model_pct": 18.5,
+      "mm_share_acs_pct": 16.8,
+      "total_units_acs": 2499.0
+    },
+    {
+      "tract_fips": "48141010338",
+      "mm_share_epcad_pct": 20.2,
+      "mm_share_epcad_plus_model_pct": 20.2,
+      "mm_share_acs_pct": 16.0,
+      "total_units_acs": 2336.0
+    },
+    {
+      "tract_fips": "48141010344",
+      "mm_share_epcad_pct": 1.5,
+      "mm_share_epcad_plus_model_pct": 1.7,
+      "mm_share_acs_pct": 0.0,
+      "total_units_acs": 811.0
+    },
+    {
+      "tract_fips": "48141010346",
+      "mm_share_epcad_pct": 2.0,
+      "mm_share_epcad_plus_model_pct": 2.5,
+      "mm_share_acs_pct": 0.5,
+      "total_units_acs": 2155.0
+    },
+    {
+      "tract_fips": "48141010347",
+      "mm_share_epcad_pct": 10.5,
+      "mm_share_epcad_plus_model_pct": 11.3,
+      "mm_share_acs_pct": 2.5,
+      "total_units_acs": 1391.0
+    },
+    {
+      "tract_fips": "48141010348",
+      "mm_share_epcad_pct": 1.3,
+      "mm_share_epcad_plus_model_pct": 1.3,
+      "mm_share_acs_pct": 0.0,
+      "total_units_acs": 1359.0
+    },
+    {
+      "tract_fips": "48141010349",
+      "mm_share_epcad_pct": 1.7,
+      "mm_share_epcad_plus_model_pct": 1.7,
+      "mm_share_acs_pct": 0.7,
+      "total_units_acs": 889.0
+    },
+    {
+      "tract_fips": "48141010350",
+      "mm_share_epcad_pct": 3.3,
+      "mm_share_epcad_plus_model_pct": 3.3,
+      "mm_share_acs_pct": 0.9,
+      "total_units_acs": 1646.0
+    },
+    {
+      "tract_fips": "48141010351",
+      "mm_share_epcad_pct": 6.1,
+      "mm_share_epcad_plus_model_pct": 6.1,
+      "mm_share_acs_pct": 2.0,
+      "total_units_acs": 908.0
+    },
+    {
+      "tract_fips": "48141010352",
+      "mm_share_epcad_pct": 0.0,
+      "mm_share_epcad_plus_model_pct": 0.0,
+      "mm_share_acs_pct": 0.0,
+      "total_units_acs": 1728.0
+    },
+    {
+      "tract_fips": "48141010353",
+      "mm_share_epcad_pct": 0.0,
+      "mm_share_epcad_plus_model_pct": 0.0,
+      "mm_share_acs_pct": 0.0,
+      "total_units_acs": 1509.0
+    },
+    {
+      "tract_fips": "48141010354",
+      "mm_share_epcad_pct": 7.7,
+      "mm_share_epcad_plus_model_pct": 7.7,
+      "mm_share_acs_pct": 25.9,
+      "total_units_acs": 2280.0
+    },
+    {
+      "tract_fips": "48141010355",
+      "mm_share_epcad_pct": 9.2,
+      "mm_share_epcad_plus_model_pct": 9.3,
+      "mm_share_acs_pct": 13.3,
+      "total_units_acs": 1494.0
+    },
+    {
+      "tract_fips": "48141010356",
+      "mm_share_epcad_pct": 5.3,
+      "mm_share_epcad_plus_model_pct": 5.3,
+      "mm_share_acs_pct": 1.4,
+      "total_units_acs": 1499.0
+    },
+    {
+      "tract_fips": "48141010357",
+      "mm_share_epcad_pct": 4.7,
+      "mm_share_epcad_plus_model_pct": 4.8,
+      "mm_share_acs_pct": 3.3,
+      "total_units_acs": 2089.0
+    },
+    {
+      "tract_fips": "48141010358",
+      "mm_share_epcad_pct": 10.5,
+      "mm_share_epcad_plus_model_pct": 10.9,
+      "mm_share_acs_pct": 6.0,
+      "total_units_acs": 3661.0
+    },
+    {
+      "tract_fips": "48141010359",
+      "mm_share_epcad_pct": 3.5,
+      "mm_share_epcad_plus_model_pct": 3.7,
+      "mm_share_acs_pct": 0.0,
+      "total_units_acs": 811.0
+    },
+    {
+      "tract_fips": "48141010360",
+      "mm_share_epcad_pct": 11.1,
+      "mm_share_epcad_plus_model_pct": 11.1,
+      "mm_share_acs_pct": 1.1,
+      "total_units_acs": 1375.0
+    },
+    {
+      "tract_fips": "48141010361",
+      "mm_share_epcad_pct": 6.7,
+      "mm_share_epcad_plus_model_pct": 6.7,
+      "mm_share_acs_pct": 9.0,
+      "total_units_acs": 1107.0
+    },
+    {
+      "tract_fips": "48141010362",
+      "mm_share_epcad_pct": 7.2,
+      "mm_share_epcad_plus_model_pct": 7.4,
+      "mm_share_acs_pct": 5.3,
+      "total_units_acs": 2899.0
+    },
+    {
+      "tract_fips": "48141010363",
+      "mm_share_epcad_pct": 14.2,
+      "mm_share_epcad_plus_model_pct": 14.2,
+      "mm_share_acs_pct": 0.0,
+      "total_units_acs": 1693.0
+    },
+    {
+      "tract_fips": "48141010364",
+      "mm_share_epcad_pct": 18.8,
+      "mm_share_epcad_plus_model_pct": 19.0,
+      "mm_share_acs_pct": 6.3,
+      "total_units_acs": 962.0
+    },
+    {
+      "tract_fips": "48141010365",
+      "mm_share_epcad_pct": 12.7,
+      "mm_share_epcad_plus_model_pct": 12.9,
+      "mm_share_acs_pct": 9.9,
+      "total_units_acs": 1090.0
+    },
+    {
+      "tract_fips": "48141010366",
+      "mm_share_epcad_pct": 2.2,
+      "mm_share_epcad_plus_model_pct": 2.2,
+      "mm_share_acs_pct": 5.8,
+      "total_units_acs": 2626.0
+    },
+    {
+      "tract_fips": "48141010367",
+      "mm_share_epcad_pct": 15.4,
+      "mm_share_epcad_plus_model_pct": 15.4,
+      "mm_share_acs_pct": 19.2,
+      "total_units_acs": 3361.0
+    },
+    {
+      "tract_fips": "48141010368",
+      "mm_share_epcad_pct": 2.7,
+      "mm_share_epcad_plus_model_pct": 2.7,
+      "mm_share_acs_pct": 0.0,
+      "total_units_acs": 3728.0
+    },
+    {
+      "tract_fips": "48141010369",
+      "mm_share_epcad_pct": 2.0,
+      "mm_share_epcad_plus_model_pct": 2.1,
+      "mm_share_acs_pct": 3.3,
+      "total_units_acs": 5770.0
+    },
+    {
+      "tract_fips": "48141010370",
+      "mm_share_epcad_pct": 8.7,
+      "mm_share_epcad_plus_model_pct": 8.7,
+      "mm_share_acs_pct": 8.3,
+      "total_units_acs": 6994.0
+    },
+    {
+      "tract_fips": "48141010371",
+      "mm_share_epcad_pct": 0.5,
+      "mm_share_epcad_plus_model_pct": 0.5,
+      "mm_share_acs_pct": 9.3,
+      "total_units_acs": 1477.0
+    },
+    {
+      "tract_fips": "48141010372",
+      "mm_share_epcad_pct": 0.5,
+      "mm_share_epcad_plus_model_pct": 0.6,
+      "mm_share_acs_pct": 0.0,
+      "total_units_acs": 1881.0
+    },
+    {
+      "tract_fips": "48141010401",
+      "mm_share_epcad_pct": 14.8,
+      "mm_share_epcad_plus_model_pct": 15.5,
+      "mm_share_acs_pct": 14.7,
+      "total_units_acs": 2465.0
+    },
+    {
+      "tract_fips": "48141010404",
+      "mm_share_epcad_pct": 6.0,
+      "mm_share_epcad_plus_model_pct": 7.2,
+      "mm_share_acs_pct": 5.7,
+      "total_units_acs": 1875.0
+    },
+    {
+      "tract_fips": "48141010406",
+      "mm_share_epcad_pct": 4.5,
+      "mm_share_epcad_plus_model_pct": 5.0,
+      "mm_share_acs_pct": 9.2,
+      "total_units_acs": 1060.0
+    },
+    {
+      "tract_fips": "48141010408",
+      "mm_share_epcad_pct": 7.1,
+      "mm_share_epcad_plus_model_pct": 7.8,
+      "mm_share_acs_pct": 16.2,
+      "total_units_acs": 1219.0
+    },
+    {
+      "tract_fips": "48141010409",
+      "mm_share_epcad_pct": 1.5,
+      "mm_share_epcad_plus_model_pct": 2.0,
+      "mm_share_acs_pct": 3.7,
+      "total_units_acs": 1882.0
+    },
+    {
+      "tract_fips": "48141010410",
+      "mm_share_epcad_pct": 1.2,
+      "mm_share_epcad_plus_model_pct": 1.5,
+      "mm_share_acs_pct": 0.0,
+      "total_units_acs": 1560.0
+    },
+    {
+      "tract_fips": "48141010411",
+      "mm_share_epcad_pct": 12.5,
+      "mm_share_epcad_plus_model_pct": 12.7,
+      "mm_share_acs_pct": 8.4,
+      "total_units_acs": 1124.0
+    },
+    {
+      "tract_fips": "48141010412",
+      "mm_share_epcad_pct": 13.8,
+      "mm_share_epcad_plus_model_pct": 14.2,
+      "mm_share_acs_pct": 20.3,
+      "total_units_acs": 1505.0
+    },
+    {
+      "tract_fips": "48141010413",
+      "mm_share_epcad_pct": 19.6,
+      "mm_share_epcad_plus_model_pct": 19.9,
+      "mm_share_acs_pct": 47.5,
+      "total_units_acs": 621.0
+    },
+    {
+      "tract_fips": "48141010501",
+      "mm_share_epcad_pct": 10.5,
+      "mm_share_epcad_plus_model_pct": 10.7,
+      "mm_share_acs_pct": 12.4,
+      "total_units_acs": 1786.0
+    },
+    {
+      "tract_fips": "48141010502",
+      "mm_share_epcad_pct": 2.3,
+      "mm_share_epcad_plus_model_pct": 3.4,
+      "mm_share_acs_pct": 3.6,
+      "total_units_acs": 696.0
+    },
+    {
+      "tract_fips": "48141010504",
+      "mm_share_epcad_pct": 2.1,
+      "mm_share_epcad_plus_model_pct": 2.5,
+      "mm_share_acs_pct": 0.0,
+      "total_units_acs": 479.0
+    },
+    {
+      "tract_fips": "48141010505",
+      "mm_share_epcad_pct": 22.4,
+      "mm_share_epcad_plus_model_pct": 23.3,
+      "mm_share_acs_pct": 21.2,
+      "total_units_acs": 926.0
+    },
+    {
+      "tract_fips": "48141010506",
+      "mm_share_epcad_pct": 1.5,
+      "mm_share_epcad_plus_model_pct": 1.7,
+      "mm_share_acs_pct": 2.1,
+      "total_units_acs": 800.0
+    }
+  ]
+}

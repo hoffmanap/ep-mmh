@@ -3,21 +3,23 @@
     "total_residential_parcels": 252626,
     "missing_middle_parcels": 8883,
     "missing_middle_share_pct": 3.52,
-    "total_residential_units_weighted": 323627,
-    "missing_middle_units_weighted": 67050,
-    "missing_middle_share_unit_weighted_pct": 20.72,
+    "total_residential_units_weighted": 327081,
+    "missing_middle_units_weighted": 70504,
+    "missing_middle_share_unit_weighted_pct": 21.56,
     "typology_counts": {
       "Single-Family Detached": 230134,
       "Single-Family Detached (Other Residential Subtype)": 10640,
       "Duplex": 4406,
       "Mobile/Manufactured Home": 2662,
-      "Multi-Unit Residential (Other)": 1423,
       "Townhouse": 1185,
+      "Fourplex": 906,
       "Apartment (7-30 units)": 856,
       "Apartment (4-6 units)": 481,
+      "Triplex": 368,
       "Condominium": 354,
       "Apartment (31-99 units)": 236,
       "Apartment (100+ units)": 235,
+      "Multi-Unit Residential (Other)": 149,
       "Apartment/Multifamily": 14
     }
   },
@@ -137,11 +139,13 @@
       "Apartment/Multifamily",
       "Condominium",
       "Duplex",
+      "Fourplex",
       "Mobile/Manufactured Home",
       "Multi-Unit Residential (Other)",
       "Single-Family Detached",
       "Single-Family Detached (Other Residential Subtype)",
-      "Townhouse"
+      "Townhouse",
+      "Triplex"
     ],
     "matrix": [
       [
@@ -152,11 +156,13 @@
         0,
         0,
         35,
+        11,
         1,
-        27,
+        2,
         478,
         10,
-        0
+        0,
+        14
       ],
       [
         0,
@@ -166,11 +172,13 @@
         0,
         0,
         91,
+        24,
         1,
-        57,
+        7,
         1801,
         25,
-        0
+        0,
+        26
       ],
       [
         0,
@@ -180,11 +188,13 @@
         0,
         0,
         125,
+        20,
         0,
-        52,
+        4,
         2868,
         53,
-        0
+        0,
+        28
       ],
       [
         0,
@@ -194,11 +204,13 @@
         0,
         0,
         121,
+        11,
         1,
-        30,
+        4,
         2402,
         36,
-        0
+        0,
+        15
       ],
       [
         1,
@@ -208,11 +220,13 @@
         0,
         0,
         227,
+        14,
         2,
-        47,
+        4,
         6038,
         61,
-        0
+        0,
+        29
       ],
       [
         8,
@@ -222,11 +236,13 @@
         1,
         0,
         393,
+        69,
         21,
-        141,
+        7,
         27784,
         127,
-        0
+        0,
+        65
       ],
       [
         16,
@@ -236,11 +252,13 @@
         0,
         69,
         153,
+        22,
         130,
-        45,
+        6,
         17159,
         52,
-        8
+        8,
+        17
       ],
       [
         83,
@@ -250,11 +268,13 @@
         0,
         260,
         713,
+        175,
         731,
-        240,
+        11,
         25565,
         471,
-        693
+        693,
+        54
       ],
       [
         39,
@@ -264,11 +284,13 @@
         0,
         6,
         1265,
+        330,
         831,
-        466,
+        90,
         23368,
         1240,
-        294
+        294,
+        46
       ],
       [
         12,
@@ -278,11 +300,13 @@
         1,
         0,
         325,
+        45,
         529,
-        70,
+        5,
         28053,
         322,
-        63
+        63,
+        20
       ],
       [
         22,
@@ -292,11 +316,13 @@
         1,
         0,
         309,
+        34,
         256,
-        45,
+        0,
         38745,
         116,
-        53
+        53,
+        11
       ],
       [
         35,
@@ -306,11 +332,13 @@
         3,
         17,
         451,
+        101,
         130,
-        140,
+        3,
         33672,
         110,
-        64
+        64,
+        36
       ],
       [
         18,
@@ -320,11 +348,13 @@
         1,
         2,
         190,
+        50,
         18,
-        62,
+        6,
         19421,
         37,
-        0
+        0,
+        6
       ]
     ]
   },
@@ -351,11 +381,13 @@
       "Apartment/Multifamily",
       "Condominium",
       "Duplex",
+      "Fourplex",
       "Mobile/Manufactured Home",
       "Multi-Unit Residential (Other)",
       "Single-Family Detached",
       "Single-Family Detached (Other Residential Subtype)",
-      "Townhouse"
+      "Townhouse",
+      "Triplex"
     ],
     "matrix": [
       [
@@ -366,11 +398,13 @@
         0,
         33,
         518,
+        311,
         0,
-        489,
+        70,
         1446,
         503,
-        136
+        136,
+        108
       ],
       [
         0,
@@ -382,9 +416,11 @@
         6,
         0,
         0,
+        0,
         4960,
         0,
-        253
+        253,
+        0
       ],
       [
         4,
@@ -394,11 +430,13 @@
         0,
         0,
         152,
-        0,
         33,
+        0,
+        0,
         1989,
         182,
-        524
+        524,
+        0
       ],
       [
         0,
@@ -408,11 +446,13 @@
         0,
         0,
         10,
+        3,
         39,
-        4,
+        0,
         7100,
         27,
-        0
+        0,
+        1
       ],
       [
         0,
@@ -422,11 +462,13 @@
         0,
         0,
         321,
+        37,
         6,
-        41,
+        2,
         6067,
         238,
-        0
+        0,
+        2
       ],
       [
         0,
@@ -436,11 +478,13 @@
         0,
         0,
         143,
+        4,
         1,
-        16,
+        1,
         3814,
         41,
-        0
+        0,
+        11
       ],
       [
         1,
@@ -450,11 +494,13 @@
         0,
         0,
         8,
+        1,
         15,
-        2,
+        1,
         4004,
         18,
-        1
+        1,
+        0
       ],
       [
         2,
@@ -464,11 +510,13 @@
         0,
         0,
         139,
+        54,
         61,
-        72,
+        7,
         46275,
         137,
-        0
+        0,
+        11
       ],
       [
         0,
@@ -478,11 +526,13 @@
         0,
         0,
         6,
+        0,
         2,
         0,
         24620,
         3,
-        1
+        1,
+        0
       ],
       [
         2,
@@ -492,11 +542,13 @@
         0,
         0,
         1028,
+        28,
         6,
-        54,
+        2,
         30295,
         375,
-        0
+        0,
+        24
       ],
       [
         0,
@@ -506,11 +558,13 @@
         1,
         0,
         404,
+        15,
         7,
-        38,
+        5,
         25983,
         119,
-        0
+        0,
+        18
       ],
       [
         0,
@@ -522,8 +576,10 @@
         94,
         0,
         0,
+        0,
         2135,
         85,
+        0,
         0
       ]
     ]

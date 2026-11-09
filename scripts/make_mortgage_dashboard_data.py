@@ -14,7 +14,7 @@ OUT = "/sessions/rcw-019pt16gylbtcckzycdh9ppp/mnt/data/el_paso_mm/output"
 j = pd.read_csv(f"{OUT}/parcels_with_mortgage.csv")
 
 RESIDENTIAL_TYPES = [
-    "Single-Family Detached", "Mobile/Manufactured Home", "Duplex", "Townhouse",
+    "Single-Family Detached", "Mobile/Manufactured Home", "Duplex", "Triplex", "Fourplex", "Townhouse",
     "Condominium", "Apartment/Multifamily", "Multi-Unit Residential (Other)",
     "Apartment (4-6 units)", "Apartment (7-30 units)", "Apartment (31-99 units)",
     "Apartment (100+ units)",

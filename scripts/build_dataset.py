@@ -23,13 +23,42 @@ DOWNTOWN_LAT, DOWNTOWN_LON = 31.7598, -106.4887
 
 STATE_CD_TYPOLOGY = {
     "A1": ("Single-Family Detached", 1, False),
+    # A51/A53/A54/A55/A6/A7 are single-family residential subtypes EPCAD
+    # tracks separately from plain A1 (manufactured-on-permanent-
+    # foundation, PUD, zero-lot-line, and similar variants) -- not
+    # missing-middle, but real urban residential stock that belongs in
+    # the RES denominator rather than falling into "Other/Non-
+    # Residential" alongside vacant lots and colonias (the "STATE_CD
+    # gap" this project hit and fixed earlier: dropping these silently
+    # shrank the residential-parcel denominator and distorted every
+    # share-of-total stat).
+    "A51": ("Single-Family Detached (Other Residential Subtype)", 1, False),
+    "A53": ("Single-Family Detached (Other Residential Subtype)", 1, False),
+    "A54": ("Single-Family Detached (Other Residential Subtype)", 1, False),
+    "A55": ("Single-Family Detached (Other Residential Subtype)", 1, False),
+    "A6": ("Single-Family Detached (Other Residential Subtype)", 1, False),
+    "A7": ("Single-Family Detached (Other Residential Subtype)", 1, False),
     "A2": ("Mobile/Manufactured Home", 1, False),
     "A3": ("Condominium", 1, True),
     "A4": ("Townhouse", 1, True),
     "B1": ("Duplex", 2, True),
     "B2": ("Apartment/Multifamily", None, True),   # sub-split below via ClassCD
-    "B3": ("Multi-Unit Residential (Other)", None, True),
-    "B4": ("Multi-Unit Residential (Other)", None, True),
+    # B3/B4 split out as Triplex/Fourplex rather than lumped into
+    # "Multi-Unit Residential (Other)" -- Texas's statewide SPTB state-
+    # code convention (same scheme taxnetusa.com documents for other TX
+    # appraisal districts) assigns B3=three-family/triplex and
+    # B4=four-or-more-family/fourplex. EPCAD's public site blocks
+    # automated lookups (Cloudflare challenge), so this couldn't be
+    # confirmed against an EPCAD-published legend directly, but it's
+    # corroborated structurally here: B3/B4 parcels average noticeably
+    # more "MAIN AREA" improvement records per property (2.06 / 2.57)
+    # than B1 duplexes (1.48), consistent with more units per parcel.
+    # B5 (n=125) and B6 (n=24) are left lumped as "Multi-Unit Residential
+    # (Other)" -- too few parcels and too ambiguous a structural pattern
+    # (B5's improvement-count average is actually *lower* than B4's) to
+    # confidently assign a specific unit count to them.
+    "B3": ("Triplex", 3, True),
+    "B4": ("Fourplex", 4, True),
     "B5": ("Multi-Unit Residential (Other)", None, True),
     "B6": ("Multi-Unit Residential (Other)", None, True),
     "C1": ("Vacant Residential Lot", 0, False),

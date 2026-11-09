@@ -18,9 +18,10 @@ import os
 
 OUT = os.environ.get("EP_MMH_OUT", "data/output")
 GIS = os.environ.get("EP_MMH_GIS", "data/gis")
+DATA = os.environ.get("EP_MMH_DATA", "data")
 
 RES = ["Single-Family Detached", "Single-Family Detached (Other Residential Subtype)",
-       "Mobile/Manufactured Home", "Duplex", "Townhouse", "Condominium", "Apartment/Multifamily",
+       "Mobile/Manufactured Home", "Duplex", "Triplex", "Fourplex", "Townhouse", "Condominium", "Apartment/Multifamily",
        "Multi-Unit Residential (Other)", "Apartment (4-6 units)", "Apartment (7-30 units)",
        "Apartment (31-99 units)", "Apartment (100+ units)"]
 
@@ -124,5 +125,5 @@ summary = {
     "tract_level": full[["tract_fips", "mm_share_epcad_pct", "mm_share_epcad_plus_model_pct",
                           "mm_share_acs_pct", "total_units_acs"]].to_dict(orient="records"),
 }
-json.dump(summary, open("data/tract_comparison_epcad_acs.json", "w"), indent=2)
-print("\nSaved data/tract_comparison_epcad_acs.json")
+json.dump(summary, open(f"{DATA}/tract_comparison_epcad_acs.json", "w"), indent=2)
+print(f"\nSaved {DATA}/tract_comparison_epcad_acs.json")
