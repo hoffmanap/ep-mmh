@@ -8,6 +8,18 @@ Live dashboard: `index.html` (open directly, or via GitHub Pages) at:
 
 ## https://hoffmanap.github.io/ep-mmh/
 
+The live page is a scrollytelling layout: a sticky visual (map, chart, or
+big-number stage) pinned beside short narrative "steps" that brighten and
+swap the visual as you scroll, pudding.cool-style (vanilla
+IntersectionObserver, no scroll library — see `initScrollytelling()` in
+`index.html`). Two maps that were previously combined now live separately
+by design: section 7's **over/under-represented tracts** map shows where
+EPCAD's and ACS's records disagree (part of the five-piece evidence
+matrix), and the closing section 8's **where reform should happen** map
+reframes that same tract data as a legalization/code-reform priority
+signal — both draw on `data/legalize_priority_tracts.geojson`, styled and
+framed differently for their two different questions.
+
 ## 1. The problem
 
 Missing-middle housing — duplexes, triplexes, courtyard apartments, small
