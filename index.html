@@ -62,7 +62,55 @@
     background:repeating-linear-gradient(45deg, #fffdf7, #fffdf7 6px, #f2ead6 6px, #f2ead6 12px);
   }
 
-  #map{height:560px; width:100%; background:var(--parchment);}
+  #map{height:640px; width:100%; background:var(--parchment);}
+
+  /* Generic expandable-map chrome, shared by #map/#overUnderMap/#reformMap.
+     .map-wrap is the positioning context; .expanded promotes it to a
+     fixed full-viewport overlay so the map gets real room to read
+     without redesigning the page around it. */
+  .map-wrap{ position:relative; }
+  .map-wrap.expanded{
+    position:fixed; inset:16px; z-index:4000;
+    background:var(--parchment); border:1px solid var(--ink);
+    box-shadow:0 8px 32px rgba(0,0,0,0.35);
+    display:flex; flex-direction:column; padding:10px;
+  }
+  .map-wrap.expanded > [id$="Map"]{ flex:1 1 auto; height:auto !important; }
+  .map-expand-btn{
+    position:absolute; top:8px; left:50%; transform:translateX(-50%); z-index:1200;
+    font-family:'IBM Plex Mono', monospace; font-size:0.68rem;
+    letter-spacing:0.04em; text-transform:uppercase;
+    background:#fffdf7; border:1px solid var(--ink); color:var(--ink);
+    padding:5px 9px; cursor:pointer; line-height:1;
+  }
+  .map-expand-btn:hover{ background:var(--ink); color:#fffdf7; }
+  .map-scrim{
+    display:none; position:fixed; inset:0; z-index:3999;
+    background:rgba(20,16,10,0.55);
+  }
+  .map-scrim.active{ display:block; }
+
+  /* Persistent diverging-scale legend for the gap-colored tract maps
+     (overUnderMap / reformMap) -- a swatch strip standing in for the
+     click-to-reveal popups, so the color meaning is visible at rest. */
+  .map-legend{
+    position:absolute; bottom:8px; left:8px; z-index:1000;
+    background:#fffdf7cc; border:1px solid var(--ink);
+    padding:6px 9px; font-size:0.64rem; font-family:'IBM Plex Mono', monospace;
+    max-width:200px;
+  }
+  .map-legend .map-legend-title{ font-weight:600; margin-bottom:4px; }
+  .map-legend .map-legend-scale{ display:flex; height:10px; margin-bottom:3px; }
+  .map-legend .map-legend-scale span{ flex:1 1 auto; }
+  .map-legend .map-legend-labels{ display:flex; justify-content:space-between; opacity:0.8; }
+  .map-legend .map-legend-outline-note{
+    margin-top:5px; padding-top:5px; border-top:1px dashed var(--ink);
+    display:flex; align-items:center; gap:5px; opacity:0.85;
+  }
+  .map-legend .outline-swatch{
+    width:11px; height:11px; border:2px solid #2B2420; flex-shrink:0;
+  }
+
   .field-tiles{
     filter: sepia(8%) saturate(85%);
   }
@@ -99,7 +147,7 @@
   }
   .swatch{width:12px; height:12px; border:1px solid var(--ink); flex:none;}
 
-  .chart-wrap{padding:12px;}
+  .chart-wrap{padding:12px; position:relative;}
   canvas{max-width:100%;}
 
   .load-error{
@@ -333,8 +381,33 @@
   }
   .evidence-dot.lit{background:var(--rust); color:#fffdf7; border-color:var(--rust);}
 
-  #reformMap{height:520px; width:100%; background:var(--parchment);}
-  #overUnderMap{height:420px; width:100%; background:var(--parchment);}
+  #reformMap{height:580px; width:100%; background:var(--parchment);}
+  #overUnderMap{height:560px; width:100%; background:var(--parchment);}
+
+  /* Custom HTML legend used in place of Chart.js's built-in legend for
+     any chart with too many series for Chart.js's own layout engine to
+     wrap cleanly (decade chart, zoning chart) -- plain flexbox wraps
+     reliably at any width, which the built-in legend did not. */
+  .chart-legend{
+    display:flex; flex-wrap:wrap; gap:6px 16px;
+    padding:10px 14px 4px; font-size:0.72rem;
+  }
+  /* Named .legend-item rather than .swatch for the outer wrapper -- an
+     unrelated pre-existing ".swatch{width:12px;height:12px;...}" rule
+     (for the #legend typology-filter chips) collided with this one by
+     class name and silently clipped our label+icon span to a 12px box,
+     which was the real cause of the overlapping-text mess this whole
+     legend was added to fix. */
+  .chart-legend .legend-item{
+    display:inline-flex; align-items:center; gap:5px; white-space:nowrap;
+    flex:0 0 auto;
+  }
+  .chart-legend .swatch-box{
+    width:11px; height:11px; border:1px solid var(--ink); flex-shrink:0;
+  }
+  .chart-legend .swatch-line{
+    width:14px; height:0; border-top:2.5px solid; flex-shrink:0;
+  }
 
   .section-kicker{
     font-family:'Special Elite', monospace;
@@ -479,11 +552,15 @@
         <div class="stage">
           <div class="stage-label">MISSING-MIDDLE PARCEL MAP</div>
           <div class="scrolly-visual active" data-visual="map">
-            <div id="map"></div>
+            <div class="map-wrap" id="mapWrap">
+              <button class="map-expand-btn" onclick="toggleMapExpand('mapWrap')" aria-label="Expand map">&#x2922; Expand</button>
+              <div id="map"></div>
+            </div>
             <div style="font-size:0.72rem; padding:6px 12px; opacity:0.75;">
               Use the layer control (top right) to toggle the official
               City of El Paso zoning-district overlay. Click a dot for
               its typology; click the legend to filter by typology.
+              Use the expand button for a larger view.
             </div>
           </div>
         </div>
@@ -594,26 +671,34 @@
         <div class="panel-title">TYPOLOGY BY DECADE BUILT</div>
         <div class="field-card" style="padding-top:0;">
           <p style="font-size:0.78rem; margin:10px 0;">
-            Composition built each decade. Weak negative correlation
-            with year built (r = <span class="stamp">-0.069</span>) —
-            a mild tilt toward older stock, not a strong era effect.
+            Composition built each decade (bars, left axis) against the
+            volume of single-family construction in the same decade
+            (gray line, right axis — note the very different scale).
+            Weak negative correlation between missing-middle and year
+            built (r = <span class="stamp">-0.069</span>) — a mild tilt
+            toward older stock, not a strong era effect.
           </p>
         </div>
-        <div class="chart-wrap"><canvas id="decadeChart" height="280"></canvas></div>
+        <div class="chart-wrap" style="height:380px;"><canvas id="decadeChart"></canvas></div>
+        <div class="chart-legend" id="decadeLegend"></div>
       </div>
     </div>
 
     <div class="panel-grid single">
       <div class="panel">
-        <div class="panel-title">TYPOLOGY BY ZONING DISTRICT</div>
+        <div class="panel-title">MISSING-MIDDLE TYPOLOGY BY ZONING DISTRICT</div>
         <div class="field-card" style="padding-top:0;">
           <p style="font-size:0.78rem; margin:10px 0;">
-            Raw counts by district — volume, not concentration. See
-            the zoning-concentration chart in section 3 for the
+            Raw missing-middle parcel counts by zoning district
+            (single-family and mobile-home parcels excluded — they
+            dwarf every other typology in every district and were
+            making this chart unreadable). Volume, not concentration —
+            see the zoning-concentration panel in section 3 for the
             share-within-code view.
           </p>
         </div>
-        <div class="chart-wrap"><canvas id="zoningChart" height="320"></canvas></div>
+        <div class="chart-wrap" style="height:380px;"><canvas id="zoningChart"></canvas></div>
+        <div class="chart-legend" id="zoningLegend"></div>
       </div>
     </div>
   </section>
@@ -1159,7 +1244,11 @@
               <div class="evidence-dot" data-dot="4">4</div>
               <div class="evidence-dot" data-dot="5">5</div>
             </div>
-            <div id="overUnderMap"></div>
+            <div class="map-wrap" id="overUnderMapWrap">
+              <button class="map-expand-btn" onclick="toggleMapExpand('overUnderMapWrap')" aria-label="Expand map">&#x2922; Expand</button>
+              <div id="overUnderMap"></div>
+              <div class="map-legend" id="overUnderMapLegend"></div>
+            </div>
             <p style="font-size:0.68rem; margin:6px 2px 0; color:var(--ink-faint, #7a7468);">
               Each tract shaded by gap_pct_points (ACS self-reported
               missing-middle share minus EPCAD's recorded share).
@@ -1364,7 +1453,11 @@
         <div class="stage">
           <div class="stage-label">ZONING &amp; CODE-REFORM PRIORITY, BY TRACT</div>
           <div class="stage-body" style="padding:10px;">
-            <div id="reformMap"></div>
+            <div class="map-wrap" id="reformMapWrap">
+              <button class="map-expand-btn" onclick="toggleMapExpand('reformMapWrap')" aria-label="Expand map">&#x2922; Expand</button>
+              <div id="reformMap"></div>
+              <div class="map-legend" id="reformMapLegend"></div>
+            </div>
             <p style="font-size:0.68rem; margin:6px 2px 0; color:var(--ink-faint, #7a7468);">
               Same underlying gap as the map in section 7, reframed:
               dark-outlined tracts are the top legalization priority by
@@ -1414,7 +1507,160 @@
             this as a <span class="hl hl-rust">legalization and
             code-reform question</span> &mdash; amending zoning and
             building code in the tracts shaded darkest above &mdash;
-            rather than a detection problem to keep refining.
+            not instead of continuing to refine detection, but
+            alongside it: the next section lays out what refining it
+            further would actually take.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 9. NEXT STEPS — MODEL AS GAP-CLOSING TOOL ============ -->
+  <section class="narrative-section">
+    <div class="section-number">09</div>
+    <div class="section-title">NEXT STEPS — FROM DETECTION TO CORRECTION</div>
+
+    <div class="scrolly">
+      <div class="scrolly-sticky">
+        <div class="stage">
+          <div class="stage-label">THE SCALE THE MODEL WOULD NEED TO CLOSE</div>
+          <div class="scrolly-visual active" data-visual="ns1">
+            <div class="ticker">
+              <div class="ticker-num">1,471</div>
+              <div class="ticker-label">high-confidence (p&ge;0.8) candidates<br>countywide &mdash; vs. an ACS-implied<br>gap of <strong>~21,000</strong> units</div>
+            </div>
+          </div>
+          <div class="scrolly-visual" data-visual="ns2">
+            <div class="ticker">
+              <div class="ticker-num">128</div>
+              <div class="ticker-label">EPE-confirmed hidden units sitting<br>unused as training labels &mdash; currently<br>spent entirely on validation</div>
+            </div>
+          </div>
+          <div class="scrolly-visual" data-visual="ns3">
+            <div class="ticker">
+              <div class="ticker-num">&minus;0.19%</div>
+              <div class="ticker-label">importance of fa_owner_occupied_flag &mdash;<br>the model's strongest ownership signal,<br>and still a minor one</div>
+            </div>
+          </div>
+          <div class="scrolly-visual" data-visual="ns4">
+            <div class="ticker">
+              <div class="ticker-num">10.51%</div>
+              <div class="ticker-label">countywide share after adding every<br>candidate &mdash; vs. ACS's <strong>16.96%</strong>,<br>the gap this would need to close</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scrolly-steps">
+        <div class="step active" data-visual="ns1">
+          <div class="step-eyebrow">WHY "JUST FLAG MORE CANDIDATES" DOESN'T WORK</div>
+          <p>
+            Section 6 showed the structural model's candidates hit an
+            independent multi-unit signal at <strong>21.7x baseline</strong>
+            &mdash; real evidence, not noise. But the gap it would need
+            to close is two orders of magnitude bigger than the
+            candidate pool: <span class="hl">1,471 high-confidence
+            flags against a ~21,000-unit ACS-implied undercount</span>.
+            A parcel-level classifier, run once at a single global
+            threshold, cannot find a gap this size by itself &mdash;
+            not because the model is wrong, but because of what it's
+            being asked to do with it.
+          </p>
+          <p>
+            That reframes the useful question. It's not "can the model
+            find all 21,000 units" &mdash; it can't, and no
+            structural-feature classifier run countywide at one
+            threshold will. It's <strong>which specific changes would
+            make it close a meaningfully larger share of that gap, and
+            how would this project know if they worked</strong>, the
+            same way the five-layer validation in sections 4&ndash;6
+            checked the model that already exists.
+          </p>
+        </div>
+        <div class="step" data-visual="ns2">
+          <div class="step-eyebrow">1 &mdash; TRAIN ON THE CONFIRMED HIDDEN UNITS, NOT JUST VALIDATE AGAINST THEM</div>
+          <p>
+            The 128 EPE-confirmed hidden units (section 6) are
+            currently a one-way check: candidates go in, an
+            independent billing class either confirms or doesn't. They
+            never feed back into the model itself. The straightforward
+            fix is to <span class="hl hl-rust">add them to the
+            training set as positive labels</span> for a retrained
+            classifier &mdash; EPCAD says single-family, EPE
+            independently says multi-unit, that's a hand-labeled
+            positive no amount of structural-feature engineering can
+            substitute for.
+          </p>
+          <p>
+            The harder, more useful version of this is treating it as
+            a <strong>positive-unlabeled (PU) learning problem</strong>
+            rather than ordinary supervised classification: EPCAD's
+            "single-family" label is known to be wrong for an unknown
+            subset of parcels (that's the whole premise of this
+            project), so every un-flagged parcel is unlabeled, not a
+            confirmed negative. PU methods built for exactly this
+            setting (e.g. bagging-based PU, or a simple
+            propensity-reweighting correction) would stop the model
+            from being penalized for flagging parcels that are
+            probably mislabeled rather than probably wrong.
+          </p>
+        </div>
+        <div class="step" data-visual="ns3">
+          <div class="step-eyebrow">2 &mdash; THE STRONGEST OWNERSHIP SIGNAL IS BARELY A SIGNAL</div>
+          <p>
+            Sections 2 and 7 both point to non-owner-occupied,
+            informally-converted buildings as the likeliest story
+            here &mdash; but in the current feature-importance ranking
+            (<code>data/feature_importance.csv</code>), ownership and
+            financing features are weak:
+            <span class="hl">fa_owner_occupied_flag</span> ranks mid-pack
+            with a small negative importance, and
+            <code>mailing_mismatch</code> and
+            <code>fa_TotalOpenLienAmt</code> are both close to zero.
+            The model is mostly finding missing-middle structurally
+            (footprint count, bathroom count, lot size), not through
+            the ownership pattern the narrative evidence says matters.
+          </p>
+          <p>
+            Two concrete additions would test that directly:
+            <strong>absentee-ownership concentration</strong> (share of
+            parcels on a block/tract mailing to a different county or
+            state &mdash; a stronger landlord signal than a single
+            parcel's mailing mismatch) and <strong>linked-ownership
+            clustering</strong> (the same owner or LLC holding multiple
+            nearby parcels, a common pattern for informally-converted
+            rental property). Neither exists in the current feature set.
+          </p>
+        </div>
+        <div class="step" data-visual="ns4">
+          <div class="step-eyebrow">3 &mdash; CALIBRATE TO THE TRACT, NOT JUST THE PARCEL</div>
+          <p>
+            The model currently applies one global probability
+            threshold (p&ge;0.8) everywhere. But section 7's map
+            already shows the gap is <em>wildly uneven by tract</em>
+            &mdash; some tracts near zero, a handful above 20 points.
+            A single global threshold can't be tuned to close an
+            unevenly distributed gap; a <strong>per-tract calibrated
+            threshold</strong> &mdash; set so each tract's candidate
+            count tracks that tract's own ACS-implied share, the way
+            small-area survey estimation routinely reweights a thin
+            sample against a known aggregate &mdash; directly targets
+            the gap this project is trying to close, rather than
+            optimizing classification accuracy in general and hoping
+            the gap shrinks as a side effect.
+          </p>
+          <p>
+            <strong>Last, the loop that ties it together:</strong> every
+            refinement above produces a new, better-supported candidate
+            list for the reform-priority tracts in section 8. Treating
+            that as <span class="hl hl-rust">detection and correction,
+            not detection then done</span> &mdash; field-verify
+            top candidates in priority tracts, feed confirmed results
+            back in as training labels, recalibrate, repeat &mdash;
+            is what would actually move the needle on the
+            10.11%-vs-16.96% gap this whole project is about, one
+            verified batch at a time instead of one static model run.
           </p>
         </div>
       </div>
@@ -1669,8 +1915,50 @@ const acsDiagonalShading = {
   },
 };
 
+// "48141000106" -> "Tract 1.06" -- the standard census tract-number
+// format (strip state+county FIPS, insert the decimal before the last
+// two digits, drop leading zeros).
+function tractLabel(fips) {
+  if (!fips || fips.length < 6) return fips || '';
+  const tractPart = fips.slice(-6);
+  const num = parseFloat(tractPart.slice(0, 4) + '.' + tractPart.slice(4));
+  return 'Tract ' + num;
+}
+
+// Permanently labels the most notable tracts (biggest gap each
+// direction) directly on the chart, rather than relying on hover alone
+// -- the handful of points anyone asks "which tract is that" about.
+function makeTractLabelPlugin(labeledPoints) {
+  return {
+    id: 'tractLabels',
+    afterDatasetsDraw(chart) {
+      const { ctx, scales: { x, y } } = chart;
+      ctx.save();
+      ctx.font = '600 9px "IBM Plex Mono", monospace';
+      ctx.fillStyle = '#2B2420';
+      labeledPoints.forEach(p => {
+        const px = x.getPixelForValue(p.x), py = y.getPixelForValue(p.y);
+        ctx.textAlign = p.x > 80 ? 'right' : 'left';
+        const dx = p.x > 80 ? -6 : 6;
+        ctx.fillText(p.label, px + dx, py - 6);
+      });
+      ctx.restore();
+    },
+  };
+}
+
 function renderAcsComparisonChart(tc) {
-  const points = tc.tract_level.map(t => ({ x: t.mm_share_epcad_pct, y: t.mm_share_acs_pct }));
+  const points = tc.tract_level.map(t => ({
+    x: t.mm_share_epcad_pct, y: t.mm_share_acs_pct,
+    label: tractLabel(t.tract_fips), gap: t.mm_share_acs_pct - t.mm_share_epcad_pct,
+  }));
+
+  // Label the 5 biggest underrepresented and 5 biggest overrepresented
+  // tracts -- labeling all 182 would be unreadable, but these are the
+  // points a reader is most likely to ask "which tract is that?" about.
+  const byGapDesc = [...points].sort((a, b) => b.gap - a.gap);
+  const labeledPoints = [...byGapDesc.slice(0, 5), ...byGapDesc.slice(-5)];
+
   new Chart(document.getElementById('acsComparisonChart'), {
     type: 'scatter',
     data: {
@@ -1692,9 +1980,21 @@ function renderAcsComparisonChart(tc) {
         },
       ],
     },
-    plugins: [acsDiagonalShading],
+    plugins: [acsDiagonalShading, makeTractLabelPlugin(labeledPoints)],
     options: {
-      plugins: { legend: { display: false } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: (items) => items[0]?.raw?.label || '',
+            label: (item) => [
+              `EPCAD share: ${item.raw.x.toFixed(1)}%`,
+              `ACS share: ${item.raw.y.toFixed(1)}%`,
+              `Gap: ${item.raw.gap > 0 ? '+' : ''}${item.raw.gap.toFixed(1)} pts`,
+            ],
+          },
+        },
+      },
       scales: {
         x: { title: { display: true, text: 'EPCAD unit-weighted missing-middle share (%)' }, min: 0, max: 100 },
         y: { title: { display: true, text: 'ACS self-reported missing-middle share (%)' }, min: 0, max: 100 },
@@ -1867,6 +2167,82 @@ function gapFillColor(gap) {
   return '#7FA89C';
 }
 
+// Persistent legend for the diverging gap_pct_points scale, shared by
+// the over/under map and the reform-priority map -- replaces relying
+// solely on click popups to explain what the colors mean.
+function renderGapLegend(containerId, { showPriorityNote } = {}) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const buckets = ['#7a2e1f', '#A6531C', '#C98A52', '#E8C9A0', '#BFD3CE', '#7FA89C'];
+  el.innerHTML = `
+    <div class="map-legend-title">Gap: ACS &minus; EPCAD share</div>
+    <div class="map-legend-scale">${buckets.map(c => `<span style="background:${c};"></span>`).join('')}</div>
+    <div class="map-legend-labels"><span>&ge;20 pts<br>(underrepresented)</span><span>&le;&minus;10 pts<br>(overrepresented)</span></div>
+    ${showPriorityNote ? `<div class="map-legend-outline-note"><span class="outline-swatch"></span> Top legalization priority</div>` : ''}
+  `;
+}
+
+// Toggles a map between its normal inline size and a fixed full-viewport
+// overlay (see .map-wrap.expanded in CSS) -- Leaflet renders its canvas
+// against whatever box it had at init, so any size change requires an
+// explicit invalidateSize() once the new layout has actually applied, not
+// before (hence the double rAF rather than a single callback).
+// Several of these wraps sit inside a .stage (overflow:hidden, for the
+// sticky-pane chrome), which silently clips a position:fixed descendant
+// to the ancestor's original box instead of letting it cover the
+// viewport -- a well-known CSS gotcha. Fix: physically move the wrap to
+// a direct child of <body> while expanded (a manual "portal"), and put
+// it back in its exact original spot (parent + next sibling) on collapse.
+let mapScrimEl = null;
+const mapWrapHomes = new Map(); // wrapId -> { parent, nextSibling }
+function toggleMapExpand(wrapId) {
+  const wrap = document.getElementById(wrapId);
+  if (!wrap) return;
+  if (!mapScrimEl) {
+    mapScrimEl = document.createElement('div');
+    mapScrimEl.className = 'map-scrim';
+    mapScrimEl.onclick = () => {
+      document.querySelectorAll('.map-wrap.expanded').forEach(w => collapseMapWrap(w));
+    };
+    document.body.appendChild(mapScrimEl);
+  }
+  const expanding = !wrap.classList.contains('expanded');
+  document.querySelectorAll('.map-wrap.expanded').forEach(w => { if (w !== wrap) collapseMapWrap(w); });
+  if (expanding) {
+    mapWrapHomes.set(wrapId, { parent: wrap.parentNode, nextSibling: wrap.nextSibling });
+    document.body.appendChild(wrap);
+  }
+  wrap.classList.toggle('expanded', expanding);
+  mapScrimEl.classList.toggle('active', expanding);
+  const btn = wrap.querySelector('.map-expand-btn');
+  if (btn) btn.innerHTML = expanding ? '&#x2716; Close' : '&#x2922; Expand';
+  if (!expanding) restoreMapWrapHome(wrap, wrapId);
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    [window.map, window.overUnderMap, window.reformMap].forEach(m => m && m.invalidateSize());
+  }));
+}
+function restoreMapWrapHome(wrap, wrapId) {
+  const home = mapWrapHomes.get(wrapId);
+  if (home && home.parent) {
+    home.parent.insertBefore(wrap, home.nextSibling);
+    mapWrapHomes.delete(wrapId);
+  }
+}
+function collapseMapWrap(wrap) {
+  wrap.classList.remove('expanded');
+  const btn = wrap.querySelector('.map-expand-btn');
+  if (btn) btn.innerHTML = '&#x2922; Expand';
+  if (mapScrimEl) mapScrimEl.classList.remove('active');
+  restoreMapWrapHome(wrap, wrap.id);
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    [window.map, window.overUnderMap, window.reformMap].forEach(m => m && m.invalidateSize());
+  }));
+}
+window.toggleMapExpand = toggleMapExpand;
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') document.querySelectorAll('.map-wrap.expanded').forEach(w => collapseMapWrap(w));
+});
+
 function renderMap(feats, candidateFeats, zoningGeo) {
   map = L.map('map', { scrollWheelZoom: true }).setView([31.7598, -106.4887], 11);
 
@@ -2028,6 +2404,8 @@ function renderOverUnderMap(legalizeGeo) {
       );
     },
   }).addTo(overUnderMap);
+
+  renderGapLegend('overUnderMapLegend');
 }
 
 // Lights the evidence-counter dots 1..N (cumulative) as each synthesis
@@ -2090,6 +2468,8 @@ function renderReformMap(legalizeGeo) {
       );
     },
   }).addTo(reformMap);
+
+  renderGapLegend('reformMapLegend', { showPriorityNote: true });
 }
 
 // ---------------------------------------------------------------------
@@ -2186,12 +2566,30 @@ function renderDistanceChart(gradient) {
 // ---------------------------------------------------------------------
 // TYPOLOGY BY DECADE CHART
 // ---------------------------------------------------------------------
+// Renders a plain-HTML legend below a chart instead of relying on
+// Chart.js's built-in one -- a flexbox row wraps reliably at any
+// typology count, where Chart.js's own legend layout does not. `items`
+// is [{label, color, line:boolean}]; line draws a short stroke swatch
+// (for a line-type dataset) instead of a filled box.
+function renderHtmlLegend(containerId, items) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = items.map(it => `
+    <span class="legend-item">
+      <span class="${it.line ? 'swatch-line' : 'swatch-box'}" style="${it.line ? `border-color:${it.color}` : `background:${it.color}`}"></span>
+      ${it.label}
+    </span>
+  `).join('');
+}
+
 function renderDecadeChart(d) {
   // Single-Family Detached so outnumbers every missing-middle typology
   // per decade that stacking it in with the rest compresses them all to
   // slivers. Pull it out onto its own line on a secondary axis so the
   // other typologies' bars are actually readable against their own
-  // (much smaller) scale.
+  // (much smaller) scale. The built-in Chart.js legend for 13+ series
+  // wrapped badly (see the messy bottom-legend screenshot this fixed) --
+  // replaced with a plain HTML legend below the chart instead.
   const SF_LABEL = 'Single-Family Detached';
   const sfIdx = d.typologies.indexOf(SF_LABEL);
   const barTypologies = d.typologies.filter((t, i) => i !== sfIdx);
@@ -2209,8 +2607,8 @@ function renderDecadeChart(d) {
       label: SF_LABEL,
       type: 'line',
       data: d.matrix.map(row => row[sfIdx]),
-      borderColor: colorFor(SF_LABEL),
-      backgroundColor: colorFor(SF_LABEL),
+      borderColor: '#8a8468',
+      backgroundColor: '#8a8468',
       yAxisID: 'ySF',
       tension: 0.2,
       pointRadius: 3,
@@ -2222,7 +2620,8 @@ function renderDecadeChart(d) {
     data: { labels: d.decades.map(dec => `${dec}s`), datasets },
     options: {
       responsive: true,
-      plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } } },
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
       scales: {
         x: { stacked: true },
         yBars: {
@@ -2237,6 +2636,11 @@ function renderDecadeChart(d) {
       },
     },
   });
+
+  renderHtmlLegend('decadeLegend', [
+    ...barTypologies.map(t => ({ label: t, color: colorFor(t) })),
+    ...(sfIdx !== -1 ? [{ label: SF_LABEL + ' (right axis)', color: '#8a8468', line: true }] : []),
+  ]);
 }
 
 // ---------------------------------------------------------------------
@@ -2308,9 +2712,20 @@ function renderInvestorChart(mortgageStats) {
 // TYPOLOGY BY ZONING CHART
 // ---------------------------------------------------------------------
 function renderZoningChart(z) {
-  const datasets = z.typologies.map((t, i) => ({
+  // Single-family/mobile-home parcels (tens of thousands per zone)
+  // forced a log scale just to fit alongside missing-middle typologies
+  // in the hundreds -- which made the axis and gridlines hard to read
+  // (see the messy log-scale screenshot this fixes). Dropping them
+  // entirely, since this chart's whole point is missing-middle
+  // composition by zone, fixes both problems at once: plain linear
+  // scale, actually legible bars.
+  const EXCLUDE = ['Single-Family Detached', 'Single-Family Detached (Other Residential Subtype)', 'Mobile/Manufactured Home'];
+  const keepIdx = z.typologies.map((t, i) => i).filter(i => !EXCLUDE.includes(z.typologies[i]));
+  const keepTypologies = keepIdx.map(i => z.typologies[i]);
+
+  const datasets = keepTypologies.map((t, j) => ({
     label: t,
-    data: z.matrix.map(row => row[i]),
+    data: z.matrix.map(row => row[keepIdx[j]]),
     backgroundColor: colorFor(t),
   }));
 
@@ -2319,13 +2734,16 @@ function renderZoningChart(z) {
     data: { labels: z.zones.map(zc => zc === '' ? '(unzoned)' : zc), datasets },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
         x: { stacked: true },
-        y: { stacked: true, type: 'logarithmic', title: { display: true, text: 'Parcels (log scale)' } },
+        y: { stacked: true, title: { display: true, text: 'Missing-middle parcels' } },
       },
     },
   });
+
+  renderHtmlLegend('zoningLegend', keepTypologies.map(t => ({ label: t, color: colorFor(t) })));
 }
 </script>
 </body>
