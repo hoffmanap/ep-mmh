@@ -666,38 +666,59 @@
       </div>
     </div>
 
-    <div class="panel-grid single">
+    <div class="panel-grid">
       <div class="panel">
-        <div class="panel-title">TYPOLOGY BY DECADE BUILT</div>
+        <div class="panel-title">MISSING-MIDDLE SHARE BY DECADE BUILT</div>
         <div class="field-card" style="padding-top:0;">
           <p style="font-size:0.78rem; margin:10px 0;">
-            Composition built each decade (bars, left axis) against the
-            volume of single-family construction in the same decade
-            (gray line, right axis — note the very different scale).
-            Weak negative correlation between missing-middle and year
-            built (r = <span class="stamp">-0.069</span>) — a mild tilt
-            toward older stock, not a strong era effect.
+            The finding that matters here isn't raw counts, it's
+            <span class="hl hl-rust">share of that decade's construction</span>:
+            missing-middle ran <span class="hl hl-rust">10-16%</span> of
+            everything built before 1940, collapsed to under
+            <span class="hl hl-slate">3%</span> once modern
+            single-family zoning took hold in the 1950s-60s, and has
+            never recovered — not even the 1970s-80s uptick in raw
+            counts below changed that story, since single-family
+            volume grew even faster in the same years. r = <span class="stamp">-0.069</span>
+            between MM status and year built understates this: it's
+            not a mild linear tilt, it's a <em>regime shift</em> around 1950.
           </p>
         </div>
-        <div class="chart-wrap" style="height:380px;"><canvas id="decadeChart"></canvas></div>
+        <div class="chart-wrap" style="height:280px;"><canvas id="decadeShareChart"></canvas></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">WHAT KIND OF MISSING-MIDDLE, BY DECADE</div>
+        <div class="field-card" style="padding-top:0;">
+          <p style="font-size:0.78rem; margin:10px 0;">
+            Composition of missing-middle parcels only (as a share of
+            that decade's missing-middle stock, grouped into six
+            families — the 13 raw EPCAD typologies made this
+            unreadable). Duplex/triplex/fourplex dominates every era;
+            townhouses and condos are almost entirely a 1970s-80s
+            phenomenon.
+          </p>
+        </div>
+        <div class="chart-wrap" style="height:280px; position:relative;"><canvas id="decadeChart"></canvas></div>
         <div class="chart-legend" id="decadeLegend"></div>
       </div>
     </div>
 
     <div class="panel-grid single">
       <div class="panel">
-        <div class="panel-title">MISSING-MIDDLE TYPOLOGY BY ZONING DISTRICT</div>
+        <div class="panel-title">WHAT KIND OF MISSING-MIDDLE, BY ZONING DISTRICT</div>
         <div class="field-card" style="padding-top:0;">
           <p style="font-size:0.78rem; margin:10px 0;">
-            Raw missing-middle parcel counts by zoning district
-            (single-family and mobile-home parcels excluded — they
-            dwarf every other typology in every district and were
-            making this chart unreadable). Volume, not concentration —
-            see the zoning-concentration panel in section 3 for the
-            share-within-code view.
+            Same six-family grouping, now by zoning district, sorted by
+            total missing-middle volume (single-family and mobile-home
+            excluded — see the zoning-concentration panel in section 3
+            for the share-within-code view). Nearly every district is
+            <span class="hl hl-rust">almost entirely duplex/triplex/fourplex</span>
+            — A2 and PR2 are the two exceptions where townhouses and
+            apartments actually show up at scale.
           </p>
         </div>
-        <div class="chart-wrap" style="height:380px;"><canvas id="zoningChart"></canvas></div>
+        <div class="chart-wrap" style="height:360px; position:relative;"><canvas id="zoningChart"></canvas></div>
         <div class="chart-legend" id="zoningLegend"></div>
       </div>
     </div>
@@ -1451,7 +1472,7 @@
     <div class="scrolly">
       <div class="scrolly-sticky">
         <div class="stage">
-          <div class="stage-label">ZONING &amp; CODE-REFORM PRIORITY, BY TRACT</div>
+          <div class="stage-label">MODEL-FLAGGED CANDIDATE DENSITY, BY TRACT</div>
           <div class="stage-body" style="padding:10px;">
             <div class="map-wrap" id="reformMapWrap">
               <button class="map-expand-btn" onclick="toggleMapExpand('reformMapWrap')" aria-label="Expand map">&#x2922; Expand</button>
@@ -1459,11 +1480,12 @@
               <div class="map-legend" id="reformMapLegend"></div>
             </div>
             <p style="font-size:0.68rem; margin:6px 2px 0; color:var(--ink-faint, #7a7468);">
-              Same underlying gap as the map in section 7, reframed:
-              dark-outlined tracts are the top legalization priority by
-              this evidence &mdash; the biggest ACS-implied gap, where
-              informal missing-middle housing most plausibly already
-              exists. Click a tract for its numbers.
+              Colored by the structural model's own evidence &mdash;
+              flagged candidates per 1,000 housing units &mdash; not the
+              ACS/EPCAD gap from section 7. Dark-outlined tracts are
+              where that gap is <em>also</em> in the top bracket: two
+              independent kinds of evidence agreeing on the same place.
+              Click a tract for its numbers.
             </p>
           </div>
         </div>
@@ -1474,16 +1496,21 @@
           <div class="step-eyebrow">FROM EVIDENCE TO ACTION</div>
           <p>
             Section 7's map showed <em>where EPCAD's records and ACS
-            disagree</em>. This one answers a narrower, action-oriented
-            question: <strong>if El Paso legalized missing-middle
-            housing tomorrow, which tracts would formalizing already
-            see the most benefit?</strong>
+            disagree</em>, which is good diagnostic evidence but one
+            step removed from any actual parcel. This map answers the
+            more direct, action-oriented question: <strong>where does
+            the structural model itself find the densest concentration
+            of likely-missing-middle buildings currently labeled
+            single-family?</strong> If reform is going to legalize
+            something, it should legalize where the evidence says it is
+            <span class="hl hl-rust">already happening</span>.
           </p>
           <p>
-            The tracts outlined darkest are where the ACS-implied gap
-            is largest <em>and</em> the structural model independently
-            flags the most high-confidence candidates &mdash; two
-            different kinds of evidence agreeing on the same places.
+            The darkest tracts are where that candidate density is
+            highest; the bold outline marks tracts where the ACS/EPCAD
+            gap is <em>also</em> largest &mdash; two independent kinds
+            of evidence (model detections, and survey-vs-records
+            mismatch) agreeing on the same place.
           </p>
         </div>
         <div class="step">
@@ -1803,6 +1830,7 @@ function renderAll(stats, geojson, candidates, modelMetrics, importanceCsv, mort
   renderLegend();
   renderStatBlock(stats.stats);
   renderDistanceChart(stats.distance_gradient);
+  renderDecadeShareChart(stats.decade_typology);
   renderDecadeChart(stats.decade_typology);
   renderZoningChart(stats.zoning_typology);
   if (modelMetrics && importanceCsv) renderImportance(modelMetrics, importanceCsv, candidates.features ? candidates.features.length : 0);
@@ -2167,10 +2195,10 @@ function gapFillColor(gap) {
   return '#7FA89C';
 }
 
-// Persistent legend for the diverging gap_pct_points scale, shared by
-// the over/under map and the reform-priority map -- replaces relying
-// solely on click popups to explain what the colors mean.
-function renderGapLegend(containerId, { showPriorityNote } = {}) {
+// Persistent legend for the diverging gap_pct_points scale, used by
+// the section 7 over/under map (purely diagnostic: where do EPCAD's
+// records and ACS's self-reported numbers disagree).
+function renderGapLegend(containerId) {
   const el = document.getElementById(containerId);
   if (!el) return;
   const buckets = ['#7a2e1f', '#A6531C', '#C98A52', '#E8C9A0', '#BFD3CE', '#7FA89C'];
@@ -2178,7 +2206,38 @@ function renderGapLegend(containerId, { showPriorityNote } = {}) {
     <div class="map-legend-title">Gap: ACS &minus; EPCAD share</div>
     <div class="map-legend-scale">${buckets.map(c => `<span style="background:${c};"></span>`).join('')}</div>
     <div class="map-legend-labels"><span>&ge;20 pts<br>(underrepresented)</span><span>&le;&minus;10 pts<br>(overrepresented)</span></div>
-    ${showPriorityNote ? `<div class="map-legend-outline-note"><span class="outline-swatch"></span> Top legalization priority</div>` : ''}
+  `;
+}
+
+// ---------------------------------------------------------------------
+// CANDIDATE-DENSITY SCALE -- drives the section 8 reform-priority map.
+// ---------------------------------------------------------------------
+// The reform map's whole argument is "legalize where it's already
+// happening" -- so it should be colored by the model's own direct
+// evidence of that (candidates per 1,000 ACS-counted housing units in
+// the tract), not by the ACS/EPCAD aggregate gap, which is a different,
+// noisier signal one step removed from any actual parcel. Density
+// rather than a raw candidate count, so a small tract with 20
+// candidates doesn't get outranked by a large tract with 25 candidates
+// spread across ten times the housing stock.
+function candidateDensityColor(density) {
+  if (density == null || isNaN(density)) return '#cfc9b8';
+  if (density >= 20) return '#4a1710';
+  if (density >= 10) return '#7a2e1f';
+  if (density >= 5) return '#A6531C';
+  if (density >= 2) return '#C98A52';
+  if (density > 0) return '#E8C9A0';
+  return '#EAE3D2';
+}
+function renderDensityLegend(containerId) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const buckets = ['#EAE3D2', '#E8C9A0', '#C98A52', '#A6531C', '#7a2e1f', '#4a1710'];
+  el.innerHTML = `
+    <div class="map-legend-title">Model-flagged candidates<br>per 1,000 housing units</div>
+    <div class="map-legend-scale">${buckets.map(c => `<span style="background:${c};"></span>`).join('')}</div>
+    <div class="map-legend-labels"><span>0</span><span>20+</span></div>
+    <div class="map-legend-outline-note"><span class="outline-swatch"></span> Also a top ACS-implied gap tract</div>
   `;
 }
 
@@ -2423,14 +2482,20 @@ window.lightEvidence4 = () => lightEvidenceDots(4);
 window.lightEvidence5 = () => lightEvidenceDots(5);
 
 // ---------------------------------------------------------------------
-// WHERE-REFORM-SHOULD-HAPPEN MAP (closing section 8) -- same
-// gap_pct_points data as the over/under map above, but framed as a
-// legalization/code-reform PRIORITY signal: tracts with the largest
-// ACS-implied gap AND the most model high-confidence candidates get a
-// bold dark outline to visually separate "biggest disagreement" from
-// "where reform evidence is strongest," even though both maps draw on
-// the same underlying tract file (data/legalize_priority_tracts.geojson).
+// WHERE-REFORM-SHOULD-HAPPEN MAP (closing section 8)
 // ---------------------------------------------------------------------
+// Reworked to lead with the model's own direct evidence rather than
+// the ACS/EPCAD aggregate gap: the argument is "legalize where it's
+// already happening," so the fill color is density of model-flagged,
+// structurally-likely-missing-middle candidates per 1,000 housing
+// units in the tract (candidates_n / total_units_acs * 1000) -- the
+// most direct available signal of informal missing-middle actually on
+// the ground. The ACS-implied gap is kept as CORROBORATING evidence,
+// not the primary signal: a tract still gets the bold dark outline
+// when its gap is also in the top bracket, flagging the places where
+// two independent kinds of evidence (model detections + survey/
+// administrative mismatch) agree, but outline status no longer
+// decides the color.
 var reformMap = null;
 function renderReformMap(legalizeGeo) {
   const el = document.getElementById('reformMap');
@@ -2442,34 +2507,38 @@ function renderReformMap(legalizeGeo) {
     className: 'field-tiles',
   }).addTo(reformMap);
 
-  const PRIORITY_GAP = 15, PRIORITY_CANDIDATES = 15;
+  const density = (p) => (p.total_units_acs ? (p.n_candidates || 0) / p.total_units_acs * 1000 : 0);
+  const PRIORITY_GAP = 15; // corroboration threshold, unchanged from before
+
   L.geoJSON(legalizeGeo, {
     style: feature => {
       const p = feature.properties;
-      const isPriority = (p.gap_pct_points || 0) >= PRIORITY_GAP && (p.n_candidates || 0) >= PRIORITY_CANDIDATES;
+      const corroborated = (p.gap_pct_points || 0) >= PRIORITY_GAP;
       return {
-        color: isPriority ? '#2B2420' : '#8a8468',
-        weight: isPriority ? 2.4 : 0.4,
-        fillColor: gapFillColor(p.gap_pct_points),
-        fillOpacity: 0.65,
+        color: corroborated ? '#2B2420' : '#8a8468',
+        weight: corroborated ? 2.4 : 0.4,
+        fillColor: candidateDensityColor(density(p)),
+        fillOpacity: 0.72,
       };
     },
     onEachFeature: (feature, layer) => {
       const p = feature.properties;
       const gap = p.gap_pct_points;
       const sign = gap > 0 ? '+' : '';
-      const isPriority = (p.gap_pct_points || 0) >= PRIORITY_GAP && (p.n_candidates || 0) >= PRIORITY_CANDIDATES;
+      const corroborated = (p.gap_pct_points || 0) >= PRIORITY_GAP;
       layer.bindPopup(
-        `<strong>${p.NAME}</strong>${isPriority ? ' <span style="color:#A6531C;">★ TOP PRIORITY</span>' : ''}<br>` +
-        `EPCAD recorded share: ${p.mm_share_epcad_pct?.toFixed(1)}%<br>` +
-        `ACS self-reported share: ${p.mm_share_acs_pct?.toFixed(1)}%<br>` +
-        `Gap: <strong>${sign}${gap?.toFixed(1)} pts</strong><br>` +
-        `Model high-confidence candidates: ${p.n_candidates}`
+        `<strong>${p.NAME}</strong><br>` +
+        `Model-flagged candidates: <strong>${p.n_candidates}</strong> ` +
+        `(${density(p).toFixed(1)} per 1,000 units)<br>` +
+        `ACS-implied gap: ${sign}${gap?.toFixed(1)} pts` +
+        `${corroborated ? ' <span style="color:#A6531C;">&mdash; also a top-gap tract</span>' : ''}<br>` +
+        `EPCAD recorded share: ${p.mm_share_epcad_pct?.toFixed(1)}% &middot; ` +
+        `ACS self-reported share: ${p.mm_share_acs_pct?.toFixed(1)}%`
       );
     },
   }).addTo(reformMap);
 
-  renderGapLegend('reformMapLegend', { showPriorityNote: true });
+  renderDensityLegend('reformMapLegend');
 }
 
 // ---------------------------------------------------------------------
@@ -2582,38 +2651,96 @@ function renderHtmlLegend(containerId, items) {
   `).join('');
 }
 
+// Six-family grouping used to declutter both the decade and zoning
+// composition charts -- the 13-14 raw EPCAD typologies produced
+// unreadable stacks of slivers (see prior screenshots). Each family
+// gets ONE color via colorFor() applied to its first/representative
+// member, so this palette stays visually consistent with every other
+// chart on the page that still uses the raw typology colors (the main
+// map legend, the importance chart labels, etc).
+const TYPOLOGY_FAMILIES = [
+  { label: 'Duplex / triplex / fourplex', members: ['Duplex', 'Triplex', 'Fourplex'], color: colorFor('Duplex') },
+  { label: 'Townhouse', members: ['Townhouse'], color: colorFor('Townhouse') },
+  { label: 'Small apartment (4-30 units)', members: ['Apartment (4-6 units)', 'Apartment (7-30 units)'], color: colorFor('Apartment (4-6 units)') },
+  { label: 'Large apartment (31+ units)', members: ['Apartment (31-99 units)', 'Apartment (100+ units)'], color: colorFor('Apartment (31-99 units)') },
+  { label: 'Multi-unit / other', members: ['Apartment/Multifamily', 'Multi-Unit Residential (Other)'], color: colorFor('Multi-Unit Residential (Other)') },
+  { label: 'Condominium', members: ['Condominium'], color: colorFor('Condominium') },
+];
+const SF_TYPOLOGIES = ['Single-Family Detached', 'Single-Family Detached (Other Residential Subtype)'];
+const EXCLUDE_FROM_MM = [...SF_TYPOLOGIES, 'Mobile/Manufactured Home'];
+
+// Collapses a {typologies, matrix} crosstab down to the six families
+// above, returning one row per input row (decade or zone), each row
+// an array aligned to TYPOLOGY_FAMILIES.
+function groupByFamily(typologies, matrix) {
+  const idx = {};
+  typologies.forEach((t, i) => { idx[t] = i; });
+  return matrix.map(row =>
+    TYPOLOGY_FAMILIES.map(fam => fam.members.reduce((sum, t) => sum + (idx[t] != null ? row[idx[t]] : 0), 0))
+  );
+}
+
+// ---------------------------------------------------------------------
+// HEADLINE CHART: MISSING-MIDDLE SHARE OF CONSTRUCTION, BY DECADE
+// ---------------------------------------------------------------------
+// The compelling finding buried in the old dual-axis bar+line chart
+// wasn't the raw counts, it was the SHARE: missing-middle was a real
+// share of construction before 1950 and has been a rounding error
+// ever since. A single line makes that visible at a glance in a way
+// stacked raw counts against a wildly different single-family scale
+// never could.
+function renderDecadeShareChart(d) {
+  const idx = {};
+  d.typologies.forEach((t, i) => { idx[t] = i; });
+  const mmIdxs = d.typologies.map((t, i) => i).filter(i => !EXCLUDE_FROM_MM.includes(d.typologies[i]));
+
+  const shares = d.matrix.map(row => {
+    const total = row.reduce((a, b) => a + b, 0);
+    const mm = mmIdxs.reduce((a, i) => a + row[i], 0);
+    return total ? (mm / total * 100) : 0;
+  });
+
+  new Chart(document.getElementById('decadeShareChart'), {
+    type: 'line',
+    data: {
+      labels: d.decades.map(dec => `${dec}s`),
+      datasets: [{
+        label: 'Missing-middle share of construction',
+        data: shares,
+        borderColor: '#A6531C',
+        backgroundColor: 'rgba(166,83,28,0.15)',
+        fill: true,
+        tension: 0.25,
+        pointRadius: 4,
+        pointBackgroundColor: '#A6531C',
+        borderWidth: 2.5,
+      }],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (item) => `${item.parsed.y.toFixed(1)}% of parcels built that decade` } },
+      },
+      scales: {
+        y: { title: { display: true, text: 'Share of that decade\'s construction (%)' }, min: 0 },
+      },
+    },
+  });
+}
+
 function renderDecadeChart(d) {
-  // Single-Family Detached so outnumbers every missing-middle typology
-  // per decade that stacking it in with the rest compresses them all to
-  // slivers. Pull it out onto its own line on a secondary axis so the
-  // other typologies' bars are actually readable against their own
-  // (much smaller) scale. The built-in Chart.js legend for 13+ series
-  // wrapped badly (see the messy bottom-legend screenshot this fixed) --
-  // replaced with a plain HTML legend below the chart instead.
-  const SF_LABEL = 'Single-Family Detached';
-  const sfIdx = d.typologies.indexOf(SF_LABEL);
-  const barTypologies = d.typologies.filter((t, i) => i !== sfIdx);
-  const barIdxs = d.typologies.map((t, i) => i).filter(i => i !== sfIdx);
+  const grouped = groupByFamily(d.typologies, d.matrix); // [decade][family] raw counts
 
-  const datasets = barTypologies.map((t, j) => ({
-    label: t,
-    data: d.matrix.map(row => row[barIdxs[j]]),
-    backgroundColor: colorFor(t),
-    yAxisID: 'yBars',
+  const datasets = TYPOLOGY_FAMILIES.map((fam, j) => ({
+    label: fam.label,
+    data: grouped.map((row, i) => {
+      const total = row.reduce((a, b) => a + b, 0);
+      return total ? (row[j] / total * 100) : 0;
+    }),
+    backgroundColor: fam.color,
   }));
-
-  if (sfIdx !== -1) {
-    datasets.push({
-      label: SF_LABEL,
-      type: 'line',
-      data: d.matrix.map(row => row[sfIdx]),
-      borderColor: '#8a8468',
-      backgroundColor: '#8a8468',
-      yAxisID: 'ySF',
-      tension: 0.2,
-      pointRadius: 3,
-    });
-  }
 
   new Chart(document.getElementById('decadeChart'), {
     type: 'bar',
@@ -2621,26 +2748,18 @@ function renderDecadeChart(d) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (item) => `${item.dataset.label}: ${item.parsed.y.toFixed(0)}%` } },
+      },
       scales: {
         x: { stacked: true },
-        yBars: {
-          stacked: true, position: 'left',
-          title: { display: true, text: 'Missing-middle parcels (stacked)' },
-        },
-        ySF: {
-          position: 'right',
-          title: { display: true, text: 'Single-family parcels' },
-          grid: { drawOnChartArea: false },
-        },
+        y: { stacked: true, max: 100, title: { display: true, text: '% of that decade\'s missing-middle stock' } },
       },
     },
   });
 
-  renderHtmlLegend('decadeLegend', [
-    ...barTypologies.map(t => ({ label: t, color: colorFor(t) })),
-    ...(sfIdx !== -1 ? [{ label: SF_LABEL + ' (right axis)', color: '#8a8468', line: true }] : []),
-  ]);
+  renderHtmlLegend('decadeLegend', TYPOLOGY_FAMILIES.map(f => ({ label: f.label, color: f.color })));
 }
 
 // ---------------------------------------------------------------------
@@ -2712,38 +2831,51 @@ function renderInvestorChart(mortgageStats) {
 // TYPOLOGY BY ZONING CHART
 // ---------------------------------------------------------------------
 function renderZoningChart(z) {
-  // Single-family/mobile-home parcels (tens of thousands per zone)
-  // forced a log scale just to fit alongside missing-middle typologies
-  // in the hundreds -- which made the axis and gridlines hard to read
-  // (see the messy log-scale screenshot this fixes). Dropping them
-  // entirely, since this chart's whole point is missing-middle
-  // composition by zone, fixes both problems at once: plain linear
-  // scale, actually legible bars.
-  const EXCLUDE = ['Single-Family Detached', 'Single-Family Detached (Other Residential Subtype)', 'Mobile/Manufactured Home'];
-  const keepIdx = z.typologies.map((t, i) => i).filter(i => !EXCLUDE.includes(z.typologies[i]));
-  const keepTypologies = keepIdx.map(i => z.typologies[i]);
+  // Same six-family grouping as the decade composition chart above,
+  // rendered as a 100%-stacked mix (not raw counts) so a zone with 7
+  // missing-middle parcels and a zone with 1,585 are equally readable
+  // side by side -- the finding here is about WHAT TYPE shows up
+  // where, not relative volume (that's covered by sort order + the
+  // zoning-concentration share-within-code chart in section 3).
+  const idx = {};
+  z.typologies.forEach((t, i) => { idx[t] = i; });
+  const grouped = groupByFamily(z.typologies, z.matrix); // [zone][family]
+  const mmTotals = grouped.map(row => row.reduce((a, b) => a + b, 0));
 
-  const datasets = keepTypologies.map((t, j) => ({
-    label: t,
-    data: z.matrix.map(row => row[keepIdx[j]]),
-    backgroundColor: colorFor(t),
+  // Sort zones by missing-middle volume descending and drop zones with
+  // fewer than 10 missing-middle parcels -- R2/R-3/R3A have single
+  // digits to low tens and their 100%-stacked bars are pure noise
+  // (one or two parcels swinging a bar from 0% to 100%).
+  const order = z.zones.map((zc, i) => i)
+    .filter(i => mmTotals[i] >= 10)
+    .sort((a, b) => mmTotals[b] - mmTotals[a]);
+
+  const labels = order.map(i => (z.zones[i] === '' ? '(unzoned)' : z.zones[i]) + `  (n=${mmTotals[i]})`);
+  const datasets = TYPOLOGY_FAMILIES.map((fam, j) => ({
+    label: fam.label,
+    data: order.map(i => mmTotals[i] ? (grouped[i][j] / mmTotals[i] * 100) : 0),
+    backgroundColor: fam.color,
   }));
 
   new Chart(document.getElementById('zoningChart'), {
     type: 'bar',
-    data: { labels: z.zones.map(zc => zc === '' ? '(unzoned)' : zc), datasets },
+    data: { labels, datasets },
     options: {
+      indexAxis: 'y',
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (item) => `${item.dataset.label}: ${item.parsed.x.toFixed(0)}%` } },
+      },
       scales: {
-        x: { stacked: true },
-        y: { stacked: true, title: { display: true, text: 'Missing-middle parcels' } },
+        x: { stacked: true, max: 100, title: { display: true, text: '% of that zone\'s missing-middle mix' } },
+        y: { stacked: true },
       },
     },
   });
 
-  renderHtmlLegend('zoningLegend', keepTypologies.map(t => ({ label: t, color: colorFor(t) })));
+  renderHtmlLegend('zoningLegend', TYPOLOGY_FAMILIES.map(f => ({ label: f.label, color: f.color })));
 }
 </script>
 </body>
